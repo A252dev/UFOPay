@@ -36,22 +36,26 @@
         <div class="profile__container">
             <div class="profile__info">
                 <div class="balance__info">
-                    <div class="info">
-                        <p class="actual__balance__text">Balance</p>
-                        <p class="balance"><span style="color: #e20000;">8000</span> PLN</p>
-                        <p class="access">AVAILABLE</p>
-                    </div>
-                    <div class="select__buttons">
-                        <div class="select__container">
-                            <a class="select__btw" id="mydata_btw">MY DATA</a>
-                            <a class="select__btw" id="settings_btw">SETTINGS</a>
-                            <a class="select__btw" id="history_btw">HISTORY</a>
+                    @using (UFODbContext db = new UFODbContext())
+                    {
+                        var user = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
+                        <div class="info">
+                            <p class="actual__balance__text">Balance</p>
+                            <p class="balance"><span style="color: #e20000;">@user.balance</span> PLN</p>
+                            <p class="access">AVAILABLE</p>
                         </div>
-                    </div>
+                        <div class="select__buttons">
+                            <div class="select__container">
+                                <a class="select__btw" style="cursor: pointer;" id="mydata_btw">MY DATA</a>
+                                <a class="select__btw" style="cursor: pointer;" id="settings_btw">SETTINGS</a>
+                                <a class="select__btw" style="cursor: pointer;" id="history_btw">HISTORY</a>
+                            </div>
+                        </div>
+                    }
                 </div>
                 <div class="links">
                     <a class="transfer__link">Add balance</a>
-                    <a class="transfer__link" id="transfer_btw">Transfer</a>
+                    <a class="transfer__link" style="cursor: pointer;" id="transfer_btw">Transfer</a>
                 </div>
             </div>
             <div class="cards">
