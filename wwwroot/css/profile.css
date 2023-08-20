@@ -1,3 +1,41 @@
+/* OPERATIONS BUTTONS */
+
+.success__msg {
+    border: 1px solid #c3e6cb;
+    border-radius: 0.25rem;
+    position: absolute;
+    color: #155724;
+    font-size: 22px;
+    padding: 12px 20px;
+    background-color: #D4EDDA;
+    font-family: 'Montserrat', sans-serif;
+    position: absolute;
+    display: inline-block;
+    right: 0;
+    top: 100px;
+}
+
+.error__msg {
+    border: 1px solid #f5c6cb;
+    border-radius: 0.25rem;
+    position: absolute;
+    color: #721c24;
+    font-size: 22px;
+    padding: 12px 20px;
+    background-color: #f8d7da;
+    font-family: 'Montserrat', sans-serif;
+    position: absolute;
+    display: inline-block;
+    right: 0;
+    top: 100px;
+}
+
+/* PROFILE SIDE */
+
+.hide {
+    display: none;
+}
+
 .profile__side {
     width: 100%;
     height: 768px;
@@ -209,6 +247,7 @@
 
 .form__data__content__mydata,
 .form__data__content__settings,
+.form__data__content__history,
 .form__data__content__transfer {
     /* border: 1px solid rgb(0, 255, 60); */
     box-sizing: border-box;
@@ -326,4 +365,50 @@ input:focus {
 
 .button {
     margin-top: 23px;
+    border: none;
 }
+
+
+/* HISTORY */
+
+.transactions__container {
+    background-color: #CFCFCF;
+    position: relative;
+    width: 100%;
+    height: 256px;
+}
+
+.transactions__title__container {
+    /* border: 1px solid yellow; */
+    display: flex;
+    justify-content: space-between;
+}
+
+.transaction__title {
+    padding: 8px 20px;
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    letter-spacing: 1.04px;
+}
+
+.transactions__scroll__content {
+    height: 217px;
+    overflow-y: scroll;
+    /* border: 1px solid red; */
+}
+
+.transactions__info__container {
+    padding: 8px 20px;
+    /* border: 1px solid greenyellow; */
+    display: flex;
+    justify-content: space-between;
+    /* float: left; */
+}
+
+/* .history__parameter__sender,
+.history__parameter__reciever,
+.history__parameter__summa,
+.history__parameter__comment {
+    border: 1px solid red;
+} */

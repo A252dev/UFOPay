@@ -85,6 +85,7 @@ public class ProfileController : Controller
             targetForTheTransferUser.balance += transferModel.summa;
             _dbContext.Transactions.Update(transfer);
             _dbContext.SaveChanges();
+            TempData["TransferSuccess"] = "done!!!";
             return RedirectToAction("profile", "Profile");
         }
         return RedirectToAction("profile", "Profile");

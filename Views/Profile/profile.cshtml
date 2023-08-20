@@ -33,6 +33,13 @@
         </div>
     </header>
     <div class="profile__side">
+        <p>
+            @* <span class="success__msg" id="success">Success</span> *@
+            @if (TempData["TransferSuccess"] != null)
+            {
+                <span>@TempData["TransferSuccess"]</span>
+            }
+        </p>
         <div class="profile__container">
             <div class="profile__info">
                 <div class="balance__info">
@@ -54,7 +61,7 @@
                     }
                 </div>
                 <div class="links">
-                    <a class="transfer__link">Add balance</a>
+                    <a class="transfer__link" style="cursor: pointer;">Add</a>
                     <a class="transfer__link" style="cursor: pointer;" id="transfer_btw">Transfer</a>
                 </div>
             </div>
@@ -67,7 +74,7 @@
                 </div>
             </div>
 
-            <div class="form__data__content__mydata" id="myData">
+            <div class="form__data__content__mydata hidden" id="myData">
                 <h4 class="form__data__name">My data</h4>
                 <div class="form__container">
                     @using (UFODbContext db = new UFODbContext())
@@ -129,6 +136,39 @@
                 </div>
             </div> <!-- content settings -->
 
+            <div class="form__data__content__history" id="history">
+                <h4 class="form__data__name">History</h4>
+                <div class="form__container">
+                    <div class="transactions__container">
+                        <div class="transactions__title__container">
+                            <span class="transaction__title">From</span>
+                            <span class="transaction__title">To</span>
+                            <span class="transaction__title">Summa</span>
+                            <span class="transaction__title">Comment</span>
+                        </div>
+                        <div class="transactions__scroll__content">
+                            @using (UFODbContext db = new UFODbContext())
+                            {
+                                var user = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
+                                foreach (var targetUser in db.Transactions.ToList())
+                                {
+                                    if (targetUser.sender == user.email || targetUser.reciever == user.email)
+                                    {
+                                        // change the name of classes
+                                        <div class="transactions__info__container">
+                                            <span class="history__parameter__sender">@targetUser.sender</span>
+                                            <span class="history__parameter__receiver">@targetUser.reciever</span>
+                                            <span class="history__parameter__summa">@targetUser.summa</span>
+                                            <span class="history__parameter__comment">@targetUser.comment</span>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- content history -->
+
             <div class="form__data__content__transfer hidden" id="transfer">
                 <h4 class="form__data__name">Transfer/Withraw</h4>
                 <div class="form__container">
@@ -138,18 +178,17 @@
                         <form class="user__data__transfer__form" asp-controller="Profile" asp-action="transfer"
                             method="post">
                             <span>Where?</span>
-                            <input type="hidden" value="@user.email" asp-for="@Model.TransferModel.sender" disabled>
+                            @* <input type="hidden" value="@user.email" asp-for="@Model.TransferModel.sender" disabled> *@
                             <p class="form__data__input"><input type="text" placeholder="email@email.pl"
-                                    asp-for="@Model.TransferModel.reciever"
-                                    data-val-required="The reciever field is required.">
+                                    asp-for="@Model.TransferModel.reciever">
                             </p>
                             <span>Summa</span>
                             <p class="form__data__input"><input type="number" value="100"
-                                    asp-for="@Model.TransferModel.summa" data-val-required="The summa field is required.">
+                                    asp-for="@Model.TransferModel.summa">
                             </p>
                             <span>Comment</span>
                             <p class="form__data__input"><input type="text" value="hi man"
-                                    asp-for="@Model.TransferModel.summa" data-val-required="The comment field is required.">
+                                    asp-for="@Model.TransferModel.comment">
                             </p>
                             <button type="submit" class="transfer__link button" style="cursor: pointer;">Send</button>
                         </form>
@@ -159,31 +198,55 @@
 
             <script>
 
-                const transfer_button = document.getElementById('transfer_btw');
-                const mydata_button = document.getElementById('mydata_btw')
-                const settings_button = document.getElementById('settings_btw');
+                @* ALERT *@
 
+                    // will in next update
+
+                @* BUTTONS *@
+                const transfer_button = document.getElementById('transfer_btw');
+
+                const mydata_button = document.getElementById('mydata_btw');
+                const settings_button = document.getElementById('settings_btw');
+                const history_button = document.getElementById('history_btw');
+
+                @* CONTENT FOR BUTTONS *@
                 const myDataContent = document.getElementById('myData');
                 const mySettingsContent = document.getElementById('settings');
+                const myHistoryContent = document.getElementById('history');
+
                 const myTransferContent = document.getElementById('transfer');
 
                 transfer_button.addEventListener('click', e => {
                     myDataContent.classList.add('hidden');
                     mySettingsContent.classList.add('hidden');
+                    myHistoryContent.classList.add('hidden');
+
                     myTransferContent.classList.remove('hidden');
                 });
 
                 mydata_button.addEventListener('click', e => {
                     mySettingsContent.classList.add('hidden');
                     myTransferContent.classList.add('hidden');
+                    myHistoryContent.classList.add('hidden');
+
                     myDataContent.classList.remove('hidden');
                 });
 
                 settings_button.addEventListener('click', e => {
                     myDataContent.classList.add('hidden');
                     myTransferContent.classList.add('hidden');
+                    myHistoryContent.classList.add('hidden');
+
                     mySettingsContent.classList.remove('hidden');
                 });
+
+                history_button.addEventListener('click', e => {
+                    myDataContent.classList.add('hidden');
+                    myTransferContent.classList.add('hidden')
+                    mySettingsContent.classList.add('hidden');
+
+                    myHistoryContent.classList.remove('hidden');
+                })
 
             </script>
         </div> <!-- profile container -->
