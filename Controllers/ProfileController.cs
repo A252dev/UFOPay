@@ -58,6 +58,7 @@ public class ProfileController : Controller
             _dbContext.SaveChanges();
         }
         _dbContext.SaveChanges();
+        TempData["SettingsSuccessMessage"] = "Settings updated successfully";
         return RedirectToAction("profile", "Profile");
     }
 
@@ -81,14 +82,26 @@ public class ProfileController : Controller
                 summa = transferModel.summa,
                 comment = transferModel.comment
             };
-            user.balance -= transferModel.summa;
-            targetForTheTransferUser.balance += transferModel.summa;
-            _dbContext.Transactions.Update(transfer);
-            _dbContext.SaveChanges();
-            TempData["TransferSuccess"] = "done!!!";
+            if (user.balance <= transferModel.summa)
+            {
+                TempData["TransferErrorMessage"] = "Not enough money";
+                return RedirectToAction("profile", "Profile");
+            }
+            else
+            {
+                user.balance -= transferModel.summa;
+                targetForTheTransferUser.balance += transferModel.summa;
+                _dbContext.Transactions.Update(transfer);
+                _dbContext.SaveChanges();
+                TempData["TransferSuccessMessage"] = "Transfer completed";
+                return RedirectToAction("profile", "Profile");
+            }
+        }
+        else
+        {
+            TempData["TransferErrorMessage"] = "User not found";
             return RedirectToAction("profile", "Profile");
         }
-        return RedirectToAction("profile", "Profile");
     }
 
     public async Task<IActionResult> logout()

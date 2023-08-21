@@ -29,6 +29,66 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-114.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-114.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-120.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-120.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-144.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-144.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-152.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-152.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-180.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-180.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-192.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-192.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-32.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-32.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-36.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-36.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-48.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-48.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-57.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-57.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-60.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-60.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-72.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-72.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-76.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-76.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-96.png",
+      "PackagePath": "staticwebassets/images/favicon/favicon-96.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon.ico",
+      "PackagePath": "staticwebassets/images/favicon/favicon.ico"
+    },
+    {
       "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/pages/logo.svg",
       "PackagePath": "staticwebassets/images/pages/logo.svg"
     },

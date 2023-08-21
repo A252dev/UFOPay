@@ -16,6 +16,14 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /home/agent/Documents/UFO/UFOPay
 build_property._RazorSourceGeneratorDebug = 
 
+[/home/agent/Documents/UFO/UFOPay/Views/Page/contacts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZS9jb250YWN0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/agent/Documents/UFO/UFOPay/Views/Page/data_protection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZS9kYXRhX3Byb3RlY3Rpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/agent/Documents/UFO/UFOPay/Views/Page/index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZS9pbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -24,8 +32,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZS9sb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/agent/Documents/UFO/UFOPay/Views/Page/privacy_policy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZS9wcml2YWN5X3BvbGljeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/agent/Documents/UFO/UFOPay/Views/Page/register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZS9yZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/agent/Documents/UFO/UFOPay/Views/Page/user_agreement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZS91c2VyX2FncmVlbWVudC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/agent/Documents/UFO/UFOPay/Views/Profile/profile.cshtml]

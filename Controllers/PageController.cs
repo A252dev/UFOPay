@@ -39,36 +39,45 @@ public class PageController : Controller
         {
             if (userData.password == userData.repeatPassword)
             {
-                bool haveTargetUser = _dbContext.UserData.Any(x => x.email == userData.email);
-                if (haveTargetUser)
+                if (userData.AgreeWithDocs == true)
                 {
-                    ViewData["ValidateMessage"] = "user on juz jest w bazie";
-                    return RedirectToAction("login", "Page");
-                }
-                else
-                {
-                    userData.registrationData = DateTime.Now;
-                    _dbContext.Add(userData);
-                    _dbContext.SaveChanges();
+                    bool haveTargetUser = _dbContext.UserData.Any(x => x.email == userData.email);
+                    if (haveTargetUser)
+                    {
+                        ViewData["ValidateMessage"] = "user on juz jest w bazie";
+                        return RedirectToAction("login", "Page");
+                    }
+                    else
+                    {
+                        userData.registrationData = DateTime.Now;
+                        _dbContext.Add(userData);
+                        _dbContext.SaveChanges();
 
-                    List<Claim> claims = new List<Claim>(){
+                        List<Claim> claims = new List<Claim>(){
                     new Claim(ClaimTypes.NameIdentifier, userData.email),
                 };
 
-                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
-                        CookieAuthenticationDefaults.AuthenticationScheme);
+                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
+                            CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    AuthenticationProperties properties = new AuthenticationProperties()
-                    {
-                        AllowRefresh = true,
-                        IsPersistent = userData.KeepLoggedIn
-                    };
+                        AuthenticationProperties properties = new AuthenticationProperties()
+                        {
+                            AllowRefresh = true,
+                            IsPersistent = userData.KeepLoggedIn
+                        };
 
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity), properties);
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                            new ClaimsPrincipal(claimsIdentity), properties);
 
-                    return RedirectToAction("login", "Page");
+                        return RedirectToAction("login", "Page");
+                    }
                 }
+                else
+                {
+                    TempData["ValidateErrorMessage"] = "You need to aceept the requirements";
+                    return RedirectToAction("register", "Page");
+                }
+
             }
             else
             {
@@ -125,11 +134,25 @@ public class PageController : Controller
         }
     }
 
-    public IActionResult privacy()
+    [Route("/user_agreement")]
+    public IActionResult user_agreement()
     {
         return View();
     }
 
+    [Route("/privacy_policy")]
+    public IActionResult privacy_policy()
+    {
+        return View();
+    }
+
+    [Route("/data_protection")]
+    public IActionResult data_protection()
+    {
+        return View();
+    }
+
+    [Route("/contacts")]
     public IActionResult contacts()
     {
         return View();

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PGs2IETprswEE6Bp263ore5soG+CuVH9wv2BZeiknKwl8VnrkGJbJrPkV3Yf9epaU9c0r1JEno5AqzN2bVuZqQ==",
+  "dgSpecHash": "wSV4z6zV8STN2RE30hBEDZHDmmLA6PilRDtSiQblU37p03A91XzOM+vYuTy+Esedthf4yL083xntuXrjif8yig==",
   "success": true,
   "projectFilePath": "/home/agent/Documents/UFO/UFOPay/UFOPay.csproj",
   "expectedPackageFiles": [
@@ -27,7 +27,7 @@
     "/home/agent/.nuget/packages/system.codedom/4.4.0/system.codedom.4.4.0.nupkg.sha512",
     "/home/agent/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
     "/home/agent/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512",
-    "/home/agent/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.9/microsoft.aspnetcore.app.ref.7.0.9.nupkg.sha512"
+    "/home/agent/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.10/microsoft.aspnetcore.app.ref.7.0.10.nupkg.sha512"
   ],
   "logs": []
 }

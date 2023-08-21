@@ -14,4 +14,5 @@ public class UserData
     public string passport { get; set; } = "PL32068";
     public long balance { get; set; } = 8000;
     public bool KeepLoggedIn { get; set; }
+    public bool AgreeWithDocs { get; set; }
 }
