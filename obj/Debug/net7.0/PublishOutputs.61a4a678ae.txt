@@ -1,0 +1,12 @@
+/home/agent/Desktop/alpha0.0.2/UFOPay
+/home/agent/Desktop/alpha0.0.2/appsettings.Development.json
+/home/agent/Desktop/alpha0.0.2/appsettings.json
+/home/agent/Desktop/alpha0.0.2/UFOPay.dll
+/home/agent/Desktop/alpha0.0.2/UFOPay.runtimeconfig.json
+/home/agent/Desktop/alpha0.0.2/UFOPay.pdb
+/home/agent/Desktop/alpha0.0.2/Microsoft.EntityFrameworkCore.dll
+/home/agent/Desktop/alpha0.0.2/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/agent/Desktop/alpha0.0.2/Microsoft.EntityFrameworkCore.Relational.dll
+/home/agent/Desktop/alpha0.0.2/MySqlConnector.dll
+/home/agent/Desktop/alpha0.0.2/Pomelo.EntityFrameworkCore.MySql.dll
+/home/agent/Desktop/alpha0.0.2/UFOPay.deps.json
