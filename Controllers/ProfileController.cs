@@ -82,7 +82,7 @@ public class ProfileController : Controller
                 summa = transferModel.summa,
                 comment = transferModel.comment
             };
-            if (user.balance <= transferModel.summa)
+            if (user.balance <= transferModel.summa || transferModel.summa < 1)
             {
                 TempData["TransferErrorMessage"] = "Not enough money";
                 return RedirectToAction("profile", "Profile");
@@ -104,6 +104,7 @@ public class ProfileController : Controller
         }
     }
 
+    [Route("/logout")]
     public async Task<IActionResult> logout()
     {
         await base.HttpContext.SignOutAsync();

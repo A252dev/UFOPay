@@ -26,15 +26,15 @@
             @* <span class="success__msg" id="success">Success</span> *@
             @if (TempData["TransferSuccessMessage"] != null)
             {
-                <span>@TempData["TransferSuccessMessage"]</span>
+            <p id="success__msg">@TempData["TransferSuccessMessage"]</p>
             }
             @if (TempData["TransferErrorMessage"] != null)
             {
-                <span>@TempData["TransferErrorMessage"]</span>
+            <p id="error__msg">@TempData["TransferErrorMessage"]</p>
             }
             @if (TempData["SettingsSuccessMessage"] != null)
             {
-                <span>@TempData["SettingsSuccessMessage"]</span>
+            <p id="success__msg">@TempData["SettingsSuccessMessage"]</p>
             }
         </p>
         <div class="profile__container">
@@ -92,7 +92,7 @@
                             <span>Status</span>
                             <p class="form__data__input"><input type="text" disabled="true" id="profileStatus"
                                     value="Verifed (wt base)"></p>
-                            <span>Registration data</span>
+                            <span>Registration date</span>
                             <p class="form__data__input"><input type="text" disabled="true" id="registerData"
                                     value="@user.registrationData"></p>
                             <p class="form__data__input"><a class="status__info__link">More info</a></p>
@@ -198,7 +198,15 @@
 
                 @* ALERT *@
 
-                    // will in next update
+                    $(document).ready(function () {
+                        setTimeout(hideMyDiv, 2500); // Hide the div after N seconds
+                    });
+
+                // Function to fade out the div
+                function hideMyDiv() {
+                    $('#success__msg').fadeOut('slow');
+                    $('#error__msg').fadeOut('slow');
+                }
 
                 @* BUTTONS *@
                 const transfer_button = document.getElementById('transfer_btw');

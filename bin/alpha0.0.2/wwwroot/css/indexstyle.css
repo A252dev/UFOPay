@@ -325,13 +325,13 @@ footer {
 
 .footer__link {
     color: #858796;
-    font-size: 17px;
+    font-size: 16px;
     text-decoration: none;
 }
 
 .footer__link:hover {
     color: #858796;
-    font-size: 17px;
+    font-size: 16px;
     text-decoration: underline;
 }
 

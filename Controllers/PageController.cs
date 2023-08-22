@@ -6,6 +6,7 @@ using UFOPay.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 
 namespace UFOPay.Controllers;
 
@@ -91,8 +92,13 @@ public class PageController : Controller
     }
 
     [Route("/login")]
-    public IActionResult login()
+    public IActionResult login(APILogin login)
     {
+        if (login.apiKey != null)
+        {
+            return RedirectToAction("index", "Page");
+            // make a transfer to the API responce page
+        }
         return View();
     }
 

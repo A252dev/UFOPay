@@ -32,7 +32,8 @@
     margin-bottom: 15px;
 }
 
-input {
+#reg__input,
+#log__input {
     font-family: 'Montserrat', sans-serif;
     color: #858796;
     border: 1px solid rgba(133, 135, 150, 0.4);
@@ -46,7 +47,8 @@ input {
     transition-duration: 100ms;
 }
 
-input:focus {
+#reg__input:focus,
+#log__input:focus {
     box-shadow: 0px 0px 0px 4px rgba(77, 108, 250, 0.4);
     font-family: 'Montserrat', sans-serif;
     color: #858796;
@@ -64,6 +66,36 @@ input:focus {
     color: #858796;
     margin-bottom: 20px;
     font-size: 14px;
+}
+
+.reg__checkbox__content {
+    margin-top: 15px;
+}
+
+/* .reg__confirm__content {
+    display: flex;
+} */
+
+.agree__msg {
+    color: #858796;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.reg__msg__content {
+    margin-top: 12px;
+}
+
+.keep__msg {
+    color: #858796;
+    display: flex;
+}
+
+#checkbox {
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    color: #858796;
+    width: 13%;
+    height: 18px;
 }
 
 .register__button {
@@ -98,21 +130,6 @@ input:focus {
     font-size: 15px;
 }
 
-/* .login__button {
-    font-family: 'Montserrat', sans-serif;
-    text-decoration: none;
-    color: #4D6cfa;
-}
-
-.login__button:hover {
-    font-family: 'Montserrat', sans-serif;
-    text-decoration: underline;
-    color: #1b44ff;
-} */
-
-
-
-
 /* Login */
 
 
@@ -125,7 +142,7 @@ input:focus {
 .login__form {
     font-family: 'Montserrat', sans-serif;
     width: 320px;
-    height: 280px;
+    /* height: 280px; */
     border: 1px solid rgba(133, 135, 150, 0.2);
     border-radius: 6px;
     margin: 0 auto;
