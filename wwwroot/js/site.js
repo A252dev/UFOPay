@@ -1,4 +1,9 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(document).ready(function () {
+    setTimeout(hideMyDiv, 2500); // Hide the div after N seconds
+});
 
-// Write your JavaScript code.
+// Function to fade out the div
+function hideMyDiv() {
+    $('#success__msg').fadeOut('slow');
+    $('#error__msg').fadeOut('slow');
+}

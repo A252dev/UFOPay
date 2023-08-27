@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <title>UFOPay.io - Profile</title>
     <link rel="stylesheet" href="/css/indexstyle.css">
-    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/profile.css">    
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +23,6 @@
 <body>
     <div class="profile__side">
         <p>
-            @* <span class="success__msg" id="success">Success</span> *@
             @if (TempData["TransferSuccessMessage"] != null)
             {
             <p id="success__msg">@TempData["TransferSuccessMessage"]</p>
@@ -42,10 +41,24 @@
                 <div class="balance__info">
                     @using (UFODbContext db = new UFODbContext())
                     {
+                        Currency currency = new Currency();
                         var user = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
                         <div class="info">
                             <p class="actual__balance__text">Balance</p>
-                            <p class="balance"><span style="color: #e20000;">@user.balance</span> PLN</p>
+                            <select class="text__input__balance" aria-label="Default select example">
+                                <option selected value="USD"><p class="balance"><span class="currency__usd" >@user.balance_usd</span> @currency.USD</p></option>
+                                <option value="EUR"><p class="balance"><span>@user.balance_eur</span> @currency.EUR</p></option>
+                                <option value="PLN"><p class="balance"><span>@user.balance_pln</span> @currency.PLN</p></option>
+                                <option value="RUB"><p class="balance"><span>@user.balance_rub</span> @currency.RUB</p></option>
+                            </select>
+                            @* <div class="currency__selector">
+                                <select>
+                                    <option value="USD"><p class="balance"><span class="currency__usd" >@user.balance_usd</span> @currency.USD</p></option>
+                                    <option value="EUR"><p class="balance"><span class="currency__eur" >@user.balance_eur</span> @currency.EUR</p></option>
+                                    <option value="PLN"><p class="balance"><span class="currency__pln" >@user.balance_pln</span> @currency.PLN</p></option>
+                                    <option value="RUB"><p class="balance"><span class="currency__rub" >@user.balance_rub</span> @currency.RUB</p></option>
+                                </select>  
+                            </div>                          *@
                             <p class="access">AVAILABLE</p>
                         </div>
                         <div class="select__buttons">
@@ -58,7 +71,7 @@
                     }
                 </div>
                 <div class="links">
-                    <a class="transfer__link" style="cursor: pointer;">Add</a>
+                    <a class="transfer__link" style="cursor: pointer;" id="addBalance_btw">Add</a>
                     <a class="transfer__link" style="cursor: pointer;" id="transfer_btw">Transfer</a>
                 </div>
             </div>
@@ -79,21 +92,21 @@
                         var user = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
                         <form class="user__data__form" action="#" method="post">
                             <span>Who?</span>
-                            <p class="form__data__input"><input type="text" id="FIO"
+                            <p class="form__data__input"><input type="text" class="text__input" id="FIO"
                                     value="@user.firstName @user.secondName" disabled="true"></p>
                             <span>Bithday</span>
-                            <p class="form__data__input"><input type="date" id="bithData" value="@user.birthday"
+                            <p class="form__data__input"><input type="date" class="text__input" id="bithData" value="@user.birthday"
                                     disabled="true"></p>
                             <span>Passport</span>
-                            <p class="form__data__input"><input type="text" id="passport" value="@user.passport" disabled>
+                            <p class="form__data__input"><input type="text" class="text__input" id="passport" value="@user.passport" disabled>
                             </p>
                         </form>
                         <form class="user__data__form" action="#" method="post">
                             <span>Status</span>
-                            <p class="form__data__input"><input type="text" disabled="true" id="profileStatus"
+                            <p class="form__data__input"><input type="text" disabled="true" class="text__input" id="profileStatus"
                                     value="Verifed (wt base)"></p>
                             <span>Registration date</span>
-                            <p class="form__data__input"><input type="text" disabled="true" id="registerData"
+                            <p class="form__data__input"><input type="text" disabled="true" class="text__input" id="registerData"
                                     value="@user.registrationData"></p>
                             <p class="form__data__input"><a class="status__info__link">More info</a></p>
                         </form>
@@ -111,30 +124,32 @@
                             method="post">
                             <div class="firstLine">
                                 <span>First name</span>
-                                <p class="form__data__input"><input type="text" asp-for="@Model.UserData.firstName"
+                                <p class="form__data__input"><input type="text" class="text__input" asp-for="@Model.UserData.firstName"
                                         data-val-required="The firstName field is required."></p>
                                 <span>Second name</span>
-                                <p class="form__data__input"><input type="text" asp-for="@Model.UserData.secondName"
+                                <p class="form__data__input"><input type="text" class="text__input" asp-for="@Model.UserData.secondName"
                                         data-val-required="The secondName field is required.">
                                 </p>
                                 <span>Password</span>
-                                <p class="form__data__input"><input type="text" asp-for="@Model.UserData.password"
+                                <p class="form__data__input"><input type="text" class="text__input" asp-for="@Model.UserData.password"
                                         data-val="true" data-val-required="The password field is required."></p>
                                 <button class="transfer__link button" style="cursor: pointer;" type="submit">Change</button>
                             </div>
                             <div class="secondLine">
                                 <span>Number</span>
-                                <p class="form__data__input"><input type="number" id="number" value="88005553535" disabled>
+                                <p class="form__data__input"><input type="number" class="text__input" id="number" value="88005553535" disabled>
                                 </p>
                                 <span>E-mail</span>
-                                <p class="form__data__input"><input type="email" value="@user.email" disabled></p>
+                                <p class="form__data__input"><input type="email" class="text__input" value="@user.email" disabled></p>
+                                <span>Birthday</span>
+                                <p class="form__data__input"><input type="date" class="text__input" asp-for="@Model.UserData.birthday"></p>
                             </div>
                         </form>
                     }
                 </div>
             </div> <!-- content settings -->
 
-            <div class="form__data__content__history" id="history">
+            <div class="form__data__content__history hidden" id="history">
                 <h4 class="form__data__name">History</h4>
                 <div class="form__container">
                     <div class="transactions__container">
@@ -156,7 +171,7 @@
                                         <div class="transactions__info__container">
                                             <span class="history__parameter__sender">@targetUser.sender</span>
                                             <span class="history__parameter__receiver">@targetUser.reciever</span>
-                                            <span class="history__parameter__summa">@targetUser.summa</span>
+                                            <span class="history__parameter__summa">@targetUser.summa @targetUser.currency</span>
                                             <span class="history__parameter__comment">@targetUser.comment</span>
                                         </div>
                                     }
@@ -176,17 +191,25 @@
                         <form class="user__data__transfer__form" asp-controller="Profile" asp-action="transfer"
                             method="post">
                             <span>Where?</span>
-                            @* <input type="hidden" value="@user.email" asp-for="@Model.TransferModel.sender" disabled> *@
-                            <p class="form__data__input"><input type="text" placeholder="email@email.pl"
+                            <!-- sender will be added on the backend side -->
+                            <p class="form__data__input"><input type="text" class="text__input" placeholder="email@email.com"
                                     asp-for="@Model.TransferModel.reciever">
                             </p>
                             <span>Summa</span>
-                            <p class="form__data__input"><input type="number" value="100"
-                                    asp-for="@Model.TransferModel.summa">
+                            <p class="form__data__input"><input type="number" class="text__input" asp-for="@Model.TransferModel.summa">
+                            </p>
+                            <span>Currency</span>
+                            <p class="form__data__input">
+                                <select class="text__input__currency" asp-for="@Model.TransferModel.currency">
+                                        <option value="">select the currency</option>
+                                        <option value="USD">USD</option>
+                                        <option value="EUR">EUR</option>
+                                        <option value="PLN">PLN</option>
+                                        <option value="RUB">RUB</option>
+                                    </select>
                             </p>
                             <span>Comment</span>
-                            <p class="form__data__input"><input type="text" value="hi man"
-                                    asp-for="@Model.TransferModel.comment">
+                            <p class="form__data__input"><input type="text" class="text__input" placeholder="none" asp-for="@Model.TransferModel.comment">
                             </p>
                             <button type="submit" class="transfer__link button" style="cursor: pointer;">Send</button>
                         </form>
@@ -194,21 +217,50 @@
                 </div>
             </div> <!-- transfer/withraw -->
 
+            <div class="form__data__content__add__balance" id="addBalance">
+                <h4 class="form__data__name">Add balance</h4>
+                <div class="form__container">
+                    @using (UFODbContext db = new UFODbContext())
+                    {
+                        var user = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
+                        <form class="user__data__add__balance__form" asp-controller="Profile" asp-action="addBalance"
+                            method="post">
+                            <span>Summa</span>
+                            <p class="form__data__input"><input type="number" class="text__input" asp-for="@Model.AddBalance.summa"></p>
+                            <span>Currency</span>
+                            <div class="currency__container">
+                                <label>             
+                                    @* @Html.RadioButtonFor(x => x.AddBalance.currency, "USD")                     *@
+                                    <input class="select__currency" type="radio" id="currency" name="currency" value="USD">
+                                    <img class="currency__symbol" src="./images/balance/dollar_symbol.png" alt="USD">
+                                </label>
+                                <label>
+                                    @* @Html.RadioButtonFor(x => x.AddBalance.currency, "EUR") *@
+                                    <input class="select__currency" type="radio" id="currency" name="currency" value="EUR">
+                                    <img class="currency__symbol" src="./images/balance/euro_symbol.png" alt="EUR">
+                                </label>
+                                <label>
+                                    @* @Html.RadioButtonFor(x => x.AddBalance.currency, "PLN")                                     *@
+                                    <input class="select__currency" type="radio" id="currency" name="currency" value="PLN">
+                                    <img class="currency__symbol" src="./images/balance/zloty_symbol.svg" alt="PLN">
+                                </label>
+                                <label>
+                                    @* @Html.RadioButtonFor(x => x.AddBalance.currency, "RUB") *@
+                                    <input class="select__currency" type="radio" id="currency" name="currency" value="RUB">
+                                    <img class="currency__symbol" src="./images/balance/ruble_symbol.png" alt="RUB">
+                                </label>
+                                <button type="submit" class="transfer__link button" style="cursor: pointer;">Add
+                                    balance</button>                                         
+                            </div>                        
+                        </form>
+                    }
+                </div>
+            </div> <!-- add balance -->
+
             <script>
 
-                @* ALERT *@
-
-                    $(document).ready(function () {
-                        setTimeout(hideMyDiv, 2500); // Hide the div after N seconds
-                    });
-
-                // Function to fade out the div
-                function hideMyDiv() {
-                    $('#success__msg').fadeOut('slow');
-                    $('#error__msg').fadeOut('slow');
-                }
-
                 @* BUTTONS *@
+                const addBalance_button = document.getElementById('addBalance_btw');
                 const transfer_button = document.getElementById('transfer_btw');
 
                 const mydata_button = document.getElementById('mydata_btw');
@@ -220,12 +272,23 @@
                 const mySettingsContent = document.getElementById('settings');
                 const myHistoryContent = document.getElementById('history');
 
+                const myAddBalanceContent = document.getElementById('addBalance');
                 const myTransferContent = document.getElementById('transfer');
+
+                addBalance_button.addEventListener('click', e => {
+                    myDataContent.classList.add('hidden');
+                    mySettingsContent.classList.add('hidden');
+                    myHistoryContent.classList.add('hidden');
+                    myTransferContent.classList.add('hidden');
+
+                    myAddBalanceContent.classList.remove('hidden');
+                })
 
                 transfer_button.addEventListener('click', e => {
                     myDataContent.classList.add('hidden');
                     mySettingsContent.classList.add('hidden');
                     myHistoryContent.classList.add('hidden');
+                    myAddBalanceContent.classList.add('hidden');
 
                     myTransferContent.classList.remove('hidden');
                 });
@@ -234,6 +297,7 @@
                     mySettingsContent.classList.add('hidden');
                     myTransferContent.classList.add('hidden');
                     myHistoryContent.classList.add('hidden');
+                    myAddBalanceContent.classList.add('hidden');
 
                     myDataContent.classList.remove('hidden');
                 });
@@ -242,6 +306,7 @@
                     myDataContent.classList.add('hidden');
                     myTransferContent.classList.add('hidden');
                     myHistoryContent.classList.add('hidden');
+                    myAddBalanceContent.classList.add('hidden');
 
                     mySettingsContent.classList.remove('hidden');
                 });
@@ -250,6 +315,7 @@
                     myDataContent.classList.add('hidden');
                     myTransferContent.classList.add('hidden')
                     mySettingsContent.classList.add('hidden');
+                    myAddBalanceContent.classList.add('hidden');
 
                     myHistoryContent.classList.remove('hidden');
                 })

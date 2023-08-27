@@ -3,6 +3,40 @@
     padding: 0;
 }
 
+/* OPERATIONS BUTTONS */
+
+#success__msg {
+    border: 1px solid #c3e6cb;
+    border-radius: 0.25rem;
+    position: absolute;
+    color: #155724;
+    font-size: 22px;
+    padding: 12px 20px;
+    background-color: #D4EDDA;
+    font-family: 'Montserrat', sans-serif;
+    position: absolute;
+    display: inline-block;
+    right: 0;
+    top: 100px;
+}
+
+#error__msg {
+    border: 1px solid #f5c6cb;
+    border-radius: 0.25rem;
+    position: absolute;
+    color: #721c24;
+    font-size: 22px;
+    padding: 12px 20px;
+    background-color: #f8d7da;
+    font-family: 'Montserrat', sans-serif;
+    position: absolute;
+    display: inline-block;
+    right: 0;
+    top: 100px;
+}
+
+/* INDEX SIDE */
+
 header {
     position: relative;
     box-sizing: border-box;

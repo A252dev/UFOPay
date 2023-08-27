@@ -18,6 +18,11 @@
 
     <div class="register__form__side">
         <div class="register__form">
+            <p>@if (TempData["ValidateMessage"] != null)
+                {
+                <p id="error__msg">@TempData["ValidateMessage"]</p>
+                }
+            </p>
             <div class="register__container">
                 <form asp-controller="Page" asp-action="register" method="post">
                     <div class="reg__block">
@@ -27,6 +32,10 @@
                     <div class="reg__block">
                         <p class="reg__title">Second name</p>
                         <input id="reg__input" type="text" asp-for="@Model.UserData.secondName">
+                    </div>
+                    <div class="reg__block">
+                        <p class="reg__title">Birthday</p>
+                        <input id="reg__input" type="date" asp-for="@Model.UserData.birthday">
                     </div>
                     <div class="reg__block">
                         <p class="reg__title">Email</p>
@@ -50,9 +59,9 @@
                                         <a class="subfooter__link" asp-controller="Page"
                                             asp-action="privacy_policy">UFOPay Privacy Policy</a>.<input id="checkbox"
                                             type="checkbox" asp-for="@Model.UserData.AgreeWithDocs">
-                                        @if (TempData["ValidateErrorMessage"] != null)
+                                        @if (TempData["RequirementsErrorMessage"] != null)
                                         {
-                                            <span style="color: red;">@TempData["ValidateErrorMessage"]</span>
+                                            <span style="color: red;">@TempData["RequirementsErrorMessage"]</span>
                                         }</span></span>
 
                             </div>

@@ -36,7 +36,7 @@ public class PageController : Controller
     [HttpPost]
     public async Task<IActionResult> register(UserData userData)
     {
-        if (userData.email != null && userData.password != null && userData.repeatPassword != null)
+        if (userData.firstName != null && userData.secondName != null && userData.email != null && userData.password != null && userData.repeatPassword != null && userData.birthday != null)
         {
             if (userData.password == userData.repeatPassword)
             {
@@ -75,18 +75,20 @@ public class PageController : Controller
                 }
                 else
                 {
-                    TempData["ValidateErrorMessage"] = "You need to aceept the requirements";
+                    TempData["RequirementsErrorMessage"] = "You need to aceept the requirements";
                     return RedirectToAction("register", "Page");
                 }
 
             }
             else
             {
+                TempData["ValidateMessage"] = "Passwords is incorrect";
                 return RedirectToAction("register", "Page");
             }
         }
         else
         {
+            TempData["ValidateMessage"] = "Data is incorrect";
             return RedirectToAction("register", "Page");
         }
     }
@@ -109,33 +111,41 @@ public class PageController : Controller
         if (userData.email != null && userData.password != null)
         {
             var targetUser = _dbContext.UserData.FirstOrDefault(x => x.email == userData.email);
-            if (targetUser.password == userData.password)
+            if (targetUser != null)
             {
-                List<Claim> detectedUser = new List<Claim>(){
+                if (targetUser.password == userData.password)
+                {
+                    List<Claim> detectedUser = new List<Claim>(){
                         new Claim(ClaimTypes.Name, userData.email),
                     };
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(detectedUser,
-                    CookieAuthenticationDefaults.AuthenticationScheme);
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(detectedUser,
+                        CookieAuthenticationDefaults.AuthenticationScheme);
 
-                AuthenticationProperties properties = new AuthenticationProperties()
+                    AuthenticationProperties properties = new AuthenticationProperties()
+                    {
+                        AllowRefresh = true,
+                        IsPersistent = userData.KeepLoggedIn
+                    };
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity), properties);
+                    return RedirectToAction("profile", "Profile");
+                }
+                else
                 {
-                    AllowRefresh = true,
-                    IsPersistent = userData.KeepLoggedIn
-                };
-
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity), properties);
-                return RedirectToAction("profile", "Profile");
+                    TempData["ValidateMessage"] = "Password is incorrect";
+                    return View();
+                }
             }
             else
             {
-                return RedirectToAction("register", "Page");
-                // ViewData["ValidateMessage"] = "data nie to";
-                // return View(ViewData);
+                TempData["ValidateMessage"] = "User not found";
+                return View();
             }
         }
         else
         {
+            TempData["ValidateMessage"] = "Data is incorrect";
             return View();
         }
     }

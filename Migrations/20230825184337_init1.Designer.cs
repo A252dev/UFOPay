@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace UFOPay.Migrations
 {
     [DbContext(typeof(UFODbContext))]
-    [Migration("20230815095605_init0")]
-    partial class init0
+    [Migration("20230825184337_init1")]
+    partial class init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,10 @@ namespace UFOPay.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("comment")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("currency")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -53,13 +57,29 @@ namespace UFOPay.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<bool>("AgreeWithDocs")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("KeepLoggedIn")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<long>("balance")
+                    b.Property<long>("balance_eur")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("balance_pln")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("balance_rub")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("balance_usd")
                         .HasColumnType("bigint");
 
                     b.Property<string>("birthday")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("defaultCurrency")
                         .IsRequired()
                         .HasColumnType("longtext");
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace UFOPay.Migrations
 {
     [DbContext(typeof(UFODbContext))]
-    [Migration("20230821103646_init4")]
-    partial class init4
+    [Migration("20230825184003_init0")]
+    partial class init0
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,10 @@ namespace UFOPay.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("comment")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("currency")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -59,10 +63,23 @@ namespace UFOPay.Migrations
                     b.Property<bool>("KeepLoggedIn")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<long>("balance")
+                    b.Property<long>("balance_eur")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("balance_pln")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("balance_rub")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("balance_usd")
                         .HasColumnType("bigint");
 
                     b.Property<string>("birthday")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("defaultCurrency")
                         .IsRequired()
                         .HasColumnType("longtext");
 

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using UFOPay.Models;
 
 [Authorize]
@@ -28,33 +29,26 @@ public class ProfileController : Controller
         if (userData.firstName != null)
         {
             user.firstName = userData.firstName;
-            userData.secondName = user.secondName;
-            userData.birthday = user.birthday;
-            userData.password = user.password;
             _dbContext.SaveChanges();
         }
         if (userData.secondName != null)
         {
             user.secondName = userData.secondName;
-            userData.firstName = user.firstName;
-            userData.birthday = user.birthday;
-            userData.password = user.password;
             _dbContext.SaveChanges();
         }
         if (userData.birthday != null)
         {
             user.birthday = userData.birthday;
-            userData.secondName = user.secondName;
-            userData.firstName = user.firstName;
-            userData.password = user.password;
+            _dbContext.SaveChanges();
+        }
+        if (userData.passport != null)
+        {
+            user.passport = userData.passport;
             _dbContext.SaveChanges();
         }
         if (userData.password != null)
         {
             user.password = userData.password;
-            userData.birthday = user.birthday;
-            userData.secondName = user.secondName;
-            userData.firstName = user.firstName;
             _dbContext.SaveChanges();
         }
         _dbContext.SaveChanges();
@@ -80,21 +74,84 @@ public class ProfileController : Controller
                 sender = user.email,
                 reciever = transferModel.reciever,
                 summa = transferModel.summa,
+                currency = transferModel.currency,
                 comment = transferModel.comment
             };
-            if (user.balance <= transferModel.summa || transferModel.summa < 1)
+
+            // TRANSFER WITH USD
+            if (transferModel.currency == "USD")
             {
-                TempData["TransferErrorMessage"] = "Not enough money";
-                return RedirectToAction("profile", "Profile");
+                if (user.balance_usd <= transferModel.summa || transferModel.summa < 1)
+                {
+                    TempData["TransferErrorMessage"] = "Not enough money";
+                    return RedirectToAction("profile", "Profile");
+                }
+                else
+                {
+                    user.balance_usd -= transferModel.summa;
+                    targetForTheTransferUser.balance_usd += transferModel.summa;
+                    _dbContext.Transactions.Update(transfer);
+                    _dbContext.SaveChanges();
+                    TempData["TransferSuccessMessage"] = "Transfer completed";
+                    return RedirectToAction("profile", "Profile");
+                }
             }
-            else
+
+            // TRANSFER WITH EUR
+            if (transferModel.currency == "EUR")
             {
-                user.balance -= transferModel.summa;
-                targetForTheTransferUser.balance += transferModel.summa;
-                _dbContext.Transactions.Update(transfer);
-                _dbContext.SaveChanges();
-                TempData["TransferSuccessMessage"] = "Transfer completed";
-                return RedirectToAction("profile", "Profile");
+                if (user.balance_eur <= transferModel.summa || transferModel.summa < 1)
+                {
+                    TempData["TransferErrorMessage"] = "Not enough money";
+                    return RedirectToAction("profile", "Profile");
+                }
+                else
+                {
+                    user.balance_eur -= transferModel.summa;
+                    targetForTheTransferUser.balance_eur += transferModel.summa;
+                    _dbContext.Transactions.Update(transfer);
+                    _dbContext.SaveChanges();
+                    TempData["TransferSuccessMessage"] = "Transfer completed";
+                    return RedirectToAction("profile", "Profile");
+                }
+            }
+
+            // TRANSFER WITH PLN
+            if (transferModel.currency == "PLN")
+            {
+                if (user.balance_pln <= transferModel.summa || transferModel.summa < 1)
+                {
+                    TempData["TransferErrorMessage"] = "Not enough money";
+                    return RedirectToAction("profile", "Profile");
+                }
+                else
+                {
+                    user.balance_pln -= transferModel.summa;
+                    targetForTheTransferUser.balance_pln += transferModel.summa;
+                    _dbContext.Transactions.Update(transfer);
+                    _dbContext.SaveChanges();
+                    TempData["TransferSuccessMessage"] = "Transfer completed";
+                    return RedirectToAction("profile", "Profile");
+                }
+            }
+
+            // TRANSFER WITH RUB
+            if (transferModel.currency == "RUB")
+            {
+                if (user.balance_rub <= transferModel.summa || transferModel.summa < 1)
+                {
+                    TempData["TransferErrorMessage"] = "Not enough money";
+                    return RedirectToAction("profile", "Profile");
+                }
+                else
+                {
+                    user.balance_rub -= transferModel.summa;
+                    targetForTheTransferUser.balance_rub += transferModel.summa;
+                    _dbContext.Transactions.Update(transfer);
+                    _dbContext.SaveChanges();
+                    TempData["TransferSuccessMessage"] = "Transfer completed";
+                    return RedirectToAction("profile", "Profile");
+                }
             }
         }
         else
@@ -102,6 +159,15 @@ public class ProfileController : Controller
             TempData["TransferErrorMessage"] = "User not found";
             return RedirectToAction("profile", "Profile");
         }
+        TempData["TransferErrorMessage"] = "Data is invalid";
+        return RedirectToAction("profile", "Profile");
+    }
+
+    [HttpPost]
+    public IActionResult addBalance(AddBalance addBalance)
+    {
+        // will in update
+        return RedirectToAction("profile", "Page");
     }
 
     [Route("/logout")]

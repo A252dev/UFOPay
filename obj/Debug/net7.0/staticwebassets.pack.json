@@ -29,6 +29,22 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/balance/dollar_symbol.png",
+      "PackagePath": "staticwebassets/images/balance/dollar_symbol.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/balance/euro_symbol.png",
+      "PackagePath": "staticwebassets/images/balance/euro_symbol.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/balance/ruble_symbol.png",
+      "PackagePath": "staticwebassets/images/balance/ruble_symbol.png"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/balance/zloty_symbol.svg",
+      "PackagePath": "staticwebassets/images/balance/zloty_symbol.svg"
+    },
+    {
       "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-114.png",
       "PackagePath": "staticwebassets/images/favicon/favicon-114.png"
     },

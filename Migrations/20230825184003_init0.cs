@@ -26,6 +26,8 @@ namespace UFOPay.Migrations
                     reciever = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     summa = table.Column<long>(type: "bigint", nullable: false),
+                    currency = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     comment = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -57,8 +59,14 @@ namespace UFOPay.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     passport = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    balance = table.Column<long>(type: "bigint", nullable: false),
-                    KeepLoggedIn = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    balance_usd = table.Column<long>(type: "bigint", nullable: false),
+                    balance_eur = table.Column<long>(type: "bigint", nullable: false),
+                    balance_pln = table.Column<long>(type: "bigint", nullable: false),
+                    balance_rub = table.Column<long>(type: "bigint", nullable: false),
+                    defaultCurrency = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    KeepLoggedIn = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    AgreeWithDocs = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {

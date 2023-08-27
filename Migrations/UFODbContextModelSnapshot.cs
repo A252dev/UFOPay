@@ -28,6 +28,10 @@ namespace UFOPay.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("currency")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("reciever")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -56,10 +60,23 @@ namespace UFOPay.Migrations
                     b.Property<bool>("KeepLoggedIn")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<long>("balance")
+                    b.Property<long>("balance_eur")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("balance_pln")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("balance_rub")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("balance_usd")
                         .HasColumnType("bigint");
 
                     b.Property<string>("birthday")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("defaultCurrency")
                         .IsRequired()
                         .HasColumnType("longtext");
 
