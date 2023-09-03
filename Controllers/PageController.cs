@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace UFOPay.Controllers;
 
@@ -19,6 +20,15 @@ public class PageController : Controller
     {
         _logger = logger;
         _dbContext = dbContext;
+    }
+
+    public int GenerateUserId()
+    {
+        Random random = new Random();
+        int userId = random.Next(Int32.MinValue, Int32.MaxValue);
+        while (_dbContext.UserData.Any(x => x.userId == userId))
+            continue;
+        return userId;
     }
 
     public IActionResult index()
@@ -36,27 +46,17 @@ public class PageController : Controller
     [HttpPost]
     public async Task<IActionResult> register(UserData userData)
     {
-        if (userData.firstName != null && userData.secondName != null && userData.email != null && userData.password != null && userData.repeatPassword != null && userData.birthday != null)
+        if (User.Identity.Name == null)
         {
-            if (userData.password == userData.repeatPassword)
+            if (userData.firstName != null && userData.secondName != null && userData.email != null && userData.password != null && userData.repeatPassword != null && userData.birthday != null)
             {
-                if (userData.AgreeWithDocs == true)
+                if (userData.password == userData.repeatPassword)
                 {
-                    bool haveTargetUser = _dbContext.UserData.Any(x => x.email == userData.email);
-                    if (haveTargetUser)
+                    if (userData.AgreeWithDocs == true)
                     {
-                        ViewData["ValidateMessage"] = "user on juz jest w bazie";
-                        return RedirectToAction("login", "Page");
-                    }
-                    else
-                    {
-                        userData.registrationData = DateTime.Now;
-                        _dbContext.Add(userData);
-                        _dbContext.SaveChanges();
-
                         List<Claim> claims = new List<Claim>(){
-                    new Claim(ClaimTypes.NameIdentifier, userData.email),
-                };
+                            new Claim(ClaimTypes.NameIdentifier, userData.email),
+                        };
 
                         ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
                             CookieAuthenticationDefaults.AuthenticationScheme);
@@ -67,22 +67,47 @@ public class PageController : Controller
                             IsPersistent = userData.KeepLoggedIn
                         };
 
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                            new ClaimsPrincipal(claimsIdentity), properties);
+                        bool haveTargetUser = _dbContext.UserData.Any(x => x.email == userData.email);
+                        if (haveTargetUser)
+                        {
+                            ViewData["ValidateMessage"] = "The user is registered";
+                            return RedirectToAction("login", "Page");
+                        }
+                        else
+                        {
+                            userData.userId = GenerateUserId();
+                            userData.registrationData = DateTime.Now;
+                            userData.balance_eur = 0;
+                            userData.balance_usd = 0;
+                            userData.balance_pln = 0;
+                            userData.balance_rub = 0;
+                            userData.passport = "NULL";
+                            _dbContext.Add(userData);
+                            _dbContext.SaveChanges();
 
-                        return RedirectToAction("login", "Page");
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                                                        new ClaimsPrincipal(claimsIdentity), properties);
+
+                            TempData["ValidateSuccessMessage"] = "The user has been successfully registered";
+                            return RedirectToAction("login", "Page");
+                        }
                     }
+                    else
+                    {
+                        TempData["RequirementsErrorMessage"] = "You need to aceept the requirements";
+                        return RedirectToAction("register", "Page");
+                    }
+
                 }
                 else
                 {
-                    TempData["RequirementsErrorMessage"] = "You need to aceept the requirements";
+                    TempData["ValidateMessage"] = "Passwords is incorrect";
                     return RedirectToAction("register", "Page");
                 }
-
             }
             else
             {
-                TempData["ValidateMessage"] = "Passwords is incorrect";
+                TempData["ValidateMessage"] = "Data is incorrect";
                 return RedirectToAction("register", "Page");
             }
         }
@@ -108,38 +133,47 @@ public class PageController : Controller
     [Route("/login")]
     public async Task<IActionResult> login(UserData userData)
     {
-        if (userData.email != null && userData.password != null)
+        if (User.Identity.Name == null)
         {
-            var targetUser = _dbContext.UserData.FirstOrDefault(x => x.email == userData.email);
-            if (targetUser != null)
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Name, userData.email));
+            var id = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            AuthenticationProperties properties = new AuthenticationProperties()
             {
-                if (targetUser.password == userData.password)
+                AllowRefresh = true,
+                IsPersistent = userData.KeepLoggedIn
+            };
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(id), properties);
+
+            if (userData.email != null && userData.password != null)
+            {
+                var targetUser = _dbContext.UserData.FirstOrDefault(x => x.email == userData.email);
+                if (targetUser != null)
                 {
-                    List<Claim> detectedUser = new List<Claim>(){
-                        new Claim(ClaimTypes.Name, userData.email),
-                    };
-                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(detectedUser,
-                        CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    AuthenticationProperties properties = new AuthenticationProperties()
+                    if (targetUser.password == userData.password)
                     {
-                        AllowRefresh = true,
-                        IsPersistent = userData.KeepLoggedIn
-                    };
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity), properties);
-                    return RedirectToAction("profile", "Profile");
+                        // if password in db ok so redirect to profile
+                        return RedirectToAction("profile", "Profile");
+                    }
+                    else
+                    {
+                        // if password not ok make a msg on page
+                        TempData["ValidateMessage"] = "Password is incorrect";
+                        return View();
+                    }
                 }
                 else
                 {
-                    TempData["ValidateMessage"] = "Password is incorrect";
+                    TempData["ValidateMessage"] = "User not found";
                     return View();
                 }
             }
             else
             {
-                TempData["ValidateMessage"] = "User not found";
+                TempData["ValidateMessage"] = "Data is incorrect";
                 return View();
             }
         }
@@ -148,6 +182,12 @@ public class PageController : Controller
             TempData["ValidateMessage"] = "Data is incorrect";
             return View();
         }
+    }
+
+    [Route("/billing")]
+    public IActionResult billing()
+    {
+        return View();
     }
 
     [Route("/user_agreement")]

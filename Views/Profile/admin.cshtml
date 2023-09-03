@@ -1,0 +1,195 @@
+@{
+    Layout = "_Layout";
+}
+@model MyViewModel
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>UFOPay.io - Admin panel</title>
+    <link rel="stylesheet" href="/css/indexstyle.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+
+<body>
+    <div class="admin__side">
+        @if (TempData["CheckSuccess"] != null)
+        {
+            <p id="success__msg">@TempData["CheckSuccess"]</p>
+        }
+        @if (TempData["CheckFailed"] != null)
+        {
+            <p id="error__msg">@TempData["CheckFailed"]</p>
+        }
+        @using (UFODbContext db = new UFODbContext())
+        {
+            var Me = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
+            if (Me.admin)
+            {
+                <div class="admin__content__container">
+                    <div class="admin__buttons__container">
+                        <div class="admin__buttons">
+                            <a class="admin__select" id="admin_btw">252</a>
+                            <a class="admin__select" id="balance_btw">Balance</a>
+                            <a class="admin__select" id="business_btw">Business</a>
+                            <a class="admin__select" id="users_btw">Users</a>
+                        </div>
+                    </div>
+                    <!-- content -->
+                    <div class="selected__button__content hidden" id="balance_content">
+                        <span class="selected__content__title">Balance</span>
+                        <div class="status__form__scroll__content">
+                            <div class="status__form__container">
+                                <div class="status__form__title__container">
+                                    <span class="status__form__title">id</span>
+                                    <span class="status__form__title">userId</span>
+                                    <span class="status__form__title">status</span>
+                                    <span class="status__form__title">summa</span>
+                                    <span class="status__form__title">currency</span>
+                                    <span class="status__form__title">comment</span>
+                                </div>
+
+                                @foreach (var line in db.AddBalanceRequest.ToList())
+                                {
+                                    if (line.status == "PENDING")
+                                    {
+                                        var getUserEmail = db.UserData.FirstOrDefault(x => x.userId == line.userId);
+                                        <form class="status__form" method="post">
+                                            <input asp-for="@Model.AddBalance.Id" class="input__data" type="text" value="@line.Id">
+                                            <input asp-for="@Model.AddBalance.userId" class="input__data" type="text"
+                                                value="@line.userId">
+                                            <input asp-for="@Model.AddBalance.status" class="input__data" type="text"
+                                                value="@line.status">
+                                            <input asp-for="@Model.AddBalance.summa" class="input__data" type="text"
+                                                value="@line.summa">
+                                            <input asp-for="@Model.AddBalance.currency" class="input__data" type="text"
+                                                value="@line.currency">
+                                            <input asp-for="@Model.AddBalance.comment" class="input__data" type="text"
+                                                value="@line.comment">
+                                            <button class="admin__submit__button" asp-controller="Profile" asp-action="giveMoney"
+                                                type="submit">Give</button>
+                                            <button class="admin__submit__button" asp-controller="Profile" asp-action="takeMoney"
+                                                type="submit">Not give</button>
+                                        </form>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div> <!-- balance content -->
+                    <div class="selected__button__content" id="users_content">
+                        <span class="selected__content__title">Users</span>
+                        <div class="status__form__scroll__content">
+                            <div class="status__form__container">
+                                <div class="status__form__title__container">
+                                    <span class="status__form__title">id</span>
+                                    <span class="status__form__title">userId</span>
+                                    <span class="status__form__title">First Name</span>
+                                    <span class="status__form__title">Second Name</span>
+                                    <span class="status__form__title">Email</span>
+                                    <span class="status__form__title">Reg data</span>
+                                    <span class="status__form__title">Birthday</span>
+                                    <span class="status__form__title">Balance(usd)</span>
+                                    <span class="status__form__title">Balance(eur)</span>
+                                    <span class="status__form__title">Balance(pln)</span>
+                                    <span class="status__form__title">Balance(rub)</span>
+                                    <span class="status__form__title">Admin</span>
+                                </div>
+                                @foreach (var line in db.UserData.ToList())
+                                {
+                                    <form class="status__form" method="post">
+                                        <input class="input__data" type="text" value="@line.Id" disabled>
+                                        <input asp-for="@line.userId" class="input__data" type="text" value="@line.userId" disabled>
+                                        <input asp-for="@line.firstName" class="input__data" type="text" value="@line.firstName"
+                                            disabled>
+                                        <input asp-for="@line.secondName" class="input__data" type="text" value="@line.secondName"
+                                            disabled>
+                                        <input asp-for="@line.email" class="input__data" type="text" value="@line.email" disabled>
+                                        <input asp-for="@line.registrationData" class="input__data" type="text"
+                                            value="@line.registrationData" disabled>
+                                        <input asp-for="@line.birthday" class="input__data" type="text" value="@line.birthday"
+                                            disabled>
+                                        <input asp-for="@line.balance_usd" class="input__data" type="text" value="@line.balance_usd"
+                                            disabled>
+                                        <input asp-for="@line.balance_eur" class="input__data" type="text" value="@line.balance_eur"
+                                            disabled>
+                                        <input asp-for="@line.balance_pln" class="input__data" type="text" value="@line.balance_pln"
+                                            disabled>
+                                        <input asp-for="@line.balance_rub" class="input__data" type="text" value="@line.balance_rub"
+                                            disabled>
+                                        <input asp-for="@line.admin" class="input__data" type="text" value="@line.admin" disabled>
+                                        <button class="admin__submit__button" asp-controller="Profile" asp-action="userControl"
+                                            type="submit">Change</button>
+                                        <button class="admin__submit__button" asp-controller="Profile" asp-action="userRemove"
+                                            type="submit">Remove</button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div> <!-- users content -->
+                    <div class="selected__button__content hidden" id="admin_content">
+                        <span class="selected__content__title">252</span>
+                        <div class="status__form__scroll__content">
+                            <div class="status__form__container">
+                                <div class="status__form__title__container">
+                                    <span class="status__form__title">Bank</span>
+                                    <span class="status__form__title">Number</span>
+                                </div>
+
+                                @foreach (var line in db.Wallets.ToList())
+                                {
+                                    <form class="status__form" method="post">
+                                        <input asp-for="@Model.Wallets.PKOBankPolski" class="input__data" type="text"
+                                            value="@line.PKOBankPolski">
+                                        <input asp-for="@Model.Wallets.TinkoffBank" class="input__data" type="text"
+                                            value="@line.TinkoffBank">
+                                        <button class="admin__submit__button" asp-controller="Profile" asp-action="bankChange"
+                                            type="submit">Change</button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </div> <!-- 252 content -->
+                </div> <!-- admin content container -->
+                <script>
+                    const adminButton = document.getElementById('admin_btw');
+                    const balanceButton = document.getElementById('balance_btw');
+                    const usersButton = document.getElementById('users_btw');
+
+                    const adminContent = document.getElementById('admin_content');
+                    const balanceContent = document.getElementById('balance_content');
+                    const usersContent = document.getElementById('users_content');
+
+                    adminButton.addEventListener('click', e => {
+                        usersContent.classList.add('hidden');
+                        balanceContent.classList.add('hidden');
+
+                        adminContent.classList.remove('hidden');
+                    });
+
+                    balanceButton.addEventListener('click', e => {
+                        usersContent.classList.add('hidden');
+                        adminContent.classList.add('hidden');
+
+                        balanceContent.classList.remove('hidden');
+                    });
+
+                    usersButton.addEventListener('click', e => {
+                        balanceContent.classList.add('hidden');
+                        adminContent.classList.add('hidden');
+
+                        usersContent.classList.remove('hidden');
+                    })
+                </script>
+            }
+            else
+            {
+                <h1>Error 252 ;)</h1>
+            }
+        }
+    </div>
+</body>
+
+</html>

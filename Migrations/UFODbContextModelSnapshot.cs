@@ -48,6 +48,54 @@ namespace UFOPay.Migrations
                     b.ToTable("Transactions");
                 });
 
+            modelBuilder.Entity("UFOPay.Models.AddBalance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("comment")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("currency")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("summa")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AddBalanceRequest");
+                });
+
+            modelBuilder.Entity("UFOPay.Models.Wallets", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("PKOBankPolski")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("TinkoffBank")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Wallets");
+                });
+
             modelBuilder.Entity("UserData", b =>
                 {
                     b.Property<int>("Id")
@@ -58,6 +106,9 @@ namespace UFOPay.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("KeepLoggedIn")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("admin")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<long>("balance_eur")
@@ -73,10 +124,6 @@ namespace UFOPay.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("birthday")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("defaultCurrency")
                         .IsRequired()
                         .HasColumnType("longtext");
 

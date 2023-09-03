@@ -6,4 +6,5 @@ public class MyViewModel
     public TransferModel TransferModel { get; set; }
     public AddBalance AddBalance { get; set; }
     public Currency Currency { get; set; }
+    public Wallets Wallets { get; set; }
 }

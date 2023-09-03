@@ -35,6 +35,16 @@
             {
             <p id="success__msg">@TempData["SettingsSuccessMessage"]</p>
             }
+            <!-- for the addBalance content -->
+            @if (TempData["BillErrorMessage"] != null)
+            {
+            <p id="error__msg">@TempData["BillErrorMessage"]</p>
+            }
+            <!-- fot the billing page -->
+            @if (TempData["BillSuccess"] != null)
+            {
+                <p id="success__msg">@TempData["BillSuccess"]</p>
+            }
         </p>
         <div class="profile__container">
             <div class="profile__info">
@@ -51,14 +61,6 @@
                                 <option value="PLN"><p class="balance"><span>@user.balance_pln</span> @currency.PLN</p></option>
                                 <option value="RUB"><p class="balance"><span>@user.balance_rub</span> @currency.RUB</p></option>
                             </select>
-                            @* <div class="currency__selector">
-                                <select>
-                                    <option value="USD"><p class="balance"><span class="currency__usd" >@user.balance_usd</span> @currency.USD</p></option>
-                                    <option value="EUR"><p class="balance"><span class="currency__eur" >@user.balance_eur</span> @currency.EUR</p></option>
-                                    <option value="PLN"><p class="balance"><span class="currency__pln" >@user.balance_pln</span> @currency.PLN</p></option>
-                                    <option value="RUB"><p class="balance"><span class="currency__rub" >@user.balance_rub</span> @currency.RUB</p></option>
-                                </select>  
-                            </div>                          *@
                             <p class="access">AVAILABLE</p>
                         </div>
                         <div class="select__buttons">
@@ -149,7 +151,7 @@
                 </div>
             </div> <!-- content settings -->
 
-            <div class="form__data__content__history hidden" id="history">
+            <div class="form__data__content__history" id="history">
                 <h4 class="form__data__name">History</h4>
                 <div class="form__container">
                     <div class="transactions__container">
@@ -163,16 +165,31 @@
                             @using (UFODbContext db = new UFODbContext())
                             {
                                 var user = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
-                                foreach (var targetUser in db.Transactions.ToList())
+                                @foreach (var targetUser in db.Transactions.ToList())
                                 {
                                     if (targetUser.sender == user.email || targetUser.reciever == user.email)
                                     {
-                                        // change the name of classes
                                         <div class="transactions__info__container">
-                                            <span class="history__parameter__sender">@targetUser.sender</span>
-                                            <span class="history__parameter__receiver">@targetUser.reciever</span>
-                                            <span class="history__parameter__summa">@targetUser.summa @targetUser.currency</span>
-                                            <span class="history__parameter__comment">@targetUser.comment</span>
+                                            <div class="transactions__table__container">
+                                                <div class="transactions__info__title">
+                                                    <span class="history__parameter__sender">@targetUser.sender</span>
+                                                </div>
+                                            </div>
+                                            <div class="transactions__table__container">
+                                                <div class="transactions__info__title">
+                                                    <span class="history__parameter__receiver">@targetUser.reciever</span>
+                                                </div>
+                                            </div>
+                                            <div class="transactions__table__container">
+                                                <div class="transactions__info__title">
+                                                    <span class="history__parameter__summa">@targetUser.summa @targetUser.currency</span>
+                                                </div>
+                                            </div>
+                                            <div class="transactions__table__container">
+                                                <div class="transactions__info__title">
+                                                    <span class="history__parameter__comment">@targetUser.comment</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     }
                                 }
@@ -191,7 +208,6 @@
                         <form class="user__data__transfer__form" asp-controller="Profile" asp-action="transfer"
                             method="post">
                             <span>Where?</span>
-                            <!-- sender will be added on the backend side -->
                             <p class="form__data__input"><input type="text" class="text__input" placeholder="email@email.com"
                                     asp-for="@Model.TransferModel.reciever">
                             </p>
@@ -217,7 +233,7 @@
                 </div>
             </div> <!-- transfer/withraw -->
 
-            <div class="form__data__content__add__balance" id="addBalance">
+            <div class="form__data__content__add__balance hidden" id="addBalance">
                 <h4 class="form__data__name">Add balance</h4>
                 <div class="form__container">
                     @using (UFODbContext db = new UFODbContext())
@@ -229,29 +245,29 @@
                             <p class="form__data__input"><input type="number" class="text__input" asp-for="@Model.AddBalance.summa"></p>
                             <span>Currency</span>
                             <div class="currency__container">
-                                <label>             
-                                    @* @Html.RadioButtonFor(x => x.AddBalance.currency, "USD")                     *@
-                                    <input class="select__currency" type="radio" id="currency" name="currency" value="USD">
+                                <label class="currency__label">
+                                    <input class="select__currency" id="AddBalance_currency" name="AddBalance.currency" type="radio" value="USD">
                                     <img class="currency__symbol" src="./images/balance/dollar_symbol.png" alt="USD">
+                                    <div class="subcurrency__container"><span class="subcurrency__title">USD</span></div>
                                 </label>
-                                <label>
-                                    @* @Html.RadioButtonFor(x => x.AddBalance.currency, "EUR") *@
-                                    <input class="select__currency" type="radio" id="currency" name="currency" value="EUR">
+                                <label class="currency__label">
+                                    <input class="select__currency" id="AddBalance_currency" name="AddBalance.currency" type="radio" value="EUR">
                                     <img class="currency__symbol" src="./images/balance/euro_symbol.png" alt="EUR">
+                                    <div class="subcurrency__container"><span class="subcurrency__title">EUR</span></div>
                                 </label>
-                                <label>
-                                    @* @Html.RadioButtonFor(x => x.AddBalance.currency, "PLN")                                     *@
-                                    <input class="select__currency" type="radio" id="currency" name="currency" value="PLN">
+                                <label class="currency__label">
+                                    <input class="select__currency" id="AddBalance_currency" name="AddBalance.currency" type="radio" value="PLN">
                                     <img class="currency__symbol" src="./images/balance/zloty_symbol.svg" alt="PLN">
+                                    <div class="subcurrency__container"><span class="subcurrency__title">PLN</span></div>
                                 </label>
-                                <label>
-                                    @* @Html.RadioButtonFor(x => x.AddBalance.currency, "RUB") *@
-                                    <input class="select__currency" type="radio" id="currency" name="currency" value="RUB">
+                                <label class="currency__label">
+                                    <input class="select__currency" id="AddBalance_currency" name="AddBalance.currency" type="radio" value="RUB">
                                     <img class="currency__symbol" src="./images/balance/ruble_symbol.png" alt="RUB">
-                                </label>
-                                <button type="submit" class="transfer__link button" style="cursor: pointer;">Add
-                                    balance</button>                                         
-                            </div>                        
+                                    <div class="subcurrency__container"><span class="subcurrency__title">RUB</span></div>
+                                </label>                                                                        
+                            </div>     
+                            <button type="submit" class="transfer__link button" style="cursor: pointer;">Add
+                                    balance</button>        
                         </form>
                     }
                 </div>

@@ -21,6 +21,10 @@
             {
             <p id="error__msg">@TempData["ValidateMessage"]</p>
             }
+            @if (TempData["ValidateSuccessMessage"] != null)
+            {
+            <p id="success__msg">@TempData["ValidateSuccessMessage"]</p>
+            }
         </p>
         <div class="login__form">
             <div class="login__container">

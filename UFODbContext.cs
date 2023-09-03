@@ -8,6 +8,8 @@ public class UFODbContext : DbContext
 {
     public DbSet<UserData> UserData { get; set; }
     public DbSet<TransferModel> Transactions { get; set; }
+    public DbSet<AddBalance> AddBalanceRequest { get; set; }
+    public DbSet<Wallets> Wallets { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

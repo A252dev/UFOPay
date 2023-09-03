@@ -26,10 +26,21 @@
                             <img class="logo__image" src="./images/pages/logo.svg" alt="logo">
                         </a>
                     </div>
-                    <div class="mainlinks__list">
-                        <a class="current__link__noneborder" asp-controller="Profile" asp-action="profile">Profile</a>
-                        <a class="current__link" asp-controller="Profile" asp-action="logout">Logout</a>
-                    </div>
+                    @if (user.admin == true)
+                    {
+                        <div class="mainlinks__list">
+                            <a class="current__link__noneborder" asp-controller="Profile" asp-action="admin">Admin</a>
+                            <a class="current__link__noneborder" asp-controller="Profile" asp-action="profile">Profile</a>
+                            <a class="current__link" asp-controller="Profile" asp-action="logout">Logout</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mainlinks__list">
+                            <a class="current__link__noneborder" asp-controller="Profile" asp-action="profile">Profile</a>
+                            <a class="current__link" asp-controller="Profile" asp-action="logout">Logout</a>
+                        </div>
+                    }
                 }
                 else
                 {

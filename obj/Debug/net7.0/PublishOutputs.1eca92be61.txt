@@ -1,0 +1,12 @@
+/home/agent/Documents/UFO/UFOPay/bin/alpha003/UFOPay
+/home/agent/Documents/UFO/UFOPay/bin/alpha003/appsettings.Development.json
+/home/agent/Documents/UFO/UFOPay/bin/alpha003/appsettings.json
+/home/agent/Documents/UFO/UFOPay/bin/alpha003/UFOPay.dll
+/home/agent/Documents/UFO/UFOPay/bin/alpha003/UFOPay.runtimeconfig.json
+/home/agent/Documents/UFO/UFOPay/bin/alpha003/UFOPay.pdb
+/home/agent/Documents/UFO/UFOPay/bin/alpha003/Microsoft.EntityFrameworkCore.dll
+/home/agent/Documents/UFO/UFOPay/bin/alpha003/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/agent/Documents/UFO/UFOPay/bin/alpha003/Microsoft.EntityFrameworkCore.Relational.dll
+/home/agent/Documents/UFO/UFOPay/bin/alpha003/MySqlConnector.dll
+/home/agent/Documents/UFO/UFOPay/bin/alpha003/Pomelo.EntityFrameworkCore.MySql.dll
+/home/agent/Documents/UFO/UFOPay/bin/alpha003/UFOPay.deps.json

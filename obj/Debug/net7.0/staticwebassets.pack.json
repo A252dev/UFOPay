@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets/UFOPay.bundle.scp.css"
     },
     {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/css/admin.css",
+      "PackagePath": "staticwebassets/css/admin.css"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/css/billing.css",
+      "PackagePath": "staticwebassets/css/billing.css"
+    },
+    {
       "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/css/docs.css",
       "PackagePath": "staticwebassets/css/docs.css"
     },
@@ -43,6 +51,18 @@
     {
       "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/balance/zloty_symbol.svg",
       "PackagePath": "staticwebassets/images/balance/zloty_symbol.svg"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/currency/eur.svg",
+      "PackagePath": "staticwebassets/images/currency/eur.svg"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/currency/rub.svg",
+      "PackagePath": "staticwebassets/images/currency/rub.svg"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/currency/usd.svg",
+      "PackagePath": "staticwebassets/images/currency/usd.svg"
     },
     {
       "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/favicon/favicon-114.png",
