@@ -13,10 +13,10 @@ public class UserData
     public DateTime registrationData { get; set; }
     public string birthday { get; set; }
     public string passport { get; set; } = "NONE";
-    public long balance_usd { get; set; } = 0;
-    public long balance_eur { get; set; } = 0;
-    public long balance_pln { get; set; } = 0;
-    public long balance_rub { get; set; } = 0;
+    public double balance_usd { get; set; } = 0;
+    public double balance_eur { get; set; } = 0;
+    public double balance_pln { get; set; } = 0;
+    public double balance_rub { get; set; } = 0;
     public bool KeepLoggedIn { get; set; }
     public bool AgreeWithDocs { get; set; }
 }

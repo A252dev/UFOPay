@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace UFOPay.Migrations
 {
     [DbContext(typeof(UFODbContext))]
-    partial class UFODbContextModelSnapshot : ModelSnapshot
+    [Migration("20230904140350_init6")]
+    partial class init6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,9 +45,6 @@ namespace UFOPay.Migrations
 
                     b.Property<long>("summa")
                         .HasColumnType("bigint");
-
-                    b.Property<DateTime>("transferData")
-                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -86,19 +86,11 @@ namespace UFOPay.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("comment")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("currencyFrom")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("currencyTo")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("status")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -130,38 +122,6 @@ namespace UFOPay.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Wallets");
-                });
-
-            modelBuilder.Entity("UFOPay.Models.WithdrawModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("bank")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("comment")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("currency")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("summa")
-                        .HasColumnType("int");
-
-                    b.Property<int>("userId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("withdrawData")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Withdraw");
                 });
 
             modelBuilder.Entity("UserData", b =>

@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets/css/billing.css"
     },
     {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/css/convertation.css",
+      "PackagePath": "staticwebassets/css/convertation.css"
+    },
+    {
       "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/css/docs.css",
       "PackagePath": "staticwebassets/css/docs.css"
     },
@@ -35,6 +39,10 @@
     {
       "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/favicon.ico",
       "PackagePath": "staticwebassets/favicon.ico"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/balance/converter.svg",
+      "PackagePath": "staticwebassets/images/balance/converter.svg"
     },
     {
       "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/balance/dollar_symbol.png",

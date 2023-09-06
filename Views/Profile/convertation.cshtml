@@ -1,0 +1,212 @@
+@{
+    Layout = "_Layout";
+}
+@model MyViewModel
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>UFOPay.io - Admin panel</title>
+    <link rel="stylesheet" href="/css/indexstyle.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/convertation.css">
+</head>
+
+<body>
+    <div class="convertation__side">
+        <div class="convertation__container">
+            @using (UFODbContext db = new UFODbContext())
+            {
+                var user = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
+                var findConvertForm = db.Convertation.Where(x => x.userId == user.userId);
+                var comment = "";
+                var base_code = "";
+                foreach (var line in findConvertForm)
+                {
+                    if (line.status == "PENDING" && line.userId == user.userId)
+                    {
+                        comment = line.comment;
+                        base_code = line.currencyFrom;
+                    }
+                }
+                var convertCurrencyInfo = db.Convertation.FirstOrDefault(x => x.comment == comment);
+                System.Net.WebClient client = new System.Net.WebClient();
+                var content = client.DownloadString("https://v6.exchangerate-api.com/v6/ce3ba77a89e6e5e13dcbaf76/latest/" +
+                base_code);
+
+                string[] lines = content.Split(",");
+
+                if (base_code == "USD")
+                {
+                    string eur = "";
+                    string pln = "";
+                    string rub = "";
+                    foreach (var line in lines)
+                    {
+                        Console.WriteLine(line);
+                        if (line.Contains("EUR"))
+                            eur = line;
+                        if (line.Contains("PLN"))
+                            pln = line;
+                        if (line.Contains("RUB"))
+                            rub = line;
+                    }
+                    double euro = Convert.ToDouble(eur.Substring(eur.LastIndexOf(":") + 1));
+                    double zloty = Convert.ToDouble(pln.Substring(pln.LastIndexOf(":") + 1));
+                    double ruble = Convert.ToDouble(rub.Substring(rub.LastIndexOf(":") + 1));
+                    <div class="convert__form__container">
+                        <form class="convert__form" asp-controller="Profile" asp-action="submitConvert" method="post">
+                            <input asp-for="@Model.ConvertModel.userId" value="@convertCurrencyInfo.userId" type="hidden">
+                            <input asp-for="@Model.ConvertModel.currencyFrom" class="convert__input" type="text"
+                                value="@convertCurrencyInfo.currencyFrom" disabled>
+                            <input asp-for="@Model.ConvertModel.currencyFrom" value="@convertCurrencyInfo.currencyFrom" hidden>
+                            <input asp-for="@Model.ConvertModel.currencyTo" class="convert__input" type="text"
+                                value="@convertCurrencyInfo.currencyTo" disabled>
+                            <input asp-for="@Model.ConvertModel.currencyTo" value="@convertCurrencyInfo.currencyTo" hidden>
+                            <input asp-for="@Model.ConvertModel.summa" class="convert__input" type="text"
+                                value="@convertCurrencyInfo.summa" disabled>
+                            <input asp-for="@Model.ConvertModel.summa" value="@convertCurrencyInfo.summa" hidden>
+                            <input asp-for="@Model.ConvertModel.status" value="CONVERTED" type="hidden">
+
+                            <button class="convert__button" type="submit">Convert</button>
+                        </form>
+                        <div class="exchange__rates">
+                            <span class="exchange__content">EUR: @euro</span>
+                            <span class="exchange__content">PLN: @zloty</span>
+                            <span class="exchange__content">RUB: @ruble</span>
+                        </div>
+                    </div>
+                }
+
+                if (base_code == "EUR")
+                {
+                    string usd = "";
+                    string pln = "";
+                    string rub = "";
+                    foreach (var line in lines)
+                    {
+                        Console.WriteLine(line);
+                        if (line.Contains("USD"))
+                            usd = line;
+                        if (line.Contains("PLN"))
+                            pln = line;
+                        if (line.Contains("RUB"))
+                            rub = line;
+                    }
+                    double dollar = Convert.ToDouble(usd.Substring(usd.LastIndexOf(":") + 1));
+                    double zloty = Convert.ToDouble(pln.Substring(pln.LastIndexOf(":") + 1));
+                    double ruble = Convert.ToDouble(rub.Substring(rub.LastIndexOf(":") + 1));
+                    <div class="convert__form__container">
+                        <form class="convert__form" asp-controller="Profile" asp-action="submitConvert" method="post">
+                            <input asp-for="@Model.ConvertModel.userId" value="@convertCurrencyInfo.userId" type="hidden">
+                            <input asp-for="@Model.ConvertModel.currencyFrom" class="convert__input" type="text"
+                                value="@convertCurrencyInfo.currencyFrom" disabled>
+                            <input asp-for="@Model.ConvertModel.currencyFrom" value="@convertCurrencyInfo.currencyFrom" hidden>
+                            <input asp-for="@Model.ConvertModel.currencyTo" class="convert__input" type="text"
+                                value="@convertCurrencyInfo.currencyTo" disabled>
+                            <input asp-for="@Model.ConvertModel.currencyTo" value="@convertCurrencyInfo.currencyTo" hidden>
+                            <input asp-for="@Model.ConvertModel.summa" class="convert__input" type="text"
+                                value="@convertCurrencyInfo.summa" disabled>
+                            <input asp-for="@Model.ConvertModel.summa" value="@convertCurrencyInfo.summa" hidden>
+                            <input asp-for="@Model.ConvertModel.status" value="CONVERTED" type="hidden">
+
+                            <button class="convert__button" type="submit">Convert</button>
+                        </form>
+                        <div class="exchange__rates">
+                            <span class="exchange__content">USD: @dollar</span>
+                            <span class="exchange__content">PLN: @zloty</span>
+                            <span class="exchange__content">RUB: @ruble</span>
+                        </div>
+                    </div>
+                }
+
+                if (base_code == "PLN")
+                {
+                    string eur = "";
+                    string usd = "";
+                    string rub = "";
+                    foreach (var line in lines)
+                    {
+                        Console.WriteLine(line);
+                        if (line.Contains("EUR"))
+                            eur = line;
+                        if (line.Contains("USD"))
+                            usd = line;
+                        if (line.Contains("RUB"))
+                            rub = line;
+                    }
+                    double euro = Convert.ToDouble(eur.Substring(eur.LastIndexOf(":") + 1));
+                    double dollar = Convert.ToDouble(usd.Substring(usd.LastIndexOf(":") + 1));
+                    double ruble = Convert.ToDouble(rub.Substring(rub.LastIndexOf(":") + 1));
+                    <div class="convert__form__container">
+                        <form class="convert__form" asp-controller="Profile" asp-action="submitConvert" method="post">
+                            <input asp-for="@Model.ConvertModel.userId" value="@convertCurrencyInfo.userId" type="hidden">
+                            <input asp-for="@Model.ConvertModel.currencyFrom" class="convert__input" type="text"
+                                value="@convertCurrencyInfo.currencyFrom" disabled>
+                            <input asp-for="@Model.ConvertModel.currencyFrom" value="@convertCurrencyInfo.currencyFrom" hidden>
+                            <input asp-for="@Model.ConvertModel.currencyTo" class="convert__input" type="text"
+                                value="@convertCurrencyInfo.currencyTo" disabled>
+                            <input asp-for="@Model.ConvertModel.currencyTo" value="@convertCurrencyInfo.currencyTo" hidden>
+                            <input asp-for="@Model.ConvertModel.summa" class="convert__input" type="text"
+                                value="@convertCurrencyInfo.summa" disabled>
+                            <input asp-for="@Model.ConvertModel.summa" value="@convertCurrencyInfo.summa" hidden>
+                            <input asp-for="@Model.ConvertModel.status" value="CONVERTED" type="hidden">
+
+                            <button class="convert__button" type="submit">Convert</button>
+                        </form>
+                        <div class="exchange__rates">
+                            <span class="exchange__content">EUR: @euro</span>
+                            <span class="exchange__content">USD: @usd</span>
+                            <span class="exchange__content">RUB: @ruble</span>
+                        </div>
+                    </div>
+                }
+                if (base_code == "RUB")
+                {
+                    string eur = "";
+                    string pln = "";
+                    string usd = "";
+                    foreach (var line in lines)
+                    {
+                        Console.WriteLine(line);
+                        if (line.Contains("EUR"))
+                            eur = line;
+                        if (line.Contains("PLN"))
+                            pln = line;
+                        if (line.Contains("USD"))
+                            usd = line;
+                    }
+                    double euro = Convert.ToDouble(eur.Substring(eur.LastIndexOf(":") + 1));
+                    double zloty = Convert.ToDouble(pln.Substring(pln.LastIndexOf(":") + 1));
+                    double dollar = Convert.ToDouble(usd.Substring(usd.LastIndexOf(":") + 1));
+                    <div class="convert__form__container">
+                        <form class="convert__form" asp-controller="Profile" asp-action="submitConvert" method="post">
+                            <input asp-for="@Model.ConvertModel.userId" value="@convertCurrencyInfo.userId" type="hidden">
+                            <input asp-for="@Model.ConvertModel.currencyFrom" class="convert__input" type="text"
+                                value="@convertCurrencyInfo.currencyFrom" disabled>
+                            <input asp-for="@Model.ConvertModel.currencyFrom" value="@convertCurrencyInfo.currencyFrom" hidden>
+                            <input asp-for="@Model.ConvertModel.currencyTo" class="convert__input" type="text"
+                                value="@convertCurrencyInfo.currencyTo" disabled>
+                            <input asp-for="@Model.ConvertModel.currencyTo" value="@convertCurrencyInfo.currencyTo" hidden>
+                            <input asp-for="@Model.ConvertModel.summa" class="convert__input" type="text"
+                                value="@convertCurrencyInfo.summa" disabled>
+                            <input asp-for="@Model.ConvertModel.summa" value="@convertCurrencyInfo.summa" hidden>
+                            <input asp-for="@Model.ConvertModel.status" value="CONVERTED" type="hidden">
+
+                            <button class="convert__button" type="submit">Convert</button>
+                        </form>
+                        <div class="exchange__rates">
+                            <span class="exchange__content">EUR: @euro</span>
+                            <span class="exchange__content">PLN: @zloty</span>
+                            <span class="exchange__content">USD: @usd</span>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</body>
+
+</html>

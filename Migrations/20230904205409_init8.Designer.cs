@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace UFOPay.Migrations
 {
     [DbContext(typeof(UFODbContext))]
-    partial class UFODbContextModelSnapshot : ModelSnapshot
+    [Migration("20230904205409_init8")]
+    partial class init8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,9 +158,6 @@ namespace UFOPay.Migrations
 
                     b.Property<int>("userId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("withdrawData")
-                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 

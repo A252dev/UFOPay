@@ -3,7 +3,8 @@ using System;
 public class TransferModel
 {
     public int Id { get; set; }
-    public string sender { get; set; }
+    public string sender { get; set; } // not use
+    public DateTime transferData { get; set; }
     public string reciever { get; set; }
     public long summa { get; set; }
     public string currency { get; set; }

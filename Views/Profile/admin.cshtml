@@ -41,6 +41,9 @@
                     <!-- content -->
                     <div class="selected__button__content hidden" id="balance_content">
                         <span class="selected__content__title">Balance</span>
+                        <div class="admin__withdraw__container">
+                            <a class="admin__withdraw__button" id="withdraw_btw">Withdraws</a>
+                        </div>
                         <div class="status__form__scroll__content">
                             <div class="status__form__container">
                                 <div class="status__form__title__container">
@@ -79,7 +82,7 @@
                             </div>
                         </div>
                     </div> <!-- balance content -->
-                    <div class="selected__button__content" id="users_content">
+                    <div class="selected__button__content hidden" id="users_content">
                         <span class="selected__content__title">Users</span>
                         <div class="status__form__scroll__content">
                             <div class="status__form__container">
@@ -129,6 +132,47 @@
                             </div>
                         </div>
                     </div> <!-- users content -->
+                    <div class="selected__button__content" id="withdraw_content">
+                        <span class="selected__content__title">Withdraws</span>
+                        <div class="status__form__scroll__content">
+                            <div class="status__form__container">
+                                <div class="status__form__title__container">
+                                    <span class="status__form__title">id</span>
+                                    <span class="status__form__title">userId</span>
+                                    <span class="status__form__title">currency</span>
+                                    <span class="status__form__title">bank</span>
+                                    <span class="status__form__title">summa</span>
+                                    <span class="status__form__title">comment</span>
+                                    <span class="status__form__title">withdrawData</span>
+                                </div>
+                                @foreach (var line in db.Withdraw.ToList())
+                                {
+                                    if (line.comment != "SUCCESS")
+                                    {
+                                        <form class="status__form" method="post">
+                                            <input class="input__data" type="text" value="@line.Id" disabled>
+                                            <input asp-for="@Model.WithdrawModel.userId" class="input__data" type="text"
+                                                value="@line.userId">
+                                            <input asp-for="@Model.WithdrawModel.currency" class="input__data" type="text"
+                                                value="@line.currency">
+                                            <input asp-for="@Model.WithdrawModel.bank" class="input__data" type="text"
+                                                value="@line.bank">
+                                            <input asp-for="@Model.WithdrawModel.summa" class="input__data" type="text"
+                                                value="@line.summa">
+                                            <input asp-for="@Model.WithdrawModel.comment" class="input__data" type="text"
+                                                value="@line.comment">
+                                            <input asp-for="@Model.WithdrawModel.withdrawData" class="input__data" type="text"
+                                                value="@line.withdrawData">
+                                            <button class="admin__submit__button" asp-controller="Profile" asp-action="withdrawConfirm"
+                                                type="submit">Submit</button>
+                                            <button class="admin__submit__button" asp-controller="Profile" asp-action="withdrawCancel"
+                                                type="submit">Cancel</button>
+                                        </form>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div> <!-- withdraw content -->
                     <div class="selected__button__content hidden" id="admin_content">
                         <span class="selected__content__title">252</span>
                         <div class="status__form__scroll__content">
@@ -157,14 +201,17 @@
                     const adminButton = document.getElementById('admin_btw');
                     const balanceButton = document.getElementById('balance_btw');
                     const usersButton = document.getElementById('users_btw');
+                    const withdrawButton = document.getElementById('withdraw_btw');
 
                     const adminContent = document.getElementById('admin_content');
                     const balanceContent = document.getElementById('balance_content');
                     const usersContent = document.getElementById('users_content');
+                    const withdrawContent = document.getElementById('withdraw_content');
 
                     adminButton.addEventListener('click', e => {
                         usersContent.classList.add('hidden');
                         balanceContent.classList.add('hidden');
+                        withdrawContent.classList.add('hidden');
 
                         adminContent.classList.remove('hidden');
                     });
@@ -172,6 +219,7 @@
                     balanceButton.addEventListener('click', e => {
                         usersContent.classList.add('hidden');
                         adminContent.classList.add('hidden');
+                        withdrawContent.classList.add('hidden');
 
                         balanceContent.classList.remove('hidden');
                     });
@@ -179,9 +227,18 @@
                     usersButton.addEventListener('click', e => {
                         balanceContent.classList.add('hidden');
                         adminContent.classList.add('hidden');
+                        withdrawContent.classList.add('hidden');
 
                         usersContent.classList.remove('hidden');
-                    })
+                    });
+
+                    withdrawButton.addEventListener('click', e => {
+                        balanceContent.classList.add('hidden');
+                        adminContent.classList.add('hidden');
+                        usersContent.classList.add('hidden');
+
+                        withdrawContent.classList.remove('hidden');
+                    });
                 </script>
             }
             else

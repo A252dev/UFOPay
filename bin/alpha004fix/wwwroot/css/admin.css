@@ -5,7 +5,7 @@
 }
 
 .admin__side {
-    /* border: 1px solid red; */
+    border: 1px solid red;
     height: 500px;
     display: flex;
     padding: 70px 0;
@@ -84,53 +84,19 @@
     color: #4d6cfa;
     font-weight: 700;
     position: relative;
-    /* border: 1px solid red; */
+    border: 1px solid red;
     top: 30px;
     left: 50px;
 }
 
-.admin__withdraw__container {
-    /* border: 1px solid red; */
-    display: inline-block;
-    position: relative;
-    left: 80px;
-    top: 25px;
-    padding: 15px 15px;
-}
-
-.admin__withdraw__button {
-    font-weight: 700;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    text-decoration: none;
-    background-color: #4d6cfa;
-    color: #fff;
-    padding: 10px 36px;
-    border-radius: 9px;
-    transition-property: background-color;
-    transition-duration: 500ms;
-    cursor: pointer;
-}
-
-.admin__withdraw__button:hover {
-    font-weight: 700;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    text-decoration: none;
-    background-color: #1b44ff;
-    color: #fff;
-    padding: 10px 36px;
-    border-radius: 9px;
-}
-
 .status__form__container {
     position: relative;
-    /* border: 1px solid green; */
+    border: 1px solid green;
     height: 400px;
 }
 
 .status__form__title__container {
-    /* border: 1px solid red; */
+    border: 1px solid red;
     display: flex;
     /* width: 134px; */
 }
@@ -140,7 +106,7 @@
     margin-right: 100px;
     font-size: 19px;
     font-weight: 700;
-    /* border: 1px solid lightblue; */
+    border: 1px solid lightblue;
     text-align: center;
     width: 135px;
 }

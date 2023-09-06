@@ -3,6 +3,9 @@
 }
 
 @model MyViewModel
+@using Microsoft.Extensions.Options
+@using UFOPay.Models
+@inject IOptions<GoogleCaptchaConfig> GoogleCaptchaConfig
 
 <!DOCTYPE html>
 <html lang="en_EN">
@@ -29,6 +32,7 @@
         <div class="login__form">
             <div class="login__container">
                 <form asp-controller="Page" asp-action="login" method="post">
+                    <input type="hidden" id="captchaToken" asp-for="@Model.GoogleCaptchaConfig.captchaToken">
                     <div class="reg__block">
                         <p class="reg__title">Email</p>
                         <input id="log__input" type="text" asp-for="@Model.UserData.email">
@@ -50,6 +54,18 @@
             </div>
         </div>
     </div>
+    <script src="https://www.google.com/recaptcha/api.js?render=@GoogleCaptchaConfig.Value.SiteKey"></script>
+    <script>
+        $(function () {
+            grecaptcha.ready(function () {
+                grecaptcha.execute('@GoogleCaptchaConfig.Value.SiteKey', { action: 'submit' }).then(function (token) {
+                    // Add your logic to submit to your backend server here.
+                    console.log(token)
+                    document.getElementById('captchaToken').value = token
+                });
+            })
+        });      
+    </script>
 </body>
 
 </html>

@@ -145,9 +145,6 @@ public class PageController : Controller
                 IsPersistent = userData.KeepLoggedIn
             };
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(id), properties);
-
             if (userData.email != null && userData.password != null)
             {
                 var targetUser = _dbContext.UserData.FirstOrDefault(x => x.email == userData.email);
@@ -155,6 +152,8 @@ public class PageController : Controller
                 {
                     if (targetUser.password == userData.password)
                     {
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                            new ClaimsPrincipal(id), properties);
                         // if password in db ok so redirect to profile
                         return RedirectToAction("profile", "Profile");
                     }
@@ -179,7 +178,7 @@ public class PageController : Controller
         }
         else
         {
-            TempData["ValidateMessage"] = "Data is incorrect";
+            TempData["ValidateMessage"] = "You are logged";
             return View();
         }
     }

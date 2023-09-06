@@ -61,8 +61,11 @@
                                 <option value="PLN"><p class="balance"><span>@user.balance_pln</span> @currency.PLN</p></option>
                                 <option value="RUB"><p class="balance"><span>@user.balance_rub</span> @currency.RUB</p></option>
                             </select>
-                            <p class="access">AVAILABLE</p>
+                            <p class="access">AVAILABLE</p>                            
                         </div>
+                        <label class="converter__container">
+                            <a style="cursor: pointer;" class="converter__link" id="convert_btw"><img src="/images/balance/converter.svg" class="converter__image"></a>
+                        </label>
                         <div class="select__buttons">
                             <div class="select__container">
                                 <a class="select__btw" style="cursor: pointer;" id="mydata_btw">MY DATA</a>
@@ -133,7 +136,7 @@
                                         data-val-required="The secondName field is required.">
                                 </p>
                                 <span>Password</span>
-                                <p class="form__data__input"><input type="text" class="text__input" asp-for="@Model.UserData.password"
+                                <p class="form__data__input"><input type="password" class="text__input" asp-for="@Model.UserData.password"
                                         data-val="true" data-val-required="The password field is required."></p>
                                 <button class="transfer__link button" style="cursor: pointer;" type="submit">Change</button>
                             </div>
@@ -156,7 +159,7 @@
                 <div class="form__container">
                     <div class="transactions__container">
                         <div class="transactions__title__container">
-                            <span class="transaction__title">From</span>
+                            <span class="transaction__title">Data</span>
                             <span class="transaction__title">To</span>
                             <span class="transaction__title">Summa</span>
                             <span class="transaction__title">Comment</span>
@@ -172,7 +175,7 @@
                                         <div class="transactions__info__container">
                                             <div class="transactions__table__container">
                                                 <div class="transactions__info__title">
-                                                    <span class="history__parameter__sender">@targetUser.sender</span>
+                                                    <span class="history__parameter__data">@targetUser.transferData</span>
                                                 </div>
                                             </div>
                                             <div class="transactions__table__container">
@@ -200,7 +203,7 @@
             </div> <!-- content history -->
 
             <div class="form__data__content__transfer hidden" id="transfer">
-                <h4 class="form__data__name">Transfer/Withraw</h4>
+                <h4 class="form__data__name">Transfer/Withdraw</h4>
                 <div class="form__container">
                     @using (UFODbContext db = new UFODbContext())
                     {
@@ -228,10 +231,80 @@
                             <p class="form__data__input"><input type="text" class="text__input" placeholder="none" asp-for="@Model.TransferModel.comment">
                             </p>
                             <button type="submit" class="transfer__link button" style="cursor: pointer;">Send</button>
+                            <div class="withdraw__container">
+                                <a class="withdraw__button" id="withdraw_btw">Withdraw</a>
+                            </div>  
+                        </form>                                              
+                    }
+                </div>
+            </div> <!-- transfer/withdraw -->
+
+            <div class="form__data__content__withdraw hidden" id="withdraw">
+                <h4 class="form__data__name">Withdraw</h4>
+                <div class="form__container">
+                    @using (UFODbContext db = new UFODbContext())
+                    {
+                        <form class="user__data__transfer__form" asp-controller="Profile" asp-action="withdraw"
+                            method="post">
+                            <span>Bank Number (or card of bank)</span>
+                            <p class="form__data__input"><input type="number" class="text__input" asp-for="@Model.WithdrawModel.bank">
+                            </p>
+                            <span>Currency</span>
+                            <p class="form__data__input">
+                                <select class="text__input__currency" asp-for="@Model.WithdrawModel.currency">
+                                        <option value="">select the currency</option>
+                                        <option value="USD">USD</option>
+                                        <option value="EUR">EUR</option>
+                                        <option value="PLN">PLN</option>
+                                        <option value="RUB">RUB</option>
+                                    </select>
+                            </p>
+                            <span>Summa</span>
+                            <p class="form__data__input"><input type="number" class="text__input" asp-for="@Model.WithdrawModel.summa">
+                            </p>
+                            <button type="submit" class="transfer__link button" style="cursor: pointer;">Withdraw</button> 
+                        </form>                                              
+                    }
+                </div>
+            </div> <!-- withdraw -->
+
+            <div class="form__data__content__converter hidden" id="convert">
+                <h4 class="form__data__name">Convertation</h4>
+                <div class="form__container">
+                    @using (UFODbContext db = new UFODbContext())
+                    {
+                        var user = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
+                        <form class="user__data__transfer__form" asp-controller="Profile" asp-action="convertCurrency"
+                            method="post">
+                            <span>From</span>
+                            <input asp-for="@Model.ConvertModel.userId" type="text" value="@user.userId" hidden>
+                            <p class="form__data__input">
+                                <select class="text__input__currency" asp-for="@Model.ConvertModel.currencyFrom">
+                                        <option value="">select the currency</option>
+                                        <option value="USD">USD</option>
+                                        <option value="EUR">EUR</option>
+                                        <option value="PLN">PLN</option>
+                                        <option value="RUB">RUB</option>
+                                    </select>
+                            </p>
+                            <span>To</span>
+                            <p class="form__data__input">
+                                <select class="text__input__currency" asp-for="@Model.ConvertModel.currencyTo">
+                                        <option value="">select the currency</option>
+                                        <option value="USD">USD</option>
+                                        <option value="EUR">EUR</option>
+                                        <option value="PLN">PLN</option>
+                                        <option value="RUB">RUB</option>
+                                    </select>
+                            </p>
+                            <span>Summa</span>
+                            <p class="form__data__input"><input type="text" class="text__input"asp-for="@Model.ConvertModel.summa">
+                            </p>
+                            <button type="submit" class="transfer__link button" style="cursor: pointer;">Convert</button>
                         </form>
                     }
                 </div>
-            </div> <!-- transfer/withraw -->
+            </div> <!-- converter content -->
 
             <div class="form__data__content__add__balance hidden" id="addBalance">
                 <h4 class="form__data__name">Add balance</h4>
@@ -278,6 +351,8 @@
                 @* BUTTONS *@
                 const addBalance_button = document.getElementById('addBalance_btw');
                 const transfer_button = document.getElementById('transfer_btw');
+                const convert_button = document.getElementById('convert_btw');
+                const withdraw_button = document.getElementById('withdraw_btw');
 
                 const mydata_button = document.getElementById('mydata_btw');
                 const settings_button = document.getElementById('settings_btw');
@@ -290,12 +365,16 @@
 
                 const myAddBalanceContent = document.getElementById('addBalance');
                 const myTransferContent = document.getElementById('transfer');
+                const myConvertContent = document.getElementById('convert');
+                const myWithdrawContent = document.getElementById('withdraw');
 
                 addBalance_button.addEventListener('click', e => {
                     myDataContent.classList.add('hidden');
                     mySettingsContent.classList.add('hidden');
                     myHistoryContent.classList.add('hidden');
                     myTransferContent.classList.add('hidden');
+                    myConvertContent.classList.add('hidden');
+                    myWithdrawContent.classList.add('hidden');
 
                     myAddBalanceContent.classList.remove('hidden');
                 })
@@ -305,15 +384,42 @@
                     mySettingsContent.classList.add('hidden');
                     myHistoryContent.classList.add('hidden');
                     myAddBalanceContent.classList.add('hidden');
+                    myConvertContent.classList.add('hidden');
+                    myWithdrawContent.classList.add('hidden');
 
                     myTransferContent.classList.remove('hidden');
                 });
 
+                convert_button.addEventListener('click', e => {
+                    myDataContent.classList.add('hidden');
+                    mySettingsContent.classList.add('hidden');
+                    myHistoryContent.classList.add('hidden');
+                    myAddBalanceContent.classList.add('hidden');
+                    myTransferContent.classList.add('hidden');
+                    myWithdrawContent.classList.add('hidden');
+
+                    myConvertContent.classList.remove('hidden');
+                });
+
+                withdraw_button.addEventListener('click', e => {
+                    myDataContent.classList.add('hidden');
+                    mySettingsContent.classList.add('hidden');
+                    myHistoryContent.classList.add('hidden');
+                    myAddBalanceContent.classList.add('hidden');
+                    myTransferContent.classList.add('hidden');
+                    myConvertContent.classList.add('hidden');
+
+                    myWithdrawContent.classList.remove('hidden');
+                });
+
+                @* LINES CONTENT *@
                 mydata_button.addEventListener('click', e => {
                     mySettingsContent.classList.add('hidden');
                     myTransferContent.classList.add('hidden');
                     myHistoryContent.classList.add('hidden');
                     myAddBalanceContent.classList.add('hidden');
+                    myConvertContent.classList.add('hidden');
+                    myWithdrawContent.classList.add('hidden');
 
                     myDataContent.classList.remove('hidden');
                 });
@@ -323,6 +429,8 @@
                     myTransferContent.classList.add('hidden');
                     myHistoryContent.classList.add('hidden');
                     myAddBalanceContent.classList.add('hidden');
+                    myConvertContent.classList.add('hidden');
+                    myWithdrawContent.classList.add('hidden');
 
                     mySettingsContent.classList.remove('hidden');
                 });
@@ -332,6 +440,8 @@
                     myTransferContent.classList.add('hidden')
                     mySettingsContent.classList.add('hidden');
                     myAddBalanceContent.classList.add('hidden');
+                    myConvertContent.classList.add('hidden');
+                    myWithdrawContent.classList.add('hidden');
 
                     myHistoryContent.classList.remove('hidden');
                 })

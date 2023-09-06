@@ -60,36 +60,6 @@
 
 /* BALANCE */
 
-.converter__container {
-    position: relative;
-    /* border: 1px solid red; */
-    /* display: flex; */
-    left: 35px;
-}
-
-.converter__link {
-    position: relative;
-    top: 33px;
-    display: flex;
-    width: 60px;
-    background-color: #c6e8ff;
-    border-radius: 50%;
-    padding: 5px;
-    transition-property: scale;
-    transition-duration: 140ms;
-}
-
-.converter__link:hover {
-    position: relative;
-    top: 33px;
-    display: flex;
-    width: 60px;
-    background-color: #c6e8ff;
-    border-radius: 50%;
-    padding: 5px;
-    scale: 0.93;
-}
-
 /* .currency__usd {
     color: #67C945;
 }
@@ -151,43 +121,6 @@
     color: #fff;
     padding: 10px 36px;
     border-radius: 9px;
-}
-
-.withdraw__container {
-    position: relative;
-    /* border: 1px solid green; */
-    display: inline-block;
-    margin-left: 50px;
-    padding: 20px 15px;
-    display: inline-block;
-    text-align: center;
-}
-
-.withdraw__button {
-    font-weight: 700;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    text-decoration: none;
-    background-color: #fa644d;
-    color: #fff;
-    padding: 10px 36px;
-    border-radius: 9px;
-    transition-property: background-color;
-    transition-duration: 500ms;
-    cursor: pointer;
-}
-
-.withdraw__button:hover {
-    font-weight: 700;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    text-decoration: none;
-    background-color: #ff3111;
-    color: #fff;
-    padding: 10px 36px;
-    border-radius: 9px;
-    transition-property: background-color;
-    transition-duration: 500ms;
 }
 
 .select__buttons {
@@ -309,9 +242,7 @@
 .form__data__content__settings,
 .form__data__content__history,
 .form__data__content__transfer,
-.form__data__content__add__balance,
-.form__data__content__converter,
-.form__data__content__withdraw {
+.form__data__content__add__balance {
     /* border: 1px solid rgb(0, 255, 60); */
     box-sizing: border-box;
     position: absolute;
@@ -472,7 +403,6 @@
     position: relative;
     width: 100%;
     height: 256px;
-    border-radius: 5px;
 }
 
 .transactions__title__container {
