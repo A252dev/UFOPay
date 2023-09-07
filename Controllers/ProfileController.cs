@@ -525,7 +525,7 @@ public class ProfileController : Controller
         {
             if (withdrawModel.currency == "USD")
             {
-                if (user.balance_usd < withdrawModel.summa)
+                if (user.balance_usd >= withdrawModel.summa)
                 {
                     WithdrawModel withdraw = new WithdrawModel()
                     {
@@ -550,7 +550,7 @@ public class ProfileController : Controller
             }
             if (withdrawModel.currency == "EUR")
             {
-                if (user.balance_eur < withdrawModel.summa)
+                if (user.balance_eur >= withdrawModel.summa)
                 {
                     WithdrawModel withdraw = new WithdrawModel()
                     {
@@ -574,7 +574,7 @@ public class ProfileController : Controller
             }
             if (withdrawModel.currency == "PLN")
             {
-                if (user.balance_pln < withdrawModel.summa)
+                if (user.balance_pln >= withdrawModel.summa)
                 {
                     WithdrawModel withdraw = new WithdrawModel()
                     {
@@ -598,7 +598,7 @@ public class ProfileController : Controller
             }
             if (withdrawModel.currency == "RUB")
             {
-                if (user.balance_rub < withdrawModel.summa)
+                if (user.balance_rub >= withdrawModel.summa)
                 {
                     WithdrawModel withdraw = new WithdrawModel()
                     {
@@ -641,6 +641,7 @@ public class ProfileController : Controller
         {
             if (withdrawModel.currency == "USD")
             {
+                // MAKE IN UPDATE TRANSFER TO THE BANK
                 _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "SUCCESS";
                 _dbContext.SaveChanges();
                 TempData["CheckSuccess"] = "Withdraw are successed";
@@ -648,18 +649,21 @@ public class ProfileController : Controller
             }
             if (withdrawModel.currency == "EUR")
             {
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "SUCCESS";
                 _dbContext.SaveChanges();
                 TempData["CheckSuccess"] = "Withdraw are successed";
                 return RedirectToAction("admin", "Profile");
             }
             if (withdrawModel.currency == "PLN")
             {
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "SUCCESS";
                 _dbContext.SaveChanges();
                 TempData["CheckSuccess"] = "Withdraw are successed";
                 return RedirectToAction("admin", "Profile");
             }
             if (withdrawModel.currency == "RUB")
             {
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "SUCCESS";
                 _dbContext.SaveChanges();
                 TempData["CheckSuccess"] = "Withdraw are successed";
                 return RedirectToAction("admin", "Profile");
@@ -685,7 +689,7 @@ public class ProfileController : Controller
         {
             if (withdrawModel.currency == "USD")
             {
-                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "SUCCESS";
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "CANCEL";
                 Math.Round(targetUser.balance_usd += withdrawModel.summa, 2);
                 _dbContext.SaveChanges();
                 TempData["CheckSuccess"] = "Cancel are successed";
@@ -693,7 +697,7 @@ public class ProfileController : Controller
             }
             if (withdrawModel.currency == "EUR")
             {
-                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "SUCCESS";
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "CANCEL";
                 Math.Round(targetUser.balance_eur += withdrawModel.summa, 2);
                 _dbContext.SaveChanges();
                 TempData["CheckSuccess"] = "Cancel are successed";
@@ -701,7 +705,7 @@ public class ProfileController : Controller
             }
             if (withdrawModel.currency == "PLN")
             {
-                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "SUCCESS";
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "CANCEL";
                 Math.Round(targetUser.balance_pln += withdrawModel.summa, 2);
                 _dbContext.SaveChanges();
                 TempData["CheckSuccess"] = "Cancel are successed";
@@ -709,7 +713,7 @@ public class ProfileController : Controller
             }
             if (withdrawModel.currency == "RUB")
             {
-                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "SUCCESS";
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "CANCEL";
                 Math.Round(targetUser.balance_rub += withdrawModel.summa, 2);
                 _dbContext.SaveChanges();
                 TempData["CheckSuccess"] = "Cancel are successed";
