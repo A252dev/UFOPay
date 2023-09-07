@@ -40,3 +40,4 @@
 /home/agent/Documents/UFO/UFOPay/bin/Debug/net7.0/Microsoft.Extensions.DependencyModel.dll
 /home/agent/Documents/UFO/UFOPay/bin/Debug/net7.0/Mono.TextTemplating.dll
 /home/agent/Documents/UFO/UFOPay/bin/Debug/net7.0/System.CodeDom.dll
+/home/agent/Documents/UFO/UFOPay/bin/Debug/net7.0/Newtonsoft.Json.dll

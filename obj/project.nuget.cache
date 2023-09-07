@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wSV4z6zV8STN2RE30hBEDZHDmmLA6PilRDtSiQblU37p03A91XzOM+vYuTy+Esedthf4yL083xntuXrjif8yig==",
+  "dgSpecHash": "Z0gb1v871+kASa1zL5hdO2w5du39cWzUqABmENEze6Z7ebtEnHzfm38NG5qRCJMgqG5U5+SrY8EtXdRWp2Wc7g==",
   "success": true,
   "projectFilePath": "/home/agent/Documents/UFO/UFOPay/UFOPay.csproj",
   "expectedPackageFiles": [
@@ -23,6 +23,7 @@
     "/home/agent/.nuget/packages/microsoft.extensions.primitives/7.0.0/microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "/home/agent/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
     "/home/agent/.nuget/packages/mysqlconnector/2.2.5/mysqlconnector.2.2.5.nupkg.sha512",
+    "/home/agent/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
     "/home/agent/.nuget/packages/pomelo.entityframeworkcore.mysql/7.0.0/pomelo.entityframeworkcore.mysql.7.0.0.nupkg.sha512",
     "/home/agent/.nuget/packages/system.codedom/4.4.0/system.codedom.4.4.0.nupkg.sha512",
     "/home/agent/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",

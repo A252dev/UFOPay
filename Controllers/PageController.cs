@@ -15,11 +15,13 @@ public class PageController : Controller
 {
     private readonly ILogger<PageController> _logger;
     private readonly UFODbContext _dbContext;
+    private readonly GoogleCaptchaService _captchaService;
 
-    public PageController(ILogger<PageController> logger, UFODbContext dbContext)
+    public PageController(ILogger<PageController> logger, UFODbContext dbContext, GoogleCaptchaService captchaService)
     {
         _logger = logger;
         _dbContext = dbContext;
+        _captchaService = captchaService;
     }
 
     public int GenerateUserId()
@@ -44,64 +46,78 @@ public class PageController : Controller
 
     [Route("/register")]
     [HttpPost]
-    public async Task<IActionResult> register(UserData userData)
+    public async Task<IActionResult> register(UserData userData, GoogleCaptchaConfig googleCaptchaConfig)
     {
-        if (User.Identity.Name == null)
+        var captchaResult = await _captchaService.VerifyToken(googleCaptchaConfig.captchaToken);
+        if (!captchaResult)
         {
-            if (userData.firstName != null && userData.secondName != null && userData.email != null && userData.password != null && userData.repeatPassword != null && userData.birthday != null)
+            TempData["ValidateMessage"] = "captcha...";
+            return View();
+        }
+        else
+        {
+            if (User.Identity.Name == null)
             {
-                if (userData.password == userData.repeatPassword)
+                if (userData.firstName != null && userData.secondName != null && userData.email != null && userData.password != null && userData.repeatPassword != null && userData.birthday != null)
                 {
-                    if (userData.AgreeWithDocs == true)
+                    if (userData.password == userData.repeatPassword)
                     {
-                        List<Claim> claims = new List<Claim>(){
+                        if (userData.AgreeWithDocs == true)
+                        {
+                            List<Claim> claims = new List<Claim>(){
                             new Claim(ClaimTypes.NameIdentifier, userData.email),
                         };
 
-                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
-                            CookieAuthenticationDefaults.AuthenticationScheme);
+                            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
+                                CookieAuthenticationDefaults.AuthenticationScheme);
 
-                        AuthenticationProperties properties = new AuthenticationProperties()
-                        {
-                            AllowRefresh = true,
-                            IsPersistent = userData.KeepLoggedIn
-                        };
+                            AuthenticationProperties properties = new AuthenticationProperties()
+                            {
+                                AllowRefresh = true,
+                                IsPersistent = userData.KeepLoggedIn
+                            };
 
-                        bool haveTargetUser = _dbContext.UserData.Any(x => x.email == userData.email);
-                        if (haveTargetUser)
-                        {
-                            ViewData["ValidateMessage"] = "The user is registered";
-                            return RedirectToAction("login", "Page");
+                            bool haveTargetUser = _dbContext.UserData.Any(x => x.email == userData.email);
+                            if (haveTargetUser)
+                            {
+                                ViewData["ValidateMessage"] = "The user is registered";
+                                return RedirectToAction("login", "Page");
+                            }
+                            else
+                            {
+                                userData.userId = GenerateUserId();
+                                userData.registrationData = DateTime.Now;
+                                userData.balance_eur = 0;
+                                userData.balance_usd = 0;
+                                userData.balance_pln = 0;
+                                userData.balance_rub = 0;
+                                userData.passport = "NULL";
+                                _dbContext.Add(userData);
+                                _dbContext.SaveChanges();
+
+                                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                                                            new ClaimsPrincipal(claimsIdentity), properties);
+
+                                TempData["ValidateSuccessMessage"] = "The user has been successfully registered";
+                                return RedirectToAction("login", "Page");
+                            }
                         }
                         else
                         {
-                            userData.userId = GenerateUserId();
-                            userData.registrationData = DateTime.Now;
-                            userData.balance_eur = 0;
-                            userData.balance_usd = 0;
-                            userData.balance_pln = 0;
-                            userData.balance_rub = 0;
-                            userData.passport = "NULL";
-                            _dbContext.Add(userData);
-                            _dbContext.SaveChanges();
-
-                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                                                        new ClaimsPrincipal(claimsIdentity), properties);
-
-                            TempData["ValidateSuccessMessage"] = "The user has been successfully registered";
-                            return RedirectToAction("login", "Page");
+                            TempData["RequirementsErrorMessage"] = "You need to aceept the requirements";
+                            return RedirectToAction("register", "Page");
                         }
+
                     }
                     else
                     {
-                        TempData["RequirementsErrorMessage"] = "You need to aceept the requirements";
+                        TempData["ValidateMessage"] = "Passwords is incorrect";
                         return RedirectToAction("register", "Page");
                     }
-
                 }
                 else
                 {
-                    TempData["ValidateMessage"] = "Passwords is incorrect";
+                    TempData["ValidateMessage"] = "Data is incorrect";
                     return RedirectToAction("register", "Page");
                 }
             }
@@ -110,11 +126,6 @@ public class PageController : Controller
                 TempData["ValidateMessage"] = "Data is incorrect";
                 return RedirectToAction("register", "Page");
             }
-        }
-        else
-        {
-            TempData["ValidateMessage"] = "Data is incorrect";
-            return RedirectToAction("register", "Page");
         }
     }
 
@@ -131,55 +142,65 @@ public class PageController : Controller
 
     [HttpPost]
     [Route("/login")]
-    public async Task<IActionResult> login(UserData userData)
+    public async Task<IActionResult> login(UserData userData, GoogleCaptchaConfig googleCaptchaConfig)
     {
-        if (User.Identity.Name == null)
+        var captchaResult = await _captchaService.VerifyToken(googleCaptchaConfig.captchaToken);
+
+        if (!captchaResult)
         {
-            var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Name, userData.email));
-            var id = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            AuthenticationProperties properties = new AuthenticationProperties()
+            TempData["ValidateMessage"] = "captcha...";
+            return View();
+        }
+        else
+        {
+            if (User.Identity.Name == null)
             {
-                AllowRefresh = true,
-                IsPersistent = userData.KeepLoggedIn
-            };
+                var claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.Name, userData.email));
+                var id = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            if (userData.email != null && userData.password != null)
-            {
-                var targetUser = _dbContext.UserData.FirstOrDefault(x => x.email == userData.email);
-                if (targetUser != null)
+                AuthenticationProperties properties = new AuthenticationProperties()
                 {
-                    if (targetUser.password == userData.password)
+                    AllowRefresh = true,
+                    IsPersistent = userData.KeepLoggedIn
+                };
+
+                if (userData.email != null && userData.password != null)
+                {
+                    var targetUser = _dbContext.UserData.FirstOrDefault(x => x.email == userData.email);
+                    if (targetUser != null)
                     {
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                            new ClaimsPrincipal(id), properties);
-                        // if password in db ok so redirect to profile
-                        return RedirectToAction("profile", "Profile");
+                        if (targetUser.password == userData.password)
+                        {
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                                new ClaimsPrincipal(id), properties);
+                            // if password in db ok so redirect to profile
+                            return RedirectToAction("profile", "Profile");
+                        }
+                        else
+                        {
+                            // if password not ok make a msg on page
+                            TempData["ValidateMessage"] = "Password is incorrect";
+                            return View();
+                        }
                     }
                     else
                     {
-                        // if password not ok make a msg on page
-                        TempData["ValidateMessage"] = "Password is incorrect";
+                        TempData["ValidateMessage"] = "User not found";
                         return View();
                     }
                 }
                 else
                 {
-                    TempData["ValidateMessage"] = "User not found";
+                    TempData["ValidateMessage"] = "Data is incorrect";
                     return View();
                 }
             }
             else
             {
-                TempData["ValidateMessage"] = "Data is incorrect";
+                TempData["ValidateMessage"] = "You are logged";
                 return View();
             }
-        }
-        else
-        {
-            TempData["ValidateMessage"] = "You are logged";
-            return View();
         }
     }
 

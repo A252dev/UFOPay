@@ -3,6 +3,9 @@
 }
 
 @model MyViewModel
+@using Microsoft.Extensions.Options
+@using UFOPay.Models
+@inject IOptions<GoogleCaptchaConfig> GoogleCaptchaConfig
 
 <!DOCTYPE html>
 <html lang="en_EN">
@@ -15,7 +18,6 @@
 </head>
 
 <body>
-
     <div class="register__form__side">
         <div class="register__form">
             <p>@if (TempData["ValidateMessage"] != null)
@@ -25,6 +27,7 @@
             </p>
             <div class="register__container">
                 <form asp-controller="Page" asp-action="register" method="post">
+                    <input type="hidden" id="captchaToken" asp-for="@Model.googleCaptchaConfig.captchaToken">
                     <div class="reg__block">
                         <p class="reg__title">First name</p>
                         <input id="reg__input" type="text" asp-for="@Model.UserData.firstName">
@@ -63,7 +66,6 @@
                                         {
                                             <span style="color: red;">@TempData["RequirementsErrorMessage"]</span>
                                         }</span></span>
-
                             </div>
                             <div class="reg__msg__content">
                                 <div class="keep__msg">Keep login<input id="checkbox" type="checkbox"
@@ -79,6 +81,26 @@
             </div>
         </div>
     </div>
+    <!-- GOOGLE CAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js?render=@GoogleCaptchaConfig.Value.SiteKey"></script>
+    <script>
+        function getToken() {
+            grecaptcha.ready(function () {
+                grecaptcha.execute('@GoogleCaptchaConfig.Value.SiteKey', { action: 'submit' }).then(function (token) {
+                    // Add your logic to submit to your backend server here.
+        @* console.log(token); *@
+                    var captcha = document.getElementById('captchaToken')
+                    captcha.value = token;
+                });
+            });
+        };
+
+        setInterval(getToken, 115000);
+
+        $(function () {
+            getToken();
+        });
+    </script>
 </body>
 
 </html>

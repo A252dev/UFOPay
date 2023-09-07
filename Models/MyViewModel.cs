@@ -2,7 +2,7 @@ using UFOPay.Models;
 
 public class MyViewModel
 {
-    public GoogleCaptchaConfig GoogleCaptchaConfig { get; set; }
+    public GoogleCaptchaConfig googleCaptchaConfig { get; set; }
     public UserData UserData { get; set; }
     public TransferModel TransferModel { get; set; }
     public AddBalance AddBalance { get; set; }

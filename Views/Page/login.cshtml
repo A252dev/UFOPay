@@ -32,7 +32,7 @@
         <div class="login__form">
             <div class="login__container">
                 <form asp-controller="Page" asp-action="login" method="post">
-                    <input type="hidden" id="captchaToken" asp-for="@Model.GoogleCaptchaConfig.captchaToken">
+                    <input type="hidden" id="captchaToken" asp-for="@Model.googleCaptchaConfig.captchaToken">
                     <div class="reg__block">
                         <p class="reg__title">Email</p>
                         <input id="log__input" type="text" asp-for="@Model.UserData.email">
@@ -54,17 +54,25 @@
             </div>
         </div>
     </div>
+    <!-- GOOGLE CAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js?render=@GoogleCaptchaConfig.Value.SiteKey"></script>
     <script>
-        $(function () {
+        function getToken() {
             grecaptcha.ready(function () {
                 grecaptcha.execute('@GoogleCaptchaConfig.Value.SiteKey', { action: 'submit' }).then(function (token) {
                     // Add your logic to submit to your backend server here.
-                    console.log(token)
-                    document.getElementById('captchaToken').value = token
+        @* console.log(token); *@
+                    var captcha = document.getElementById('captchaToken')
+                    captcha.value = token;
                 });
-            })
-        });      
+            });
+        };
+
+        setInterval(getToken, 115000);
+
+        $(function () {
+            getToken();
+        });
     </script>
 </body>
 
