@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets/css/admin.css"
     },
     {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/css/b2b.css",
+      "PackagePath": "staticwebassets/css/b2b.css"
+    },
+    {
       "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/css/billing.css",
       "PackagePath": "staticwebassets/css/billing.css"
     },
@@ -143,6 +147,10 @@
     {
       "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/images/pages/wc_img.svg",
       "PackagePath": "staticwebassets/images/pages/wc_img.svg"
+    },
+    {
+      "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/js/bussinessChart.js",
+      "PackagePath": "staticwebassets/js/bussinessChart.js"
     },
     {
       "Id": "/home/agent/Documents/UFO/UFOPay/wwwroot/js/site.js",

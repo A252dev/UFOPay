@@ -82,6 +82,49 @@
                             </div>
                         </div>
                     </div> <!-- balance content -->
+                    <div class="selected__button__content" id="business_content">
+                        <span class="selected__content__title">Business</span>
+                        <div class="admin__withdraw__container">
+                            <a class="admin__withdraw__button" id="business_withdraw_btw">Withdraws</a>
+                        </div>
+                        <div class="status__form__scroll__content">
+                            <div class="status__form__container">
+                                <div class="status__form__title__container">
+                                    <span class="status__form__title">id</span>
+                                    <span class="status__form__title">userId</span>
+                                    <span class="status__form__title">status</span>
+                                    <span class="status__form__title">summa</span>
+                                    <span class="status__form__title">currency</span>
+                                    <span class="status__form__title">comment</span>
+                                </div>
+
+                                @foreach (var line in db.AddBalanceRequest.ToList())
+                                {
+                                    if (line.status == "PENDING")
+                                    {
+                                        var getUserEmail = db.UserData.FirstOrDefault(x => x.userId == line.userId);
+                                        <form class="status__form" method="post">
+                                            <input asp-for="@Model.AddBalance.Id" class="input__data" type="text" value="@line.Id">
+                                            <input asp-for="@Model.AddBalance.userId" class="input__data" type="text"
+                                                value="@line.userId">
+                                            <input asp-for="@Model.AddBalance.status" class="input__data" type="text"
+                                                value="@line.status">
+                                            <input asp-for="@Model.AddBalance.summa" class="input__data" type="text"
+                                                value="@line.summa">
+                                            <input asp-for="@Model.AddBalance.currency" class="input__data" type="text"
+                                                value="@line.currency">
+                                            <input asp-for="@Model.AddBalance.comment" class="input__data" type="text"
+                                                value="@line.comment">
+                                            <button class="admin__submit__button" asp-controller="Profile" asp-action="giveMoney"
+                                                type="submit">Give</button>
+                                            <button class="admin__submit__button" asp-controller="Profile" asp-action="takeMoney"
+                                                type="submit">Not give</button>
+                                        </form>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div> <!-- business content -->
                     <div class="selected__button__content hidden" id="users_content">
                         <span class="selected__content__title">Users</span>
                         <div class="status__form__scroll__content">
@@ -132,7 +175,7 @@
                             </div>
                         </div>
                     </div> <!-- users content -->
-                    <div class="selected__button__content" id="withdraw_content">
+                    <div class="selected__button__content hidden" id="withdraw_content">
                         <span class="selected__content__title">Withdraws</span>
                         <div class="status__form__scroll__content">
                             <div class="status__form__container">
@@ -173,6 +216,45 @@
                             </div>
                         </div>
                     </div> <!-- withdraw content -->
+                    <div class="selected__button__content hidden" id="business_withdraw_content">
+                        <span class="selected__content__title">Withdraws</span>
+                        <div class="status__form__scroll__content">
+                            <div class="status__form__container">
+                                <div class="status__form__title__container">
+                                    <span class="status__form__title">id</span>
+                                    <span class="status__form__title">userId</span>
+                                    <span class="status__form__title">bank</span>
+                                    <span class="status__form__title">currency</span>
+                                    <span class="status__form__title">summa</span>
+                                </div>
+                                @foreach (var line in db.Withdraw.ToList())
+                                {
+                                    if (line.comment != "SUCCESS")
+                                    {
+                                        <form class="status__form" method="post">
+                                            <input class="input__data" type="text" value="@line.Id" disabled>
+                                            <input asp-for="@Model.WithdrawModel.userId" class="input__data" type="text"
+                                                value="@line.userId">
+                                            <input asp-for="@Model.WithdrawModel.currency" class="input__data" type="text"
+                                                value="@line.currency">
+                                            <input asp-for="@Model.WithdrawModel.bank" class="input__data" type="text"
+                                                value="@line.bank">
+                                            <input asp-for="@Model.WithdrawModel.summa" class="input__data" type="text"
+                                                value="@line.summa">
+                                            <input asp-for="@Model.WithdrawModel.comment" class="input__data" type="text"
+                                                value="@line.comment">
+                                            <input asp-for="@Model.WithdrawModel.withdrawData" class="input__data" type="text"
+                                                value="@line.withdrawData">
+                                            <button class="admin__submit__button" asp-controller="Profile" asp-action="withdrawConfirm"
+                                                type="submit">Submit</button>
+                                            <button class="admin__submit__button" asp-controller="Profile" asp-action="withdrawCancel"
+                                                type="submit">Cancel</button>
+                                        </form>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div> <!-- business withdraw content -->
                     <div class="selected__button__content hidden" id="admin_content">
                         <span class="selected__content__title">252</span>
                         <div class="status__form__scroll__content">
@@ -200,18 +282,23 @@
                 <script>
                     const adminButton = document.getElementById('admin_btw');
                     const balanceButton = document.getElementById('balance_btw');
+                    const businessButton = document.getElementById('business_btw');
                     const usersButton = document.getElementById('users_btw');
                     const withdrawButton = document.getElementById('withdraw_btw');
+                    const businessWithdrawButton = document.getElementById('business_withdraw_btw');
 
                     const adminContent = document.getElementById('admin_content');
                     const balanceContent = document.getElementById('balance_content');
+                    const businessContent = document.getElementById('business_content');
                     const usersContent = document.getElementById('users_content');
                     const withdrawContent = document.getElementById('withdraw_content');
+                    const businessWithdrawContent = document.getElementById('business_withdraw_content');
 
                     adminButton.addEventListener('click', e => {
                         usersContent.classList.add('hidden');
                         balanceContent.classList.add('hidden');
                         withdrawContent.classList.add('hidden');
+                        businessWithdrawContent.classList.add('hidden');
 
                         adminContent.classList.remove('hidden');
                     });
@@ -220,14 +307,28 @@
                         usersContent.classList.add('hidden');
                         adminContent.classList.add('hidden');
                         withdrawContent.classList.add('hidden');
+                        businessWithdrawContent.classList.add('hidden');
+                        businessContent.classList.add('hidden');
 
                         balanceContent.classList.remove('hidden');
                     });
+
+                    businessButton.addEventListener('click', e => {
+                        usersContent.classList.add('hidden');
+                        adminContent.classList.add('hidden');
+                        withdrawContent.classList.add('hidden');
+                        businessWithdrawContent.classList.add('hidden');
+                        balanceContent.classList.add('hidden');
+
+                        businessContent.classList.remove('hidden');
+                    })
 
                     usersButton.addEventListener('click', e => {
                         balanceContent.classList.add('hidden');
                         adminContent.classList.add('hidden');
                         withdrawContent.classList.add('hidden');
+                        businessContent.classList.add('hidden');
+                        businessWithdrawContent.classList.add('hidden');
 
                         usersContent.classList.remove('hidden');
                     });
@@ -236,9 +337,20 @@
                         balanceContent.classList.add('hidden');
                         adminContent.classList.add('hidden');
                         usersContent.classList.add('hidden');
+                        businessWithdrawContent.classList.add('hidden');
 
                         withdrawContent.classList.remove('hidden');
                     });
+
+                    businessWithdrawButton.addEventListener('click', e => {
+                        usersContent.classList.add('hidden');
+                        adminContent.classList.add('hidden');
+                        withdrawContent.classList.add('hidden');
+                        businessContent.classList.add('hidden');
+                        balanceContent.classList.add('hidden');
+
+                        businessWithdrawContent.classList.remove('hidden');
+                    })
                 </script>
             }
             else

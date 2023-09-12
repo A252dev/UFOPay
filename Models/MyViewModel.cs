@@ -10,4 +10,7 @@ public class MyViewModel
     public Wallets Wallets { get; set; }
     public ConvertModel ConvertModel { get; set; }
     public WithdrawModel WithdrawModel { get; set; }
+    public Bills Bills { get; set; }
+    public B2Bwithdraw B2Bwithdraw { get; set; }
+    public B2Bcreate B2Bcreate { get; set; }
 }

@@ -234,6 +234,14 @@ public class PageController : Controller
         return View();
     }
 
+
+    // FOR TESTING
+    [Route("/b2b")]
+    public IActionResult b2b()
+    {
+        return View();
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

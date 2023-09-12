@@ -12,6 +12,8 @@ public class UFODbContext : DbContext
     public DbSet<Wallets> Wallets { get; set; }
     public DbSet<ConvertModel> Convertation { get; set; }
     public DbSet<WithdrawModel> Withdraw { get; set; }
+    public DbSet<B2Bwithdraw> B2Bwithdraw { get; set; }
+    public DbSet<B2Bcreate> B2BKassa { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

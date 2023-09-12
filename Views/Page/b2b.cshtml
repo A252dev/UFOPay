@@ -1,0 +1,241 @@
+@{
+    Layout = "_Layout";
+}
+@model MyViewModel
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>UFOPay.io - Bills page</title>
+    <link rel="stylesheet" href="/css/b2b.css">
+    <link rel="stylesheet" href="/css/billing.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+
+<body>
+    <div class="b2b__side">
+        <div class="b2b__container">
+            <div class="b2b__left__side">
+                <div class="b2b__info" id="b2b_stats">
+                    <div class="b2b__balance__title__container">
+                        <div class="b2b__currency__container">
+                            <div class="balance__group">
+                                <div class="currency__viewer">
+                                    <img src="/images/currency/usd.svg" alt="usd" class="currency__icon">
+                                    <span class="balance__text">30</span>
+                                </div>
+                                <div class="currency__viewer">
+                                    <img src="/images/currency/eur.svg" alt="eur" class="currency__icon">
+                                    <span class="balance__text">50</span>
+                                </div>
+                                <div class="currency__viewer">
+                                    <img src="/images/currency/rub.svg" alt="pln" class="currency__icon">
+                                    <span class="balance__text">150</span>
+                                </div>
+                                <div class="currency__viewer">
+                                    <img src="/images/currency/rub.svg" alt="rub" class="currency__icon">
+                                    <span class="balance__text">200</span>
+                                </div>
+                                <a class="b2b__withdraw__button" id="b2b_withdraw_btw">Withdraw</a>
+                            </div>
+                        </div>
+                        <div class="b2b__buttons__container">
+                            <a class="b2b__time__select__button" id="day_btw">За сегодня</a>
+                            <a class="b2b__time__select__button" id="week_btw">За неделю</a>
+                            <a class="b2b__time__select__button" id="month_btw">За месяц</a>
+                            <a class="b2b__time__select__button" id="year_btw">За год</a>
+                        </div>
+                    </div>
+                    <!-- HIDE CONTENT -->
+                    <div class="b2b__canvas" id="dayChartContent">
+                        <canvas id="dayChart"></canvas>
+                        <div class="chart__data">
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Успешных транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Заработано</h5>
+                                <p class="chart__data__description">0 ₽ 2 E 1 D</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Конверсия</h5>
+                                <p class="chart__data__description">0 %</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="b2b__canvas hidden" id="weekChartContent">
+                        <canvas id="weekChart"></canvas>
+                        <div class="chart__data">
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Успешных транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Заработано</h5>
+                                <p class="chart__data__description">0 ₽ 2 E 1 D</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Конверсия</h5>
+                                <p class="chart__data__description">0 %</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="b2b__canvas hidden" id="monthChartContent">
+                        <canvas id="monthChart"></canvas>
+                        <div class="chart__data">
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Успешных транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Заработано</h5>
+                                <p class="chart__data__description">0 ₽ 2 E 1 D</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Конверсия</h5>
+                                <p class="chart__data__description">0 %</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="b2b__canvas hidden" id="yearChartContent">
+                        <canvas id="yearChart"></canvas>
+                        <div class="chart__data">
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Успешных транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Заработано</h5>
+                                <p class="chart__data__description">0 ₽ 2 E 1 D</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Конверсия</h5>
+                                <p class="chart__data__description">0 %</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- b2b info -->
+                <div class="b2b__info hidden" id="b2b_withdraw">
+                    <div class="b2b__withdraw__title__container">
+                        <h5 class="b2b__withdraw__title">Вывод</h5>
+                        <a class="back__button" id="back_btw">Back</a>
+                    </div>
+                    <div class="b2b__withdraw__container">
+                        <form class="b2b__withdraw__form" asp-controller="B2B" asp-action="withdrawB2B" method="post">
+                            <input type="hidden" asp-for="@Model.B2Bwithdraw.userId" value="userID">
+                            <span class="withdraw__span__title">Bank</span>
+                            <p class="form__data__input"><input class="text__input" type="text"
+                                    asp-for="@Model.B2Bwithdraw.bank"></p>
+                            <span class="withdraw__span__title">Currency</span>
+                            <p class="currency__data__input">
+                                <select class="text__input__currency" asp-for="@Model.B2Bwithdraw.currency">
+                                    <option value="">select the currency</option>
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="PLN">PLN</option>
+                                    <option value="RUB">RUB</option>
+                                </select>
+                            </p>
+                            <span class="withdraw__span__title">Summa</span>
+                            <p class="form__data__input"><input class="text__input" type="number"
+                                    asp-for="@Model.B2Bwithdraw.summa"></p>
+                            <button class="b2b__submit__withdraw__button" type="submit">Withdraw</button>
+                        </form>
+                    </div>
+                </div> <!-- b2b withdraw -->
+                <div class="b2b__info hidden" id="b2b_kassa">
+                    <div class="b2b__withdraw__title__container">
+                        <h5 class="b2b__withdraw__title">Create the new kassa</h5>
+                        <a class="back__button" id="kassa_back_btw">Back</a>
+                    </div>
+                    <div class="b2b__withdraw__container">
+                        <form class="b2b__withdraw__form" asp-controller="B2B" asp-action="createNewB2B" method="post">
+                            <input type="hidden" asp-for="@Model.B2Bcreate.userId" value="userID">
+                            <span class="withdraw__span__title">Website</span>
+                            <p class="form__data__input"><input class="text__input" type="text"
+                                    asp-for="@Model.B2Bcreate.website"></p>
+                            <span class="withdraw__span__title">Description</span>
+                            <p class="form__data__input"><input class="text__input" type="text"
+                                    asp-for="@Model.B2Bcreate.description"></p>
+                            <span class="withdraw__span__title">Contact email</span>
+                            <p class="form__data__input"><input class="text__input" type="text"
+                                    asp-for="@Model.B2Bcreate.email"></p>
+                            <button class="b2b__submit__withdraw__button" type="submit">Send</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="b2b__history">
+                    <h5 class="b2b__history__title">Последние транзакции</h5>
+                </div> <!-- history -->
+            </div> <!-- left side -->
+            <div class="b2b__right__side">
+                <div class="b2b__list">
+                    <h5 class="b2b__list__title">Список</h5>
+                    <a class="b2b__create__new__button" id="new_kassa_btw">Создать кассу</a>
+                </div>
+            </div> <!-- right side -->
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.js"></script>
+        <script src="/js/bussinessChart.js"></script>
+        <script>
+
+            const withdrawButton = document.getElementById('b2b_withdraw_btw');
+            const backButton = document.getElementById('back_btw');
+            const backKassaButton = document.getElementById('kassa_back_btw');
+            const newKassaButton = document.getElementById('new_kassa_btw');
+
+            const b2bInfoMainContent = document.getElementById('b2b_stats');
+            const b2bWithdrawContent = document.getElementById('b2b_withdraw');
+            const b2bKassaContent = document.getElementById('b2b_kassa');
+
+            withdrawButton.addEventListener('click', e => {
+                b2bWithdrawContent.classList.remove('hidden');
+
+                b2bInfoMainContent.classList.add('hidden');
+                b2bKassaContent.classList.add('hidden');
+            });
+
+            backButton.addEventListener('click', e => {
+                b2bInfoMainContent.classList.remove('hidden');
+
+                b2bWithdrawContent.classList.add('hidden');
+                b2bKassaContent.classList.add('hidden');
+            });
+
+            newKassaButton.addEventListener('click', e => {
+                b2bKassaContent.classList.remove('hidden');
+
+                b2bInfoMainContent.classList.add('hidden');
+                b2bWithdrawContent.classList.add('hidden');
+            });
+
+            backKassaButton.addEventListener('click', e => {
+                b2bInfoMainContent.classList.remove('hidden');
+
+                b2bKassaContent.classList.add('hidden');
+                b2bWithdrawContent.classList.add('hidden');
+            })
+
+        </script>
+</body>
+
+</html>

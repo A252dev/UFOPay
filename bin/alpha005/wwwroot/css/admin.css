@@ -1,0 +1,176 @@
+/* ADMIN SIDE */
+
+.hidden {
+    display: none;
+}
+
+.admin__side {
+    /* border: 1px solid red; */
+    height: 500px;
+    display: flex;
+    padding: 70px 0;
+}
+
+.admin__content__container {
+    /* border: 1px solid lightblue; */
+    max-width: 100%;
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.admin__buttons__container {
+    position: relative;
+    /* border: 1px solid blue; */
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    /* top: 70px; */
+}
+
+.admin__buttons {
+    /* border: 1px solid red; */
+    display: block;
+    font-size: 1.8rem;
+}
+
+.admin__select {
+    color: #00edf9;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #4d6cfa;
+    box-shadow: 0 0 5px #000;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 16px 0px;
+    font-weight: 700;
+    display: block;
+    text-align: center;
+    margin: 35px 0px;
+    width: 200px;
+    transition-property: scale;
+    transition-duration: 100ms;
+    cursor: pointer;
+}
+
+.admin__select:hover {
+    color: #00edf9;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #4d6cfa;
+    box-shadow: 0 0 5px #000;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 16px 0px;
+    font-weight: 700;
+    display: block;
+    text-align: center;
+    margin: 35px 0px;
+    width: 200px;
+    scale: 0.93;
+}
+
+/* CONTENT SIDE */
+
+.selected__button__content {
+    position: relative;
+    box-shadow: 0 0 10px #838383;
+    border-radius: 7.5px;
+    width: 80%;
+    height: 100%;
+}
+
+.selected__content__title {
+    font-size: 26px;
+    font-family: 'Roboto', sans-serif;
+    color: #4d6cfa;
+    font-weight: 700;
+    position: relative;
+    /* border: 1px solid red; */
+    top: 30px;
+    left: 50px;
+}
+
+.admin__withdraw__container {
+    /* border: 1px solid red; */
+    display: inline-block;
+    position: relative;
+    left: 80px;
+    top: 25px;
+    padding: 15px 15px;
+}
+
+.admin__withdraw__button {
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    text-decoration: none;
+    background-color: #4d6cfa;
+    color: #fff;
+    padding: 10px 36px;
+    border-radius: 9px;
+    transition-property: background-color;
+    transition-duration: 500ms;
+    cursor: pointer;
+}
+
+.admin__withdraw__button:hover {
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    text-decoration: none;
+    background-color: #1b44ff;
+    color: #fff;
+    padding: 10px 36px;
+    border-radius: 9px;
+}
+
+.status__form__container {
+    position: relative;
+    /* border: 1px solid green; */
+    height: 400px;
+}
+
+.status__form__title__container {
+    /* border: 1px solid red; */
+    display: flex;
+    /* width: 134px; */
+}
+
+.status__form__title {
+    color: #4d6cfa;
+    margin-right: 100px;
+    font-size: 19px;
+    font-weight: 700;
+    /* border: 1px solid lightblue; */
+    text-align: center;
+    width: 135px;
+}
+
+.status__form__scroll__content {
+    top: 12%;
+    position: relative;
+    height: 410px;
+    overflow-y: scroll;
+}
+
+.status__form {
+    /* border: 1px solid green; */
+    display: flex;
+    height: 40px;
+}
+
+.input__data {
+    font-family: 'Roboto', sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+    width: 130px;
+    display: flex;
+    color: #4d6cfa;
+}
+
+.admin__submit__button {
+    font-weight: 700;
+    position: relative;
+    color: #4d6cfa;
+    font-family: 'Montserrat', sans-serif;
+    /* width: 50px; */
+}
