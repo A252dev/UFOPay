@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace UFOPay.Migrations
 {
     [DbContext(typeof(UFODbContext))]
-    partial class UFODbContextModelSnapshot : ModelSnapshot
+    [Migration("20230917122943_init11")]
+    partial class init11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,9 +104,6 @@ namespace UFOPay.Migrations
                     b.Property<int>("b2b_balance_usd")
                         .HasColumnType("int");
 
-                    b.Property<int>("kassaId")
-                        .HasColumnType("int");
-
                     b.Property<int>("userId")
                         .HasColumnType("int");
 
@@ -118,10 +118,6 @@ namespace UFOPay.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("apiKey")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("comment")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -133,9 +129,6 @@ namespace UFOPay.Migrations
                     b.Property<string>("description")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int>("kassaId")
-                        .HasColumnType("int");
 
                     b.Property<string>("status")
                         .IsRequired()
@@ -176,41 +169,6 @@ namespace UFOPay.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("B2Bwithdraw");
-                });
-
-            modelBuilder.Entity("UFOPay.Models.BusinessBills", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("apiKey")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("billingId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("currency")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("kassaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("paidUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("summa")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BusinessBills");
                 });
 
             modelBuilder.Entity("UFOPay.Models.ConvertModel", b =>

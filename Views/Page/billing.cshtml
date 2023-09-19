@@ -1,3 +1,5 @@
+@model MyViewModel
+
 <!DOCTYPE html>
 <html>
 
@@ -6,7 +8,7 @@
     <title>UFOPay.io - Billing</title>
     <link rel="stylesheet" href="/css/indexstyle.css">
     <link rel="stylesheet" href="/css/profile.css">
-    <link rel="stylesheet" href="/css/billing.css">
+    <link rel="stylesheet" href="/css/billing.css">    
 </head>
 
 <body>
@@ -14,6 +16,10 @@
         @if (TempData["BillSuccess"] != null)
         {
             <p id="success__msg">@TempData["BillSuccess"]</p>
+        }
+        @if (TempData["BillError"] != null)
+        {
+            <p id="error__msg">@TempData["BillError"]</p>
         }
         <div class="billing__container">
             <div class="payment__div">
@@ -23,85 +29,131 @@
                         @using (UFODbContext db = new UFODbContext())
                         {
                             var user = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
-                            var findByStatus = db.AddBalanceRequest.Where(x => x.userId == user.userId);
-                            string comment = "";
-                            foreach (var line in findByStatus)
-                            {
-                                if (line.status == "PENDING" && line.userId == user.userId)
-                                {
-                                    comment = line.comment;
-                                }
-                            }
-                            var addBalanceInfo = db.AddBalanceRequest.FirstOrDefault(x => x.comment == comment);
-                            // list of wallets
-                            var PKOBankPolski = db.Wallets.FirstOrDefault(x => x.Id == 0);
-                            var TinkoffBank = db.Wallets.FirstOrDefault(x => x.Id == 0);
-
                             if (user != null)
                             {
                                 if (TempData["BillCreated"] != null)
                                 {
-                                    @model AddBalance;
-                                    if (addBalanceInfo.currency == "USD" || addBalanceInfo.currency == "EUR" ||
-                                    addBalanceInfo.currency == "PLN")
+                                    var findByStatus = db.AddBalanceRequest.Where(x => x.userId == user.userId);
+                                    if (findByStatus != null)
                                     {
-                                        <div class="bill__container">
-                                            <form class="bill__form" asp-controller="Profile" asp-action="billConfirm" method="post">
-                                                <span class="bill__title">For the add balance you need a transfer @addBalanceInfo.summa
-                                                    @addBalanceInfo.currency to the current Bank Account by the bill number USING A
-                                                    COMMENT: @addBalanceInfo.comment</span>
-                                                <span class="bank__title">PKO BANK POLSKI</span>
-                                                <span class="bank__number">@PKOBankPolski.PKOBankPolski</span>
-                                                <input asp-for="@Model.userId" value="@addBalanceInfo.userId" type="hidden">
-                                                <input asp-for="@Model.summa" value="@addBalanceInfo.summa" type="hidden">
-                                                <input asp-for="@Model.currency" value="@addBalanceInfo.currency" type="hidden">
-                                                <input asp-for="@Model.status" value="PAYED" type="hidden">
-                                                <input asp-for="@Model.comment" value="@addBalanceInfo.comment" type="hidden">
-                                                <button class="bill__pay__button" type="submit">Sended</button>
-                                            </form>
-                                        </div>
+                                        string comment = "";
+                                        foreach (var line in findByStatus)
+                                        {
+                                            if (line.status == "PENDING" && line.userId == user.userId)
+                                            {
+                                                comment = line.comment;
+                                            }
+                                        }
+                                        var addBalanceInfo = db.AddBalanceRequest.FirstOrDefault(x => x.comment == comment);
+                                        // list of wallets
+                                        var PKOBankPolski = db.Wallets.FirstOrDefault(x => x.Id == 0);
+                                        var TinkoffBank = db.Wallets.FirstOrDefault(x => x.Id == 0);
+
+                                        if (addBalanceInfo.currency == "USD" || addBalanceInfo.currency == "EUR" ||
+                                        addBalanceInfo.currency == "PLN")
+                                        {
+                                            <div class="bill__container">
+                                                <form class="bill__form" asp-controller="Profile" asp-action="billConfirm" method="post">
+                                                    <span class="bill__title">For the add balance you need a transfer @addBalanceInfo.summa
+                                                        @addBalanceInfo.currency to the current Bank Account by the bill number USING A
+                                                        COMMENT: @addBalanceInfo.comment</span>
+                                                    <span class="bank__title">PKO BANK POLSKI</span>
+                                                    <span class="bank__number">@PKOBankPolski.PKOBankPolski</span>
+                                                    <input asp-for="@Model.AddBalance.userId" value="@addBalanceInfo.userId" type="hidden">
+                                                    <input asp-for="@Model.AddBalance.summa" value="@addBalanceInfo.summa" type="hidden">
+                                                    <input asp-for="@Model.AddBalance.currency" value="@addBalanceInfo.currency"
+                                                        type="hidden">
+                                                    <input asp-for="@Model.AddBalance.status" value="PAYED" type="hidden">
+                                                    <input asp-for="@Model.AddBalance.comment" value="@addBalanceInfo.comment"
+                                                        type="hidden">
+                                                    <button class="bill__pay__button" type="submit">Sended</button>
+                                                </form>
+                                            </div>
+                                        }
+                                        if (addBalanceInfo.currency == "RUB")
+                                        {
+                                            <div class="bill__container">
+                                                <form class="bill__form" asp-controller="Profile" asp-action="billConfirm" method="post">
+                                                    <span class="bill__title">For the add balance you need a transfer @addBalanceInfo.summa
+                                                        @addBalanceInfo.currency to the current Bank Account by the bill number USING A
+                                                        COMMENT: @addBalanceInfo.comment</span>
+                                                    <span class="bank__title">TINKOFF BANK</span>
+                                                    <span class="bank__number">@TinkoffBank.TinkoffBank</span>
+                                                    <input asp-for="@Model.AddBalance.userId" value="@addBalanceInfo.userId" type="hidden">
+                                                    <input asp-for="@Model.AddBalance.summa" value="@addBalanceInfo.summa" type="hidden">
+                                                    <input asp-for="@Model.AddBalance.currency" value="@addBalanceInfo.currency"
+                                                        type="hidden">
+                                                    <input asp-for="@Model.AddBalance.status" value="PAYED" type="hidden">
+                                                    <input asp-for="@Model.AddBalance.comment" value="@addBalanceInfo.comment"
+                                                        type="hidden">
+                                                    <button class="bill__pay__button" type="submit">Sended</button>
+                                                </form>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="payment__user__not__found">
+                                                <a class="not__logged__link" asp-controller="Page" asp-action="login" target="_blank">You
+                                                    are not logged. Log in</a>
+                                            </div>
+                                        }
                                     }
-                                    if (addBalanceInfo.currency == "RUB")
+                                }
+                                if (TempData["billingId"] != null)
+                                {
+                                    var billingIdstring = TempData["billingId"];
+                                    int billingId = Convert.ToInt32(billingIdstring);
+                                    var billInfo = db.BusinessBills.FirstOrDefault(x => x.billingId == billingId);
+                                    if (billInfo != null)
                                     {
-                                        <div class="bill__container">
-                                            <form class="bill__form" asp-controller="Profile" asp-action="billConfirm" method="post">
-                                                <span class="bill__title">For the add balance you need a transfer @addBalanceInfo.summa
-                                                    @addBalanceInfo.currency to the current Bank Account by the bill number USING A
-                                                    COMMENT: @addBalanceInfo.comment</span>
-                                                <span class="bank__title">TINKOFF BANK</span>
-                                                <span class="bank__number">@TinkoffBank.TinkoffBank</span>
-                                                <input asp-for="@Model.userId" value="@addBalanceInfo.userId" type="hidden">
-                                                <input asp-for="@Model.summa" value="@addBalanceInfo.summa" type="hidden">
-                                                <input asp-for="@Model.currency" value="@addBalanceInfo.currency" type="hidden">
-                                                <input asp-for="@Model.status" value="PAYED" type="hidden">
-                                                <input asp-for="@Model.comment" value="@addBalanceInfo.comment" type="hidden">
-                                                <button class="bill__pay__button" type="submit">Sended</button>
+                                        if (billInfo.status == "CREATED")
+                                        {
+                                            <form asp-controller="Profile" asp-action="billingPay" method="post">                                                
+                                                <div class="balance__group">
+                                                    <div class="currency__viewer">
+                                                        <img src="/images/currency/usd.svg" alt="usd" class="currency__icon">
+                                                        <span class="balance__text">@user.balance_usd</span>
+                                                    </div>
+                                                    <div class="currency__viewer">
+                                                        <img src="/images/currency/eur.svg" alt="eur" class="currency__icon">
+                                                        <span class="balance__text">@user.balance_eur</span>
+                                                    </div>
+                                                    <div class="currency__viewer">
+                                                        <img src="/images/currency/rub.svg" alt="pln" class="currency__icon">
+                                                        <span class="balance__text">@user.balance_pln</span>
+                                                    </div>
+                                                    <div class="currency__viewer">
+                                                        <img src="/images/currency/rub.svg" alt="rub" class="currency__icon">
+                                                        <span class="balance__text">@user.balance_rub</span>
+                                                    </div>
+                                                </div>
+                                                <div class="pay__button__controller">
+                                                    <input type="hidden" asp-for="@Model.BusinessBills.billingId" name="billingId" value="@billInfo.billingId">
+                                                    <button class="pay__button">Оплатить @billInfo.summa @billInfo.currency</button>
+                                                    @* <a class="pay__button">Оплатить @billInfo.summa @billInfo.currency</a> *@
+                                                </div>
                                             </form>
+                                        }
+                                        else
+                                        {
+                                            <div class="payment__user__not__found">
+                                                <a class="not__logged__link" asp-controller="Profile" asp-action="profile">Bill is paid yet</a>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="payment__user__not__found">
+                                            <a class="not__logged__link" asp-controller="Page" asp-action="login" target="_blank">You
+                                                are not logged. Log in</a>
                                         </div>
                                     }
                                 }
                                 else
                                 {
-                                    <div class="balance__group">
-                                        <div class="currency__viewer">
-                                            <img src="/images/currency/usd.svg" alt="usd" class="currency__icon">
-                                            <span class="balance__text">@user.balance_usd</span>
-                                        </div>
-                                        <div class="currency__viewer">
-                                            <img src="/images/currency/eur.svg" alt="eur" class="currency__icon">
-                                            <span class="balance__text">@user.balance_eur</span>
-                                        </div>
-                                        <div class="currency__viewer">
-                                            <img src="/images/currency/rub.svg" alt="pln" class="currency__icon">
-                                            <span class="balance__text">@user.balance_pln</span>
-                                        </div>
-                                        <div class="currency__viewer">
-                                            <img src="/images/currency/rub.svg" alt="rub" class="currency__icon">
-                                            <span class="balance__text">@user.balance_rub</span>
-                                        </div>
-                                    </div>
-                                    <div class="pay__button__controller">
-                                        <a class="pay__button" href="#">Оплатить 28,01 ₽</a>
+                                    <div class="payment__user__not__found">
+                                        <a class="not__logged__link" asp-controller="Page" asp-action="login" target="_blank">You
+                                            are not logged. Log in</a>
                                     </div>
                                 }
                             }
@@ -143,18 +195,33 @@
                                 <span class="payment__footer">By making a payment, you agree to the <a class="offer__link"
                                         asp-controller="Page" asp-action="user_agreement" target="_blank">Offer</a></span>
                             }
+                            if (TempData["billingId"] != null)
+                            {
+                                var billingIdstring = TempData["billingId"];
+                                int billingId = Convert.ToInt32(billingIdstring);
+                                var billInfo = db.BusinessBills.FirstOrDefault(x => x.billingId == billingId);
+                                var kassaInfo = db.B2BKassa.FirstOrDefault(x => x.kassaId == billInfo.kassaId);
+                                if (billInfo != null)
+                                {
+                                    <h2 class="payment__title">@kassaInfo.website</h2>
+                                    <span class="payment__summa">@billInfo.summa @billInfo.currency</span>
+                                    <span class="payment__subtitle">The commission will be calculated after entering the card
+                                        details</span>
+                                    <span class="payment__description">By making a payment, you replenish your wallet balance. An
+                                        additional fee may be charged to the card issued by the bank. The invoice is valid for 5
+                                        hours.</span>
+                                    <span class="payment__subtitle">Seller: payment of the invoice @billInfo.billingId</span>
+                                    <span class="payment__footer">By making a payment, you agree to the <a class="offer__link"
+                                            asp-controller="Page" asp-action="user_agreement" target="_blank">Offer</a></span>
+                                }
+                                else
+                                {
+                                    <h2 class="payment__title">https://ufopay.io/</h2>
+                                }
+                            }
                             else
                             {
-                                <h2 class="payment__title">seller.com</h2>
-                                <span class="payment__summa">28 mln PLN</span>
-                                <span class="payment__subtitle">The commission will be calculated after entering the card
-                                    details</span>
-                                <span class="payment__description">By making a payment, you replenish your wallet balance. An
-                                    additional fee may be charged to the card issued by the bank. The invoice is valid for 5
-                                    hours.</span>
-                                <span class="payment__subtitle">Seller: payment of the invoice (bill number)</span>
-                                <span class="payment__footer">By making a payment, you agree to the <a class="offer__link"
-                                        asp-controller="Page" asp-action="user_agreement" target="_blank">Offer</a></span>
+                                <h2 class="payment__title">https://ufopay.io/</h2>
                             }
                         }
                     </div>

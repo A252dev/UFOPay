@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace UFOPay.Migrations
 {
     [DbContext(typeof(UFODbContext))]
-    partial class UFODbContextModelSnapshot : ModelSnapshot
+    [Migration("20230918183642_init14")]
+    partial class init14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,10 +121,6 @@ namespace UFOPay.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("apiKey")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("comment")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -183,10 +182,6 @@ namespace UFOPay.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<string>("apiKey")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<int>("billingId")
                         .HasColumnType("int");

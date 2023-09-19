@@ -210,6 +210,47 @@ public class ProfileController : Controller
     }
 
     [HttpPost]
+    public IActionResult billingPay(BusinessBills b2bPay)
+    {
+        if (b2bPay.billingId != null)
+        {
+            var billInfo = _dbContext.BusinessBills.FirstOrDefault(x => x.billingId == b2bPay.billingId);
+            if (billInfo != null)
+            {
+                var user = _dbContext.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
+
+                if (billInfo.currency == "USD")
+                {
+                    if (user.balance_usd >= billInfo.summa)
+                    {
+                        Math.Round(user.balance_usd -= billInfo.summa);
+                        _dbContext.B2BBalance.FirstOrDefault(x => x.kassaId == billInfo.kassaId).b2b_balance_usd += billInfo.summa;
+                        billInfo.status = "PAYD";
+                        billInfo.paidUserId = user.userId;
+                        _dbContext.SaveChanges();
+                        TempData["BillSuccess"] = "Payment completed";
+                        return RedirectToAction("profile", "Profile");
+                    }
+                    else
+                    {
+                        TempData["BillError"] = "Not enouth money";
+                        return RedirectToAction("billing", "Page");
+                    }
+                }
+            }
+            else
+            {
+                return RedirectToAction("billing", "Page");
+            }
+            return View();
+        }
+        else
+        {
+            return RedirectToAction("index", "Page");
+        }
+    }
+
+    [HttpPost]
     public IActionResult convertCurrency(ConvertModel convertModel)
     {
         if (convertModel.currencyFrom != null && convertModel.currencyTo != null && convertModel.summa != null)

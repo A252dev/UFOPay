@@ -1,0 +1,412 @@
+@{
+    Layout = "_Layout";
+}
+@model MyViewModel
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>UFOPay.io - Bills page</title>
+    <link rel="stylesheet" href="/css/b2b.css">
+    <link rel="stylesheet" href="/css/billing.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+
+<body>
+    <div class="b2b__side">
+        <p>
+            @if (TempData["B2BError"] != null)
+            {
+            <p id="error__msg">@TempData["B2BError"]</p>
+            }
+            @if (TempData["B2BSuccess"] != null)
+            {
+            <p id="success__msg">@TempData["B2BSuccess"]</p>
+            }
+        </p>
+        <div class="b2b__container">
+            <div class="b2b__left__side">
+                <div class="b2b__info" id="b2b_stats">
+                    <div class="b2b__balance__title__container">
+                        <div class="b2b__currency__container">
+                            @using (UFODbContext db = new UFODbContext())
+                            {
+                                var user = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
+                                var targetUser = db.B2BBalance.FirstOrDefault(x => x.userId == user.userId);
+                                <div class="balance__group">
+                                    <div class="currency__viewer">
+                                        <img src="/images/currency/usd.svg" alt="usd" class="currency__icon">
+                                        <span class="balance__text">@targetUser.b2b_balance_usd</span>
+                                    </div>
+                                    <div class="currency__viewer">
+                                        <img src="/images/currency/eur.svg" alt="eur" class="currency__icon">
+                                        <span class="balance__text">@targetUser.b2b_balance_eur</span>
+                                    </div>
+                                    <div class="currency__viewer">
+                                        <img src="/images/currency/rub.svg" alt="pln" class="currency__icon">
+                                        <span class="balance__text">@targetUser.b2b_balance_pln</span>
+                                    </div>
+                                    <div class="currency__viewer">
+                                        <img src="/images/currency/rub.svg" alt="rub" class="currency__icon">
+                                        <span class="balance__text">@targetUser.b2b_balance_rub</span>
+                                    </div>
+                                    <a class="b2b__withdraw__button" id="b2b_withdraw_btw">Withdraw</a>
+                                </div>
+                            }
+                        </div>
+                        <div class="b2b__buttons__container">
+                            <a class="b2b__time__select__button" id="day_btw">За сегодня</a>
+                            <a class="b2b__time__select__button" id="week_btw">За неделю</a>
+                            <a class="b2b__time__select__button" id="month_btw">За месяц</a>
+                            <a class="b2b__time__select__button" id="year_btw">За год</a>
+                        </div>
+                    </div>
+                    <!-- HIDE CONTENT -->
+                    <div class="b2b__canvas" id="dayChartContent">
+                        <canvas id="dayChart"></canvas>
+                        <div class="chart__data">
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Успешных транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Заработано</h5>
+                                <p class="chart__data__description">0 ₽ 2 E 1 D</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Конверсия</h5>
+                                <p class="chart__data__description">0 %</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="b2b__canvas hidden" id="weekChartContent">
+                        <canvas id="weekChart"></canvas>
+                        <div class="chart__data">
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Успешных транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Заработано</h5>
+                                <p class="chart__data__description">0 ₽ 2 E 1 D</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Конверсия</h5>
+                                <p class="chart__data__description">0 %</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="b2b__canvas hidden" id="monthChartContent">
+                        <canvas id="monthChart"></canvas>
+                        <div class="chart__data">
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Успешных транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Заработано</h5>
+                                <p class="chart__data__description">0 ₽ 2 E 1 D</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Конверсия</h5>
+                                <p class="chart__data__description">0 %</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="b2b__canvas hidden" id="yearChartContent">
+                        <canvas id="yearChart"></canvas>
+                        <div class="chart__data">
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Успешных транзакций</h5>
+                                <p class="chart__data__description">0 шт.</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Заработано</h5>
+                                <p class="chart__data__description">0 ₽ 2 E 1 D</p>
+                            </div>
+                            <div class="chart__data__block">
+                                <h5 class="chart__data__title">Конверсия</h5>
+                                <p class="chart__data__description">0 %</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- b2b info -->
+                <div class="b2b__info hidden" id="b2b_withdraw">
+                    <div class="b2b__withdraw__title__container">
+                        <h5 class="b2b__withdraw__title">Вывод</h5>
+                        <a class="back__button" id="back_btw">Back</a>
+                    </div>
+                    <div class="b2b__withdraw__container">
+                        <form class="b2b__withdraw__form" asp-controller="B2B" asp-action="withdrawB2B" method="post">
+                            <input type="hidden" asp-for="@Model.B2Bwithdraw.userId" value="userID">
+                            <span class="withdraw__span__title">Bank</span>
+                            <p class="form__data__input"><input class="text__input" type="text"
+                                    asp-for="@Model.B2Bwithdraw.bank"></p>
+                            <span class="withdraw__span__title">Currency</span>
+                            <p class="currency__data__input">
+                                <select class="text__input__currency" asp-for="@Model.B2Bwithdraw.currency">
+                                    <option value="">select the currency</option>
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="PLN">PLN</option>
+                                    <option value="RUB">RUB</option>
+                                </select>
+                            </p>
+                            <span class="withdraw__span__title">Summa</span>
+                            <p class="form__data__input"><input class="text__input" type="number"
+                                    asp-for="@Model.B2Bwithdraw.summa"></p>
+                            <button class="b2b__submit__withdraw__button" type="submit">Withdraw</button>
+                        </form>
+                    </div>
+                </div> <!-- b2b withdraw -->
+                <div class="b2b__info hidden" id="b2b_kassa">
+                    <div class="b2b__withdraw__title__container">
+                        <h5 class="b2b__withdraw__title">Create the new kassa</h5>
+                        <a class="back__button" id="kassa_back_btw">Back</a>
+                    </div>
+                    <div class="b2b__withdraw__container">
+                        @using (UFODbContext db = new UFODbContext())
+                        {
+                            var user = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
+                            <form class="b2b__withdraw__form" asp-controller="B2B" asp-action="createNewB2B" method="post">
+                                <input type="hidden" asp-for="@Model.B2Bkassa.userId" value="@user.userId">
+                                <span class="withdraw__span__title">Website</span>
+                                <p class="form__data__input"><input class="text__input" type="text"
+                                        asp-for="@Model.B2Bkassa.website"></p>
+                                <span class="withdraw__span__title">Description</span>
+                                <p class="form__data__input"><input class="text__input" type="text"
+                                        asp-for="@Model.B2Bkassa.description"></p>
+                                <span class="withdraw__span__title">Contact email</span>
+                                <p class="form__data__input"><input class="text__input" type="text"
+                                        asp-for="@Model.B2Bkassa.contactEmail"></p>
+                                <button class="b2b__submit__withdraw__button" type="submit">Send</button>
+                            </form>
+                        }
+                    </div>
+                </div>
+                <div class="b2b__history">
+                    <h5 class="b2b__history__title">Последние транзакции</h5>
+                    <div class="b2b__history__container">
+                        <div class="b2b__history__scroll__content">
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">100</span>
+                                <span class="b2b__history__content">euro</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">1000</span>
+                                <span class="b2b__history__content">dollar</span>
+                                <span class="b2b__history__content">10.10.102121</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">12313</span>
+                                <span class="b2b__history__content">ruble</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">300</span>
+                                <span class="b2b__history__content">zloty</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">100</span>
+                                <span class="b2b__history__content">euro</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">1000</span>
+                                <span class="b2b__history__content">dollar</span>
+                                <span class="b2b__history__content">10.10.102121</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">12313</span>
+                                <span class="b2b__history__content">ruble</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">300</span>
+                                <span class="b2b__history__content">zloty</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">100</span>
+                                <span class="b2b__history__content">euro</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">1000</span>
+                                <span class="b2b__history__content">dollar</span>
+                                <span class="b2b__history__content">10.10.102121</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">12313</span>
+                                <span class="b2b__history__content">ruble</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">300</span>
+                                <span class="b2b__history__content">zloty</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">100</span>
+                                <span class="b2b__history__content">euro</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">1000</span>
+                                <span class="b2b__history__content">dollar</span>
+                                <span class="b2b__history__content">10.10.102121</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">12313</span>
+                                <span class="b2b__history__content">ruble</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">300</span>
+                                <span class="b2b__history__content">zloty</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">12313</span>
+                                <span class="b2b__history__content">ruble</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">300</span>
+                                <span class="b2b__history__content">zloty</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">100</span>
+                                <span class="b2b__history__content">euro</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">1000</span>
+                                <span class="b2b__history__content">dollar</span>
+                                <span class="b2b__history__content">10.10.102121</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">12313</span>
+                                <span class="b2b__history__content">ruble</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                            <div class="b2b__history__content__container">
+                                <span class="b2b__history__content">website.org</span>
+                                <span class="b2b__history__content">300</span>
+                                <span class="b2b__history__content">zloty</span>
+                                <span class="b2b__history__content">10.10.1010</span>
+                            </div>
+                        </div> <!-- scroll content -->
+                    </div>
+                </div> <!-- history -->
+            </div> <!-- left side -->
+            <div class="b2b__right__side">
+                <div class="b2b__list">
+                    <h5 class="b2b__list__title">Список</h5>
+                    <div class="b2b__list__container">
+                        <div class="b2b__list__scroll__content">
+                            @using (UFODbContext db = new UFODbContext())
+                            {
+                                var findTheUserId = db.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
+                                var kassa = db.B2BKassa.Where(x => x.userId == findTheUserId.userId);
+
+                                foreach (var line in kassa)
+                                {
+                                    <div class="b2b__list__block" id="@line.kassaId">
+                                        <span class="b2b__website__title">@line.website</span>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <a class="b2b__create__new__button" id="new_kassa_btw">Создать кассу</a>
+                </div>
+            </div> <!-- right side -->
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.js"></script>
+        <script src="/js/bussinessChart.js"></script>
+        <script>
+
+            const withdrawButton = document.getElementById('b2b_withdraw_btw');
+            const backButton = document.getElementById('back_btw');
+            const backKassaButton = document.getElementById('kassa_back_btw');
+            const newKassaButton = document.getElementById('new_kassa_btw');
+
+            const b2bInfoMainContent = document.getElementById('b2b_stats');
+            const b2bWithdrawContent = document.getElementById('b2b_withdraw');
+            const b2bKassaContent = document.getElementById('b2b_kassa');
+
+            withdrawButton.addEventListener('click', e => {
+                b2bWithdrawContent.classList.remove('hidden');
+
+                b2bInfoMainContent.classList.add('hidden');
+                b2bKassaContent.classList.add('hidden');
+            });
+
+            backButton.addEventListener('click', e => {
+                b2bInfoMainContent.classList.remove('hidden');
+
+                b2bWithdrawContent.classList.add('hidden');
+                b2bKassaContent.classList.add('hidden');
+            });
+
+            newKassaButton.addEventListener('click', e => {
+                b2bKassaContent.classList.remove('hidden');
+
+                b2bInfoMainContent.classList.add('hidden');
+                b2bWithdrawContent.classList.add('hidden');
+            });
+
+            backKassaButton.addEventListener('click', e => {
+                b2bInfoMainContent.classList.remove('hidden');
+
+                b2bKassaContent.classList.add('hidden');
+                b2bWithdrawContent.classList.add('hidden');
+            })
+
+        </script>
+</body>
+
+</html>

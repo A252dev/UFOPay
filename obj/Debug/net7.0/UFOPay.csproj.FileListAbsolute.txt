@@ -41,3 +41,5 @@
 /home/agent/Documents/UFO/UFOPay/bin/Debug/net7.0/Mono.TextTemplating.dll
 /home/agent/Documents/UFO/UFOPay/bin/Debug/net7.0/System.CodeDom.dll
 /home/agent/Documents/UFO/UFOPay/bin/Debug/net7.0/Newtonsoft.Json.dll
+/home/agent/Documents/UFO/UFOPay/bin/Debug/net7.0/Microsoft.AspNetCore.Server.Kestrel.Https.dll
+/home/agent/Documents/UFO/UFOPay/bin/Debug/net7.0/Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.dll

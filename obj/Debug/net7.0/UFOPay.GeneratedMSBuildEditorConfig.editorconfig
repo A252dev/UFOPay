@@ -16,12 +16,16 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /home/agent/Documents/UFO/UFOPay
 build_property._RazorSourceGeneratorDebug = 
 
-[/home/agent/Documents/UFO/UFOPay/Views/Page/b2b.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZS9iMmIuY3NodG1s
+[/home/agent/Documents/UFO/UFOPay/Views/B2B/b2b.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQjJCL2IyYi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/agent/Documents/UFO/UFOPay/Views/Page/billing.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZS9iaWxsaW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/agent/Documents/UFO/UFOPay/Views/Page/bill_create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGFnZS9iaWxsX2NyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/agent/Documents/UFO/UFOPay/Views/Page/contacts.cshtml]

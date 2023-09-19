@@ -20,6 +20,7 @@
 
 .b2b__info,
 .b2b__history {
+    position: relative;
     box-shadow: 0 0 7px rgb(184, 217, 243);
     height: 800px;
     border-radius: 10px;
@@ -124,7 +125,7 @@
 .b2b__canvas {
     position: relative;
     top: 5px;
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     width: 95%;
     /* height: 45%; */
     display: flex;
@@ -179,6 +180,42 @@
     color: #000F9C;
     font-weight: 500;
     font-size: 24px;
+}
+
+.b2b__list__container {
+    /* border: 1px solid red; */
+    height: 65%;
+}
+
+.b2b__list__scroll__content {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.b2b__list__block {
+    margin: 5px 10px;
+    padding: 7px;
+    cursor: pointer;
+    border: 2px solid rgb(77, 108, 250);
+    border-radius: 5px;
+    transition-property: scale;
+    transition-duration: 100ms;
+}
+
+.b2b__list__block:hover {
+    padding: 7px;
+    cursor: pointer;
+    border: 2px solid rgb(77, 108, 250);
+    border-radius: 5px;
+    scale: 0.96;
+}
+
+.b2b__website__title {
+    color: #000F9C;
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-left: 15px;
 }
 
 .b2b__create__new__button {
@@ -301,4 +338,36 @@
     left: 40px;
     position: relative;
     scale: 0.97;
+}
+
+/* HISTORY */
+
+.b2b__history__container {
+    padding: 10px;
+    box-sizing: border-box;
+    /* border: 1px solid red; */
+    width: 100%;
+    height: 90%;
+}
+
+.b2b__history__scroll__content {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.b2b__history__content__container {
+    /* border: 1px solid blue; */
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.b2b__history__content {
+    position: relative;
+    font-size: 22px;
+    font-family: 'Roboto', sans-serif;
+    /* margin: 0 auto; */
+    color: #16428f;
+    font-weight: 700;
 }

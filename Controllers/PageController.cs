@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace UFOPay.Controllers;
 
@@ -31,6 +33,15 @@ public class PageController : Controller
         while (_dbContext.UserData.Any(x => x.userId == userId))
             continue;
         return userId;
+    }
+
+    public int GenerateBillingId()
+    {
+        Random random = new Random();
+        int billingId = random.Next(Int32.MinValue, Int32.MaxValue);
+        while (_dbContext.BusinessBills.Any(x => x.billingId == billingId))
+            continue;
+        return billingId;
     }
 
     public IActionResult index()
@@ -204,10 +215,256 @@ public class PageController : Controller
         }
     }
 
+    [HttpGet]
     [Route("/billing")]
-    public IActionResult billing()
+    public IActionResult billing(int billingId)
     {
-        return View();
+        var billInfo = _dbContext.BusinessBills.FirstOrDefault(x => x.billingId == billingId);
+        if (billInfo != null)
+        {
+            billingId = billInfo.billingId;
+            TempData["billingId"] = billingId;
+            return View();
+        }
+        else
+        {
+            return RedirectToAction("profile", "Profile");
+        }
+    }
+
+    [HttpGet]
+    [Route("/api/billing")]
+    public IActionResult bill_create(BusinessBills businessBills)
+    {
+        if (businessBills.apiKey != null)
+        {
+            var targetKey = _dbContext.B2BKassa.FirstOrDefault(x => x.apiKey == businessBills.apiKey);
+            if (targetKey != null)
+            {
+                if (businessBills.summa == 0 && businessBills.currency == null)
+                {
+                    var authSuccess = new
+                    {
+                        authorization = "success",
+                        kassaId = $"{targetKey.kassaId}",
+                        apiKey = $"{targetKey.apiKey}"
+                    };
+                    var authSuccessMessage = JsonConvert.SerializeObject(authSuccess);
+                    TempData["json"] = authSuccessMessage;
+                    return View();
+                }
+                if (businessBills.currency == "USD")
+                {
+                    if (businessBills.summa != 0)
+                    {
+                        int billingId = GenerateBillingId();
+                        BusinessBills bill = new BusinessBills()
+                        {
+                            kassaId = targetKey.kassaId,
+                            billingId = billingId,
+                            paidUserId = 0,
+                            status = "CREATED",
+                            summa = businessBills.summa,
+                            currency = businessBills.currency,
+                            apiKey = businessBills.apiKey,
+                        };
+
+                        _dbContext.BusinessBills.Update(bill);
+                        _dbContext.SaveChanges();
+
+                        var targetBill = _dbContext.BusinessBills.FirstOrDefault(x => x.billingId == billingId);
+                        var billCreate = new
+                        {
+                            bill_status = $"{targetBill.status}",
+                            billing_id = $"{targetBill.billingId}",
+                            apiKey = $"{targetKey.apiKey}"
+                        };
+
+                        var billCreateString = JsonConvert.SerializeObject(billCreate);
+
+                        TempData["json"] = billCreateString;
+                        return View();
+                    }
+                    else
+                    {
+                        var summaIsNull = new
+                        {
+                            message = "summa is null",
+                            billing_id = $"{targetKey.kassaId}",
+                            apiKey = $"{targetKey.apiKey}"
+                        };
+                        var summaIsNullMessage = JsonConvert.SerializeObject(summaIsNull);
+
+                        TempData["json"] = summaIsNullMessage;
+                        return View();
+                    }
+                }
+                else if (businessBills.currency == "EUR")
+                {
+                    if (businessBills.summa != 0)
+                    {
+                        int billingId = GenerateBillingId();
+                        BusinessBills bill = new BusinessBills()
+                        {
+                            kassaId = targetKey.kassaId,
+                            billingId = billingId,
+                            paidUserId = 0,
+                            status = "CREATED",
+                            summa = businessBills.summa,
+                            currency = businessBills.currency,
+                            apiKey = businessBills.apiKey,
+                        };
+
+                        _dbContext.BusinessBills.Update(bill);
+                        _dbContext.SaveChanges();
+
+                        var targetBill = _dbContext.BusinessBills.FirstOrDefault(x => x.billingId == billingId);
+                        var billCreate = new
+                        {
+                            bill_status = $"{targetBill.status}",
+                            billing_id = $"{targetBill.billingId}",
+                            apiKey = $"{targetKey.apiKey}"
+                        };
+
+                        var billCreateString = JsonConvert.SerializeObject(billCreate);
+
+                        TempData["json"] = billCreateString;
+                        return View();
+                    }
+                    else
+                    {
+                        var summaIsNull = new
+                        {
+                            message = "summa is null",
+                            billing_id = $"{targetKey.kassaId}",
+                            apiKey = $"{targetKey.apiKey}"
+                        };
+                        var summaIsNullMessage = JsonConvert.SerializeObject(summaIsNull);
+
+                        TempData["json"] = summaIsNullMessage;
+                        return View();
+                    }
+                }
+                else if (businessBills.currency == "PLN")
+                {
+                    if (businessBills.summa != 0)
+                    {
+                        int billingId = GenerateBillingId();
+                        BusinessBills bill = new BusinessBills()
+                        {
+                            kassaId = targetKey.kassaId,
+                            billingId = billingId,
+                            paidUserId = 0,
+                            status = "CREATED",
+                            summa = businessBills.summa,
+                            currency = businessBills.currency,
+                            apiKey = businessBills.apiKey,
+                        };
+
+                        _dbContext.BusinessBills.Update(bill);
+                        _dbContext.SaveChanges();
+
+                        var targetBill = _dbContext.BusinessBills.FirstOrDefault(x => x.billingId == billingId);
+                        var billCreate = new
+                        {
+                            bill_status = $"{targetBill.status}",
+                            billing_id = $"{targetBill.billingId}",
+                            apiKey = $"{targetKey.apiKey}"
+                        };
+
+                        var billCreateString = JsonConvert.SerializeObject(billCreate);
+
+                        TempData["json"] = billCreateString;
+                        return View();
+                    }
+                    else
+                    {
+                        var summaIsNull = new
+                        {
+                            message = "summa is null",
+                            billing_id = $"{targetKey.kassaId}",
+                            apiKey = $"{targetKey.apiKey}"
+                        };
+                        var summaIsNullMessage = JsonConvert.SerializeObject(summaIsNull);
+
+                        TempData["json"] = summaIsNullMessage;
+                        return View();
+                    }
+                }
+                else if (businessBills.currency == "RUB")
+                {
+                    if (businessBills.summa != 0)
+                    {
+                        int billingId = GenerateBillingId();
+                        BusinessBills bill = new BusinessBills()
+                        {
+                            kassaId = targetKey.kassaId,
+                            billingId = billingId,
+                            paidUserId = 0,
+                            status = "CREATED",
+                            summa = businessBills.summa,
+                            currency = businessBills.currency,
+                            apiKey = businessBills.apiKey,
+                        };
+
+                        _dbContext.BusinessBills.Update(bill);
+                        _dbContext.SaveChanges();
+
+                        var targetBill = _dbContext.BusinessBills.FirstOrDefault(x => x.billingId == billingId);
+                        var billCreate = new
+                        {
+                            bill_status = $"{targetBill.status}",
+                            billing_id = $"{targetBill.billingId}",
+                            apiKey = $"{targetKey.apiKey}"
+                        };
+
+                        var billCreateString = JsonConvert.SerializeObject(billCreate);
+
+                        TempData["json"] = billCreateString;
+                        return View();
+                    }
+                    else
+                    {
+                        var summaIsNull = new
+                        {
+                            message = "summa is null",
+                            billing_id = $"{targetKey.kassaId}",
+                            apiKey = $"{targetKey.apiKey}"
+                        };
+                        var summaIsNullMessage = JsonConvert.SerializeObject(summaIsNull);
+
+                        TempData["json"] = summaIsNullMessage;
+                        return View();
+                    }
+                }
+                else
+                {
+                    var currencyError = new
+                    {
+                        message = "currency error",
+                    };
+                    var currencyErrorMessage = JsonConvert.SerializeObject(currencyError);
+                    TempData["json"] = currencyErrorMessage;
+                    return View();
+                }
+            }
+            else
+            {
+                var authFailed = new
+                {
+                    authorization = "failed",
+                    apiKey = $"{targetKey.apiKey}"
+                };
+                var authFailedMessage = JsonConvert.SerializeObject(authFailed);
+
+                TempData["json"] = authFailedMessage;
+                return View();
+            }
+        }
+        else
+        {
+            return RedirectToAction("index", "Page");
+        }
     }
 
     [Route("/user_agreement")]
@@ -230,14 +487,6 @@ public class PageController : Controller
 
     [Route("/contacts")]
     public IActionResult contacts()
-    {
-        return View();
-    }
-
-
-    // FOR TESTING
-    [Route("/b2b")]
-    public IActionResult b2b()
     {
         return View();
     }

@@ -92,33 +92,42 @@
                                 <div class="status__form__title__container">
                                     <span class="status__form__title">id</span>
                                     <span class="status__form__title">userId</span>
+                                    <span class="status__form__title">kassaId</span>
                                     <span class="status__form__title">status</span>
-                                    <span class="status__form__title">summa</span>
-                                    <span class="status__form__title">currency</span>
+                                    <span class="status__form__title">website</span>
+                                    <span class="status__form__title">description</span>
+                                    <span class="status__form__title">concactEmail</span>
                                     <span class="status__form__title">comment</span>
+                                    <span class="status__form__title">apiKey</span>
                                 </div>
 
-                                @foreach (var line in db.AddBalanceRequest.ToList())
+                                @foreach (var line in db.B2BKassa.ToList())
                                 {
-                                    if (line.status == "PENDING")
+                                    if (line.status == "WAITING")
                                     {
-                                        var getUserEmail = db.UserData.FirstOrDefault(x => x.userId == line.userId);
+                                        var getUserContactEmail = db.B2BKassa.FirstOrDefault(x => x.userId == line.userId);
                                         <form class="status__form" method="post">
-                                            <input asp-for="@Model.AddBalance.Id" class="input__data" type="text" value="@line.Id">
-                                            <input asp-for="@Model.AddBalance.userId" class="input__data" type="text"
+                                            <input asp-for="@Model.B2Bkassa.Id" class="input__data" type="text" value="@line.Id">
+                                            <input asp-for="@Model.B2Bkassa.userId" class="input__data" type="text"
                                                 value="@line.userId">
-                                            <input asp-for="@Model.AddBalance.status" class="input__data" type="text"
+                                            <input asp-for="@Model.B2Bkassa.kassaId" class="input__data" type="text"
+                                                value="@line.kassaId">
+                                            <input asp-for="@Model.B2Bkassa.status" class="input__data" type="text"
                                                 value="@line.status">
-                                            <input asp-for="@Model.AddBalance.summa" class="input__data" type="text"
-                                                value="@line.summa">
-                                            <input asp-for="@Model.AddBalance.currency" class="input__data" type="text"
-                                                value="@line.currency">
-                                            <input asp-for="@Model.AddBalance.comment" class="input__data" type="text"
+                                            <input asp-for="@Model.B2Bkassa.website" class="input__data" type="text"
+                                                value="@line.website">
+                                            <input asp-for="@Model.B2Bkassa.description" class="input__data" type="text"
+                                                value="@line.description">
+                                            <input asp-for="@Model.B2Bkassa.contactEmail" class="input__data" type="text"
+                                                value="@line.contactEmail">
+                                            <input asp-for="@Model.B2Bkassa.comment" class="input__data" type="text"
                                                 value="@line.comment">
-                                            <button class="admin__submit__button" asp-controller="Profile" asp-action="giveMoney"
-                                                type="submit">Give</button>
-                                            <button class="admin__submit__button" asp-controller="Profile" asp-action="takeMoney"
-                                                type="submit">Not give</button>
+                                            <input asp-for="@Model.B2Bkassa.apiKey" class="input__data" type="text"
+                                                value="@line.apiKey">
+                                            <button class="admin__submit__button" asp-controller="B2B" asp-action="confirmNewB2B"
+                                                type="submit">Open</button>
+                                            <button class="admin__submit__button" asp-controller="B2B" asp-action="cancelNewB2B"
+                                                type="submit">Not open</button>
                                         </form>
                                     }
                                 }
