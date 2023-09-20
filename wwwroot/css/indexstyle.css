@@ -218,7 +218,8 @@ header {
 }
 
 .info__ask {
-    max-width: 55%;
+    max-width: 50%;
+    text-align: center;
     font-size: 40px;
     margin: 0 auto;
     font-family: 'Montserrat', sans-serif;

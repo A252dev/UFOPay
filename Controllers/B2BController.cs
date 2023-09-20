@@ -147,6 +147,93 @@ public class B2BController : Controller
     [HttpPost]
     public IActionResult withdrawB2B(B2Bwithdraw b2Bwithdraw)
     {
-        return View();
+        if (b2Bwithdraw.bank != null && b2Bwithdraw.currency != null && b2Bwithdraw.summa != 0)
+        {
+            var user = _dbContext.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
+            WithdrawModel model = new WithdrawModel()
+            {
+                userId = user.userId,
+                currency = b2Bwithdraw.currency,
+                bank = b2Bwithdraw.bank,
+                summa = b2Bwithdraw.summa,
+                comment = GenerateComment() + " B2B",
+                withdrawData = DateTime.Now,
+            };
+
+            var targetKassa = _dbContext.B2BKassa.FirstOrDefault(x => x.userId == user.userId);
+            var targetBalance = _dbContext.B2BBalance.FirstOrDefault(x => x.kassaId == targetKassa.kassaId);
+
+            if (b2Bwithdraw.currency == "USD")
+            {
+                if (targetBalance.b2b_balance_usd > b2Bwithdraw.summa)
+                {
+                    Math.Round(targetBalance.b2b_balance_usd -= b2Bwithdraw.summa, 2);
+                    _dbContext.Withdraw.Update(model);
+                    _dbContext.SaveChanges();
+                    TempData["B2BSuccess"] = "Invoice is created";
+                    return RedirectToAction("b2b", "B2B");
+                }
+                else
+                {
+                    TempData["B2BError"] = "Not enouth money";
+                    return RedirectToAction("b2b", "B2B");
+                }
+            }
+            if (b2Bwithdraw.currency == "EUR")
+            {
+                if (targetBalance.b2b_balance_eur > b2Bwithdraw.summa)
+                {
+                    Math.Round(targetBalance.b2b_balance_eur -= b2Bwithdraw.summa, 2);
+                    _dbContext.Withdraw.Update(model);
+                    _dbContext.SaveChanges();
+                    TempData["B2BSuccess"] = "Invoice is created";
+                    return RedirectToAction("b2b", "B2B");
+                }
+                else
+                {
+                    TempData["B2BError"] = "Not enouth money";
+                    return RedirectToAction("b2b", "B2B");
+                }
+            }
+            if (b2Bwithdraw.currency == "PLN")
+            {
+                if (targetBalance.b2b_balance_pln > b2Bwithdraw.summa)
+                {
+                    Math.Round(targetBalance.b2b_balance_pln -= b2Bwithdraw.summa, 2);
+                    _dbContext.Withdraw.Update(model);
+                    _dbContext.SaveChanges();
+                    TempData["B2BSuccess"] = "Invoice is created";
+                    return RedirectToAction("b2b", "B2B");
+                }
+                else
+                {
+                    TempData["B2BError"] = "Not enouth money";
+                    return RedirectToAction("b2b", "B2B");
+                }
+            }
+            if (b2Bwithdraw.currency == "RUB")
+            {
+                if (targetBalance.b2b_balance_rub > b2Bwithdraw.summa)
+                {
+                    Math.Round(targetBalance.b2b_balance_rub -= b2Bwithdraw.summa, 2);
+                    _dbContext.Withdraw.Update(model);
+                    _dbContext.SaveChanges();
+                    TempData["B2BSuccess"] = "Invoice is created";
+                    return RedirectToAction("b2b", "B2B");
+                }
+                else
+                {
+                    TempData["B2BError"] = "Not enouth money";
+                    return RedirectToAction("b2b", "B2B");
+                }
+            }
+            TempData["B2BError"] = "Data is incorrect";
+            return RedirectToAction("b2b", "B2B");
+        }
+        else
+        {
+            TempData["B2BError"] = "Withdraw error";
+            return RedirectToAction("b2b", "B2B");
+        }
     }
 }

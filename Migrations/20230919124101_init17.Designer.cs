@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace UFOPay.Migrations
 {
     [DbContext(typeof(UFODbContext))]
-    partial class UFODbContextModelSnapshot : ModelSnapshot
+    [Migration("20230919124101_init17")]
+    partial class init17
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,17 +92,17 @@ namespace UFOPay.Migrations
                     b.Property<bool>("b2bAccess")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<double>("b2b_balance_eur")
-                        .HasColumnType("double");
+                    b.Property<int>("b2b_balance_eur")
+                        .HasColumnType("int");
 
-                    b.Property<double>("b2b_balance_pln")
-                        .HasColumnType("double");
+                    b.Property<int>("b2b_balance_pln")
+                        .HasColumnType("int");
 
-                    b.Property<double>("b2b_balance_rub")
-                        .HasColumnType("double");
+                    b.Property<int>("b2b_balance_rub")
+                        .HasColumnType("int");
 
-                    b.Property<double>("b2b_balance_usd")
-                        .HasColumnType("double");
+                    b.Property<int>("b2b_balance_usd")
+                        .HasColumnType("int");
 
                     b.Property<int>("kassaId")
                         .HasColumnType("int");

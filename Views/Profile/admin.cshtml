@@ -199,7 +199,7 @@
                                 </div>
                                 @foreach (var line in db.Withdraw.ToList())
                                 {
-                                    if (line.comment != "SUCCESS")
+                                    if (line.comment != "SUCCESS" || line.comment != "B2BSUCCESS")
                                     {
                                         <form class="status__form" method="post">
                                             <input class="input__data" type="text" value="@line.Id" disabled>
@@ -233,12 +233,13 @@
                                     <span class="status__form__title">id</span>
                                     <span class="status__form__title">userId</span>
                                     <span class="status__form__title">bank</span>
-                                    <span class="status__form__title">currency</span>
                                     <span class="status__form__title">summa</span>
+                                    <span class="status__form__title">comment</span>
+                                    <span class="status__form__title">withdrawData</span>
                                 </div>
                                 @foreach (var line in db.Withdraw.ToList())
                                 {
-                                    if (line.comment != "SUCCESS")
+                                    if (line.comment != "B2BSUCCESS" || line.comment != "SUCCESS")
                                     {
                                         <form class="status__form" method="post">
                                             <input class="input__data" type="text" value="@line.Id" disabled>
@@ -254,10 +255,10 @@
                                                 value="@line.comment">
                                             <input asp-for="@Model.WithdrawModel.withdrawData" class="input__data" type="text"
                                                 value="@line.withdrawData">
-                                            <button class="admin__submit__button" asp-controller="Profile" asp-action="withdrawConfirm"
-                                                type="submit">Submit</button>
-                                            <button class="admin__submit__button" asp-controller="Profile" asp-action="withdrawCancel"
-                                                type="submit">Cancel</button>
+                                            <button class="admin__submit__button" asp-controller="Profile"
+                                                asp-action="b2bWithdrawConfirm" type="submit">Submit</button>
+                                            <button class="admin__submit__button" asp-controller="Profile"
+                                                asp-action="b2bWithdrawCancel" type="submit">Cancel</button>
                                         </form>
                                     }
                                 }

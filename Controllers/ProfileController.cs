@@ -225,8 +225,9 @@ public class ProfileController : Controller
                     {
                         Math.Round(user.balance_usd -= billInfo.summa);
                         _dbContext.B2BBalance.FirstOrDefault(x => x.kassaId == billInfo.kassaId).b2b_balance_usd += billInfo.summa;
-                        billInfo.status = "PAYD";
+                        billInfo.status = "PAID";
                         billInfo.paidUserId = user.userId;
+                        billInfo.paymentData = DateTime.Now;
                         _dbContext.SaveChanges();
                         TempData["BillSuccess"] = "Payment completed";
                         return RedirectToAction("profile", "Profile");
@@ -390,24 +391,24 @@ public class ProfileController : Controller
             double ruble = Convert.ToDouble(rub.Substring(rub.LastIndexOf(":") + 1));
             if (convertModel.currencyTo == "EUR")
             {
-                user.balance_usd -= convertModel.summa;
-                user.balance_eur += Math.Round(convertModel.summa * euro, 2);
+                Math.Round(user.balance_usd -= convertModel.summa, 2);
+                Math.Round(user.balance_eur += convertModel.summa * euro, 2);
                 _dbContext.SaveChanges();
                 TempData["TransferSuccessMessage"] = "Currency is converted successfully";
                 return RedirectToAction("profile", "Profile");
             }
             if (convertModel.currencyTo == "PLN")
             {
-                user.balance_usd -= convertModel.summa;
-                user.balance_pln += Math.Round(convertModel.summa * zloty, 2);
+                Math.Round(user.balance_usd -= convertModel.summa, 2);
+                Math.Round(user.balance_pln += convertModel.summa * zloty, 2);
                 _dbContext.SaveChanges();
                 TempData["TransferSuccessMessage"] = "Currency is converted successfully";
                 return RedirectToAction("profile", "Profile");
             }
             if (convertModel.currencyTo == "RUB")
             {
-                user.balance_usd -= convertModel.summa;
-                user.balance_rub += Math.Round(convertModel.summa * ruble, 2);
+                Math.Round(user.balance_usd -= convertModel.summa, 2);
+                Math.Round(user.balance_rub += convertModel.summa * ruble, 2);
                 _dbContext.SaveChanges();
                 TempData["TransferSuccessMessage"] = "Currency is converted successfully";
                 return RedirectToAction("profile", "Profile");
@@ -432,24 +433,24 @@ public class ProfileController : Controller
             double ruble = Convert.ToDouble(rub.Substring(rub.LastIndexOf(":") + 1));
             if (convertModel.currencyTo == "USD")
             {
-                user.balance_eur -= convertModel.summa;
-                user.balance_usd += Math.Round(convertModel.summa * dollar, 2);
+                Math.Round(user.balance_eur -= convertModel.summa, 2);
+                Math.Round(user.balance_usd += convertModel.summa * dollar, 2);
                 _dbContext.SaveChanges();
                 TempData["TransferSuccessMessage"] = "Currency is converted successfully";
                 return RedirectToAction("profile", "Profile");
             }
             if (convertModel.currencyTo == "PLN")
             {
-                user.balance_eur -= convertModel.summa;
-                user.balance_pln += Math.Round(convertModel.summa * zloty, 2);
+                Math.Round(user.balance_eur -= convertModel.summa, 2);
+                Math.Round(user.balance_pln += convertModel.summa * zloty, 2);
                 _dbContext.SaveChanges();
                 TempData["TransferSuccessMessage"] = "Currency is converted successfully";
                 return RedirectToAction("profile", "Profile");
             }
             if (convertModel.currencyTo == "RUB")
             {
-                user.balance_eur -= convertModel.summa;
-                user.balance_rub += Math.Round(convertModel.summa * ruble, 2);
+                Math.Round(user.balance_eur -= convertModel.summa, 2);
+                Math.Round(user.balance_rub += convertModel.summa * ruble, 2);
                 _dbContext.SaveChanges();
                 TempData["TransferSuccessMessage"] = "Currency is converted successfully";
                 return RedirectToAction("profile", "Profile");
@@ -474,24 +475,24 @@ public class ProfileController : Controller
             double ruble = Convert.ToDouble(rub.Substring(rub.LastIndexOf(":") + 1));
             if (convertModel.currencyTo == "EUR")
             {
-                user.balance_pln -= convertModel.summa;
-                user.balance_eur += Math.Round(convertModel.summa * euro, 2);
+                Math.Round(user.balance_pln -= convertModel.summa, 2);
+                Math.Round(user.balance_eur += convertModel.summa * euro, 2);
                 _dbContext.SaveChanges();
                 TempData["TransferSuccessMessage"] = "Currency is converted successfully";
                 return RedirectToAction("profile", "Profile");
             }
             if (convertModel.currencyTo == "USD")
             {
-                user.balance_pln -= convertModel.summa;
-                user.balance_usd += Math.Round(convertModel.summa * dollar, 2);
+                Math.Round(user.balance_pln -= convertModel.summa, 2);
+                Math.Round(user.balance_usd += convertModel.summa * dollar, 2);
                 _dbContext.SaveChanges();
                 TempData["TransferSuccessMessage"] = "Currency is converted successfully";
                 return RedirectToAction("profile", "Profile");
             }
             if (convertModel.currencyTo == "RUB")
             {
-                user.balance_pln -= convertModel.summa;
-                user.balance_pln += Math.Round(convertModel.summa * ruble, 2);
+                Math.Round(user.balance_pln -= convertModel.summa, 2);
+                Math.Round(user.balance_pln += convertModel.summa * ruble, 2);
                 _dbContext.SaveChanges();
                 TempData["TransferSuccessMessage"] = "Currency is converted successfully";
                 return RedirectToAction("profile", "Profile");
@@ -516,24 +517,24 @@ public class ProfileController : Controller
             double dollar = Convert.ToDouble(usd.Substring(usd.LastIndexOf(":") + 1));
             if (convertModel.currencyTo == "EUR")
             {
-                user.balance_rub -= convertModel.summa;
-                user.balance_eur += Math.Round(convertModel.summa * euro, 2);
+                Math.Round(user.balance_rub -= convertModel.summa, 2);
+                Math.Round(user.balance_eur += convertModel.summa * euro, 2);
                 _dbContext.SaveChanges();
                 TempData["TransferSuccessMessage"] = "Currency is converted successfully";
                 return RedirectToAction("profile", "Profile");
             }
             if (convertModel.currencyTo == "PLN")
             {
-                user.balance_rub -= convertModel.summa;
-                user.balance_pln += Math.Round(convertModel.summa * zloty, 2);
+                Math.Round(user.balance_rub -= convertModel.summa, 2);
+                Math.Round(user.balance_pln += convertModel.summa * zloty, 2);
                 _dbContext.SaveChanges();
                 TempData["TransferSuccessMessage"] = "Currency is converted successfully";
                 return RedirectToAction("profile", "Profile");
             }
             if (convertModel.currencyTo == "USD")
             {
-                user.balance_rub -= convertModel.summa;
-                user.balance_usd += Math.Round(convertModel.summa * dollar, 2);
+                Math.Round(user.balance_rub -= convertModel.summa, 2);
+                Math.Round(user.balance_usd += convertModel.summa * dollar, 2);
                 _dbContext.SaveChanges();
                 TempData["TransferSuccessMessage"] = "Currency is converted successfully";
                 return RedirectToAction("profile", "Profile");
@@ -771,7 +772,105 @@ public class ProfileController : Controller
             TempData["CheckFailed"] = "Cancel is failed";
             return RedirectToAction("admin", "Profile");
         }
+    }
 
+    [HttpPost]
+    public IActionResult b2bWithdrawConfirm(WithdrawModel withdrawModel)
+    {
+        var targetUser = _dbContext.UserData.FirstOrDefault(x => x.userId == withdrawModel.userId);
+        if (ModelState.IsValid)
+        {
+            if (withdrawModel.currency == "USD")
+            {
+                // MAKE IN UPDATE TRANSFER TO THE BANK
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "B2BSUCCESS";
+                _dbContext.SaveChanges();
+                TempData["CheckSuccess"] = "Withdraw are successed";
+                return RedirectToAction("admin", "Profile");
+            }
+            if (withdrawModel.currency == "EUR")
+            {
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "B2BSUCCESS";
+                _dbContext.SaveChanges();
+                TempData["CheckSuccess"] = "Withdraw are successed";
+                return RedirectToAction("admin", "Profile");
+            }
+            if (withdrawModel.currency == "PLN")
+            {
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "B2BSUCCESS";
+                _dbContext.SaveChanges();
+                TempData["CheckSuccess"] = "Withdraw are successed";
+                return RedirectToAction("admin", "Profile");
+            }
+            if (withdrawModel.currency == "RUB")
+            {
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "B2BSUCCESS";
+                _dbContext.SaveChanges();
+                TempData["CheckSuccess"] = "Withdraw are successed";
+                return RedirectToAction("admin", "Profile");
+            }
+            else
+            {
+                TempData["CheckFailed"] = "Currency not found";
+                return RedirectToAction("admin", "Profile");
+            }
+        }
+        else
+        {
+            TempData["CheckFailed"] = "Data is incorrect";
+            return RedirectToAction("admin", "Profile");
+        }
+    }
+
+    [HttpPost]
+    public IActionResult b2bWithdrawCancel(WithdrawModel withdrawModel)
+    {
+        var targetUser = _dbContext.UserData.FirstOrDefault(x => x.userId == withdrawModel.userId);
+        if (ModelState.IsValid)
+        {
+            if (withdrawModel.currency == "USD")
+            {
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "B2BCANCEL";
+                Math.Round(targetUser.balance_usd += withdrawModel.summa, 2);
+                _dbContext.SaveChanges();
+                TempData["CheckSuccess"] = "Cancel are successed";
+                return RedirectToAction("admin", "Profile");
+            }
+            if (withdrawModel.currency == "EUR")
+            {
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "B2BCANCEL";
+                Math.Round(targetUser.balance_eur += withdrawModel.summa, 2);
+                _dbContext.SaveChanges();
+                TempData["CheckSuccess"] = "Cancel are successed";
+                return RedirectToAction("admin", "Profile");
+            }
+            if (withdrawModel.currency == "PLN")
+            {
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "B2BCANCEL";
+                Math.Round(targetUser.balance_pln += withdrawModel.summa, 2);
+                _dbContext.SaveChanges();
+                TempData["CheckSuccess"] = "Cancel are successed";
+                return RedirectToAction("admin", "Profile");
+            }
+            if (withdrawModel.currency == "RUB")
+            {
+                _dbContext.Withdraw.FirstOrDefault(x => x.comment == withdrawModel.comment).comment = "B2BCANCEL";
+                Math.Round(targetUser.balance_rub += withdrawModel.summa, 2);
+                _dbContext.SaveChanges();
+                TempData["CheckSuccess"] = "Cancel are successed";
+                return RedirectToAction("admin", "Profile");
+            }
+            else
+            {
+                TempData["CheckFailed"] = "Currency not found";
+                return RedirectToAction("admin", "Profile");
+            }
+        }
+        else
+        {
+            TempData["CheckFailed"] = "Cancel is failed";
+            return RedirectToAction("admin", "Profile");
+        }
     }
 
     [HttpPost]

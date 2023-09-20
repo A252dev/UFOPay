@@ -4,9 +4,9 @@ namespace UFOPay.Models
     {
         public int Id { get; set; }
         public int userId { get; set; }
-        public string currency { get; set; }
         public string bank { get; set; }
-        public int summa { get; set; }
+        public double summa { get; set; }
+        public string currency { get; set; }
         public string comment { get; set; }
         public DateTime withdrawData { get; set; }
     }

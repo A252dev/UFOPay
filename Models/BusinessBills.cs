@@ -9,6 +9,7 @@ namespace UFOPay.Models
         public string status { get; set; }
         public int summa { get; set; }
         public string currency { get; set; }
+        public DateTime paymentData { get; set; }
         public string apiKey { get; set; }
     }
 }
