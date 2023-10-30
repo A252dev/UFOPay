@@ -30,11 +30,11 @@
                     <input type="hidden" id="captchaToken" asp-for="@Model.googleCaptchaConfig.captchaToken">
                     <div class="reg__block">
                         <p class="reg__title">First name</p>
-                        <input id="reg__input" type="text" asp-for="@Model.UserData.firstName">
+                        <input id="reg__input" type="text" asp-for="@Model.UserData.firstName" autocomplete="off">
                     </div>
                     <div class="reg__block">
                         <p class="reg__title">Second name</p>
-                        <input id="reg__input" type="text" asp-for="@Model.UserData.secondName">
+                        <input id="reg__input" type="text" asp-for="@Model.UserData.secondName" autocomplete="off">
                     </div>
                     <div class="reg__block">
                         <p class="reg__title">Birthday</p>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="reg__block">
                         <p class="reg__title">Email</p>
-                        <input id="reg__input" type="text" asp-for="@Model.UserData.email">
+                        <input id="reg__input" type="text" asp-for="@Model.UserData.email" autocomplete="off">
                     </div>
                     <div class="reg__block">
                         <p class="reg__title">Password</p>

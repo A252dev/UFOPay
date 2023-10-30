@@ -130,14 +130,14 @@
                             <div class="firstLine">
                                 <span>First name</span>
                                 <p class="form__data__input"><input type="text" class="text__input" asp-for="@Model.UserData.firstName"
-                                        data-val-required="The firstName field is required."></p>
+                                        data-val-required="The firstName field is required." autocomplete="off"></p>
                                 <span>Second name</span>
                                 <p class="form__data__input"><input type="text" class="text__input" asp-for="@Model.UserData.secondName"
-                                        data-val-required="The secondName field is required.">
+                                        data-val-required="The secondName field is required." autocomplete="off">
                                 </p>
                                 <span>Password</span>
                                 <p class="form__data__input"><input type="password" class="text__input" asp-for="@Model.UserData.password"
-                                        data-val="true" data-val-required="The password field is required."></p>
+                                        data-val="true" data-val-required="The password field is required." autocomplete="off"></p>
                                 <button class="transfer__link button" style="cursor: pointer;" type="submit">Change</button>
                             </div>
                             <div class="secondLine">
@@ -204,10 +204,10 @@
                             method="post">
                             <span>Where?</span>
                             <p class="form__data__input"><input type="text" class="text__input" placeholder="email@email.com"
-                                    asp-for="@Model.TransferModel.reciever">
+                                    asp-for="@Model.TransferModel.reciever" autocomplete="off">
                             </p>
                             <span>Summa</span>
-                            <p class="form__data__input"><input type="number" class="text__input" asp-for="@Model.TransferModel.summa">
+                            <p class="form__data__input"><input type="number" class="text__input" asp-for="@Model.TransferModel.summa" autocomplete="off">
                             </p>
                             <span>Currency</span>
                             <p class="form__data__input">
@@ -220,7 +220,7 @@
                                     </select>
                             </p>
                             <span>Comment</span>
-                            <p class="form__data__input"><input type="text" class="text__input" placeholder="none" asp-for="@Model.TransferModel.comment">
+                            <p class="form__data__input"><input type="text" class="text__input" placeholder="none" asp-for="@Model.TransferModel.comment" autocomplete="off">
                             </p>
                             <button type="submit" class="transfer__link button" style="cursor: pointer;">Send</button>
                             <div class="withdraw__container">
@@ -290,7 +290,7 @@
                                     </select>
                             </p>
                             <span>Summa</span>
-                            <p class="form__data__input"><input type="text" class="text__input"asp-for="@Model.ConvertModel.summa">
+                            <p class="form__data__input"><input type="text" class="text__input"asp-for="@Model.ConvertModel.summa" autocomplete="off">
                             </p>
                             <button type="submit" class="transfer__link button" style="cursor: pointer;">Convert</button>
                         </form>

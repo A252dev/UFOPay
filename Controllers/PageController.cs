@@ -226,6 +226,10 @@ public class PageController : Controller
             TempData["billingId"] = billingId;
             return View();
         }
+        else if (TempData["BillCreated"] != null)
+        {
+            return View();
+        }
         else
         {
             return RedirectToAction("profile", "Profile");

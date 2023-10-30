@@ -8,7 +8,7 @@
     <title>UFOPay.io - Billing</title>
     <link rel="stylesheet" href="/css/indexstyle.css">
     <link rel="stylesheet" href="/css/profile.css">
-    <link rel="stylesheet" href="/css/billing.css">    
+    <link rel="stylesheet" href="/css/billing.css">
 </head>
 
 <body>
@@ -108,7 +108,7 @@
                                     {
                                         if (billInfo.status == "CREATED")
                                         {
-                                            <form asp-controller="Profile" asp-action="billingPay" method="post">                                                
+                                            <form asp-controller="Profile" asp-action="billingPay" method="post">
                                                 <div class="balance__group">
                                                     <div class="currency__viewer">
                                                         <img src="/images/currency/usd.svg" alt="usd" class="currency__icon">
@@ -128,34 +128,35 @@
                                                     </div>
                                                 </div>
                                                 <div class="pay__button__controller">
-                                                    <input type="hidden" asp-for="@Model.BusinessBills.billingId" name="billingId" value="@billInfo.billingId">
+                                                    <input type="hidden" asp-for="@Model.BusinessBills.billingId" name="billingId"
+                                                        value="@billInfo.billingId">
                                                     <button class="pay__button">Оплатить @billInfo.summa @billInfo.currency</button>
                                                     @* <a class="pay__button">Оплатить @billInfo.summa @billInfo.currency</a> *@
                                                 </div>
                                             </form>
                                         }
-                                        else
-                                        {
-                                            <div class="payment__user__not__found">
-                                                <a class="not__logged__link" asp-controller="Profile" asp-action="profile">Bill is paid yet</a>
-                                            </div>
-                                        }
+                                        @* else
+                        {
+                        <div class="payment__user__not__found">
+                        <a class="not__logged__link" asp-controller="Profile" asp-action="profile">Bill is paid yet</a>
+                        </div>
+                        } *@
                                     }
-                                    else
-                                    {
-                                        <div class="payment__user__not__found">
-                                            <a class="not__logged__link" asp-controller="Page" asp-action="login" target="_blank">You
-                                                are not logged. Log in</a>
-                                        </div>
-                                    }
+                                    @* else
+                        {
+                        <div class="payment__user__not__found">
+                        <a class="not__logged__link" asp-controller="Page" asp-action="login" target="_blank">You
+                        are not logged. Log in</a>
+                        </div>
+                        } *@
                                 }
-                                else
-                                {
-                                    <div class="payment__user__not__found">
-                                        <a class="not__logged__link" asp-controller="Page" asp-action="login" target="_blank">You
-                                            are not logged. Log in</a>
-                                    </div>
-                                }
+                                @* else
+                        {
+                        <div class="payment__user__not__found">
+                        <a class="not__logged__link" asp-controller="Page" asp-action="login" target="_blank">You
+                        are not logged. Log in</a>
+                        </div>
+                        } *@
                             }
                             else
                             {

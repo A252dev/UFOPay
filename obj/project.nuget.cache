@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "JnsgJSL5Fk7LJgLV43gnom3I+cefHvOJYYuCw9d8p5FTfGPVH/wwPErCE5RTYnQQG2cDvlfILfNxNu/HA6iocA==",
+  "dgSpecHash": "GY9vZm+FtVVCQFYRfoPo69uWOmGgKp+IdV6XeO8LvW2Rm4oHWG/5QlhtwqErjVuRN7WHvUbWuwNw84lYm9cEpg==",
   "success": true,
   "projectFilePath": "/home/agent/Documents/UFO/UFOPay/UFOPay.csproj",
   "expectedPackageFiles": [
@@ -82,7 +82,7 @@
     "/home/agent/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
     "/home/agent/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512",
     "/home/agent/.nuget/packages/system.threading.tasks.extensions/4.5.1/system.threading.tasks.extensions.4.5.1.nupkg.sha512",
-    "/home/agent/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.11/microsoft.aspnetcore.app.ref.7.0.11.nupkg.sha512"
+    "/home/agent/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.13/microsoft.aspnetcore.app.ref.7.0.13.nupkg.sha512"
   ],
   "logs": []
 }

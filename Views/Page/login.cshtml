@@ -35,11 +35,11 @@
                     <input type="hidden" id="captchaToken" asp-for="@Model.googleCaptchaConfig.captchaToken">
                     <div class="reg__block">
                         <p class="reg__title">Email</p>
-                        <input id="log__input" type="text" asp-for="@Model.UserData.email">
+                        <input id="log__input" type="text" asp-for="@Model.UserData.email" autocomplete="off">
                     </div>
                     <div class="reg__block">
                         <p class="reg__title">Password</p>
-                        <input id="log__input" type="password" asp-for="@Model.UserData.password">
+                        <input id="log__input" type="password" asp-for="@Model.UserData.password" autocomplete="off">
                         <div class="reg__msg__content">
                             <div class="keep__msg">
                                 Keep login<input id="checkbox" type="checkbox" asp-for="@Model.UserData.KeepLoggedIn">
