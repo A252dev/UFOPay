@@ -189,18 +189,46 @@ public class ProfileController : Controller
         {
             var user = _dbContext.UserData.FirstOrDefault(x => x.email == User.Identity.Name);
 
-            AddBalance addNewStatus = new AddBalance()
+
+            // DEBUG
+            if (addBalance.currency == "USD")
             {
-                userId = user.userId,
-                currency = addBalance.currency,
-                summa = addBalance.summa,
-                status = "PENDING",
-                comment = GenerateComment(),
-            };
-            _dbContext.AddBalanceRequest.Update(addNewStatus);
+                Math.Round(user.balance_usd += addBalance.summa, 2);
+                _dbContext.SaveChanges();
+            }
+            if (addBalance.currency == "EUR")
+            {
+                Math.Round(user.balance_eur += addBalance.summa, 2);
+                _dbContext.SaveChanges();
+            }
+            if (addBalance.currency == "PLN")
+            {
+                Math.Round(user.balance_pln += addBalance.summa, 2);
+                _dbContext.SaveChanges();
+            }
+            if (addBalance.currency == "RUB")
+            {
+                Math.Round(user.balance_rub += addBalance.summa, 2);
+                _dbContext.SaveChanges();
+            }
             _dbContext.SaveChanges();
-            TempData["BillCreated"] = "Bill has been created";
-            return RedirectToAction("billing", "Page");
+            TempData["BillCreated"] = "Balance is successfully added";
+            return RedirectToAction("profile", "Profile");
+
+            // FOR RELEASE
+
+            // AddBalance addNewStatus = new AddBalance()
+            // {
+            //     userId = user.userId,
+            //     currency = addBalance.currency,
+            //     summa = addBalance.summa,
+            //     status = "PENDING",
+            //     comment = GenerateComment(),
+            // };
+            // _dbContext.AddBalanceRequest.Update(addNewStatus);
+            // _dbContext.SaveChanges();
+            // TempData["BillCreated"] = "Bill has been created";
+            // return RedirectToAction("billing", "Page");
         }
         else
         {

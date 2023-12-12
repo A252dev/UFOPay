@@ -43,3 +43,4 @@
 /home/agent/Documents/UFO/UFOPay/bin/Debug/net7.0/Newtonsoft.Json.dll
 /home/agent/Documents/UFO/UFOPay/bin/Debug/net7.0/Microsoft.AspNetCore.Server.Kestrel.Https.dll
 /home/agent/Documents/UFO/UFOPay/bin/Debug/net7.0/Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.dll
+/home/agent/Documents/UFO/UFOPay/obj/Debug/net7.0/UFOPay.sourcelink.json
